@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,34 +22,46 @@
 
 body{
     margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:#f5f7fb;
+    color:#172033;
+}
+
+header{
     background:#07152f;
+    color:white;
+    padding:22px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    font-weight:bold;
 }
 
 .container{
-    width:100%;
-    max-width:520px;
+    max-width:700px;
+    margin:60px auto;
     padding:20px;
 }
 
 .card{
     background:white;
-    border-radius:18px;
     padding:35px;
-    box-shadow:0 15px 50px rgba(0,0,0,.25);
+    border-radius:14px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
 }
 
 h1{
     margin-top:0;
-    color:#07152f;
-}
-
-.subtitle{
-    color:#667085;
-    line-height:1.5;
 }
 
 label{
@@ -60,34 +73,34 @@ label{
 
 input{
     width:100%;
-    padding:14px;
+    padding:13px;
     border:1px solid #d0d5dd;
-    border-radius:8px;
+    border-radius:7px;
     font-size:16px;
 }
 
 button{
     width:100%;
-    margin-top:22px;
+    margin-top:25px;
     padding:14px;
     border:0;
     border-radius:8px;
     background:#155eef;
     color:white;
-    font-size:16px;
     font-weight:bold;
+    font-size:16px;
     cursor:pointer;
 }
 
 button:hover{
-    background:#004eea;
+    background:#0d4dcc;
 }
 
 .message{
     display:none;
+    padding:14px;
     margin-top:20px;
-    padding:15px;
-    border-radius:8px;
+    border-radius:7px;
 }
 
 .success{
@@ -101,19 +114,22 @@ button:hover{
 }
 
 .registration-id{
-    margin-top:15px;
-    padding:15px;
-    background:#f2f4f7;
-    border-radius:8px;
+    font-size:20px;
     font-weight:bold;
+    margin-top:10px;
 }
 
-.back{
-    display:block;
-    text-align:center;
-    margin-top:20px;
-    color:#155eef;
-    text-decoration:none;
+@media(max-width:700px){
+
+    header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    nav a{
+        margin:0 8px;
+    }
+
 }
 
 </style>
@@ -121,6 +137,36 @@ button:hover{
 </head>
 
 <body>
+
+
+<header>
+
+<div class="logo">
+GMSC
+</div>
+
+<nav>
+
+<a href="/">
+Home
+</a>
+
+<a href="/register">
+Register
+</a>
+
+<a href="/exam">
+Exam
+</a>
+
+<a href="/admin">
+Admin
+</a>
+
+</nav>
+
+</header>
+
 
 <div class="container">
 
@@ -130,77 +176,63 @@ button:hover{
 GMSC Registration
 </h1>
 
-<p class="subtitle">
-Register for the GMSC examination.
-Please enter your correct details.
+<p>
+Register for the Global Mathematics & Science Competition.
 </p>
 
-<form
-id="registrationForm"
->
 
-<label>
+<form id="registrationForm">
+
+
+<label for="name">
 Full Name
 </label>
 
 <input
-id="name"
-type="text"
-placeholder="Enter your full name"
-required
+    id="name"
+    type="text"
+    placeholder="Enter your full name"
+    required
 >
 
-<label>
-Phone Number
+
+<label for="studentId">
+Student ID
 </label>
 
 <input
-id="phone"
-type="tel"
-placeholder="Enter your phone number"
-maxlength="15"
-required
+    id="studentId"
+    type="text"
+    placeholder="Enter your student ID"
+    required
 >
 
-<label>
+
+<label for="email">
 Email Address
 </label>
 
 <input
-id="email"
-type="email"
-placeholder="Enter your email address"
-required
+    id="email"
+    type="email"
+    placeholder="Enter your email address"
+    required
 >
 
-<button
-type="submit"
->
-Register Now
+
+<button type="submit">
+Register for GMSC
 </button>
+
 
 </form>
 
 
 <div
-id="message"
-class="message"
+    id="message"
+    class="message"
 >
 </div>
-
-
-<div
-id="registrationResult"
->
-</div>
-
-
-<a
-class="back"
-href="/"
->
-← Back to GMSC Home
-</a>
 
 </div>
 
@@ -219,11 +251,6 @@ const message =
         "message"
     );
 
-const registrationResult =
-    document.getElementById(
-        "registrationResult"
-    );
-
 
 form.addEventListener(
     "submit",
@@ -231,26 +258,31 @@ form.addEventListener(
 
         event.preventDefault();
 
+
         message.style.display =
             "none";
 
-        registrationResult.innerHTML =
-            "";
 
         const name =
-            document.getElementById(
-                "name"
-            ).value.trim();
+            document
+                .getElementById("name")
+                .value
+                .trim();
 
-        const phone =
-            document.getElementById(
-                "phone"
-            ).value.trim();
+
+        const studentId =
+            document
+                .getElementById("studentId")
+                .value
+                .trim();
+
 
         const email =
-            document.getElementById(
-                "email"
-            ).value.trim();
+            document
+                .getElementById("email")
+                .value
+                .trim();
+
 
         try{
 
@@ -270,16 +302,18 @@ form.addEventListener(
                             JSON.stringify({
 
                                 name,
-
-                                phone,
-
+                                studentId,
                                 email
+
                             })
+
                     }
                 );
 
+
             const data =
                 await response.json();
+
 
             if(!response.ok){
 
@@ -287,82 +321,64 @@ form.addEventListener(
                     data.message ||
                     "Registration failed."
                 );
+
             }
+
 
             message.className =
                 "message success";
 
-            message.textContent =
-                "Registration successful!";
+
+            message.innerHTML = `
+
+                <strong>
+                    Registration successful!
+                </strong>
+
+                <br><br>
+
+                Your Registration ID is:
+
+                <div class="registration-id">
+                    ${data.registration.registrationId}
+                </div>
+
+                <br>
+
+                Please save this Registration ID.
+
+            `;
+
 
             message.style.display =
                 "block";
 
-            registrationResult.innerHTML = `
-
-<div class="registration-id">
-
-Registration ID:
-${escapeHtml(
-    data.registrationId
-)}
-
-<br><br>
-
-Name:
-${escapeHtml(
-    data.student.name
-)}
-
-<br>
-
-Phone:
-${escapeHtml(
-    data.student.phone
-)}
-
-<br>
-
-Email:
-${escapeHtml(
-    data.student.email
-)}
-
-</div>
-
-`;
 
             form.reset();
+
 
         }catch(error){
 
             message.className =
                 "message error";
 
+
             message.textContent =
                 error.message;
 
+
             message.style.display =
                 "block";
+
         }
+
     }
 );
-
-
-function escapeHtml(value){
-
-    return String(
-        value ?? ""
-    )
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
 
 </script>
 
 </body>
 
 </html>
+```
+
