@@ -43,14 +43,22 @@ header{
 
 .nav{
     display:flex;
-    gap:22px;
+    gap:18px;
     align-items:center;
+    flex-wrap:wrap;
 }
 
 .nav a{
     color:white;
     text-decoration:none;
     font-weight:bold;
+}
+
+.admin-nav{
+    background:#dc2626;
+    color:white !important;
+    padding:9px 14px;
+    border-radius:7px;
 }
 
 .hero{
@@ -114,6 +122,11 @@ header{
 .test-btn:disabled{
     background:#98a2b3;
     cursor:not-allowed;
+}
+
+.admin-btn{
+    background:#dc2626;
+    color:white;
 }
 
 .container{
@@ -255,6 +268,26 @@ input{
     line-height:1.5;
 }
 
+.admin-panel{
+    background:#fff5f5;
+    border:1px solid #fecaca;
+    max-width:650px;
+    margin:25px auto 0;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+}
+
+.admin-panel h3{
+    color:#991b1b;
+    margin-bottom:10px;
+}
+
+.admin-panel p{
+    color:#667085;
+    margin-bottom:18px;
+}
+
 .rounds{
     max-width:850px;
     margin:auto;
@@ -277,6 +310,19 @@ input{
 .round p{
     color:#667085;
     line-height:1.6;
+}
+
+.prize{
+    margin-top:20px;
+    background:#07152f;
+    color:white;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+}
+
+.prize h3{
+    margin-bottom:10px;
 }
 
 footer{
@@ -308,7 +354,6 @@ footer p{
     }
 
     .nav{
-        flex-wrap:wrap;
         justify-content:center;
     }
 
@@ -353,12 +398,24 @@ footer p{
             Rounds
         </a>
 
+        <!-- ADMIN LOGIN BUTTON -->
+
+        <a
+            href="/admin"
+            class="admin-nav">
+
+            🔑 Admin Login
+
+        </a>
+
     </nav>
 
 </header>
 
 
-<!-- HERO -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section
     class="hero"
@@ -395,12 +452,25 @@ footer p{
 
         </a>
 
+
+        <!-- ADMIN LOGIN -->
+
+        <a
+            href="/admin"
+            class="btn admin-btn">
+
+            🔑 Admin Login
+
+        </a>
+
     </div>
 
 </section>
 
 
-<!-- SCHEDULE -->
+<!-- =====================================================
+     SCHEDULE
+===================================================== -->
 
 <section
     class="container"
@@ -433,7 +503,8 @@ footer p{
             </div>
 
             <p>
-                Registration opens.
+                Registration opens at
+                12:00 AM.
             </p>
 
         </div>
@@ -446,11 +517,12 @@ footer p{
             </h3>
 
             <div class="date">
-                1 September 2026
+                31 August 2026
             </div>
 
             <p>
-                Final date for registration.
+                Registration closes at
+                11:59:59 PM.
             </p>
 
         </div>
@@ -463,11 +535,11 @@ footer p{
             </h3>
 
             <div class="date">
-                1 October 2026
+                1 September 2026
             </div>
 
             <p>
-                GMSC Round 1 examination.
+                Examination period begins.
             </p>
 
         </div>
@@ -495,20 +567,29 @@ footer p{
     <div class="exam-window">
 
         <h3>
-            Examination Window
+            Round 1 Examination Window
         </h3>
 
         <strong>
-            1 October 2026 —
-            12:00 AM to 11:59:59 PM
+            1 September 2026 —
+            1 October 2026
         </strong>
+
+        <p style="margin-top:12px;color:#dbe5f5;">
+            Examination access is controlled
+            by the GMSC server and is available
+            only during the official examination
+            period.
+        </p>
 
     </div>
 
 </section>
 
 
-<!-- REGISTRATION -->
+<!-- =====================================================
+     REGISTRATION
+===================================================== -->
 
 <section
     class="container"
@@ -521,8 +602,8 @@ footer p{
         </h2>
 
         <p>
-            Registration is handled through
-            the official GMSC registration system.
+            Register during the official
+            registration period.
         </p>
 
     </div>
@@ -539,7 +620,7 @@ footer p{
             Registration period:
             <strong>
                 1 August 2026 –
-                1 September 2026
+                31 August 2026
             </strong>
 
         </p>
@@ -558,7 +639,9 @@ footer p{
 </section>
 
 
-<!-- LOGIN -->
+<!-- =====================================================
+     PARTICIPANT LOGIN
+===================================================== -->
 
 <section
     class="container"
@@ -587,8 +670,8 @@ footer p{
 
         <p class="panel-description">
 
-            Enter the Student ID used during
-            GMSC registration.
+            Enter the Student ID and registered
+            email used during GMSC registration.
 
         </p>
 
@@ -652,10 +735,37 @@ footer p{
 
     </div>
 
+
+    <!-- ADMIN ACCESS -->
+
+    <div class="admin-panel">
+
+        <h3>
+            GMSC Administrator
+        </h3>
+
+        <p>
+            Authorized administrators can access
+            results, rankings, participants,
+            questions and security records.
+        </p>
+
+        <a
+            href="/admin"
+            class="btn admin-btn">
+
+            🔑 Open Administrator Portal
+
+        </a>
+
+    </div>
+
 </section>
 
 
-<!-- ROUNDS -->
+<!-- =====================================================
+     ROUNDS
+===================================================== -->
 
 <section
     class="container"
@@ -681,9 +791,14 @@ footer p{
 
             <p>
                 Participants take the GMSC Round 1
-                examination on 1 October 2026.
-                A participant achieving full marks
-                qualifies for Round 2.
+                examination during the official
+                examination period.
+            </p>
+
+            <p style="margin-top:12px;">
+                Participants who obtain
+                <strong>full marks</strong>
+                in Round 1 qualify for Round 2.
             </p>
 
         </div>
@@ -703,10 +818,31 @@ footer p{
 
         </div>
 
+
+        <div class="prize">
+
+            <h3>
+                🏆 Full-Marks Award
+            </h3>
+
+            <p>
+                A participant who obtains
+                <strong>full marks in both Round 1
+                and Round 2</strong> will receive
+                a <strong>$250 award</strong>,
+                subject to the official GMSC rules.
+            </p>
+
+        </div>
+
     </div>
 
 </section>
 
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
@@ -816,9 +952,14 @@ async function verifyParticipant(){
 
     try{
 
+        /*
+         * This endpoint matches the current
+         * server.js you provided.
+         */
+
         const response =
             await fetch(
-                "/api/participant/verify",
+                "/api/verify-student",
                 {
                     method:"POST",
 
@@ -829,8 +970,7 @@ async function verifyParticipant(){
 
                     body:
                         JSON.stringify({
-                            studentId,
-                            email
+                            studentId
                         })
                 }
             );
@@ -842,7 +982,8 @@ async function verifyParticipant(){
 
         if(
             !response.ok ||
-            !data.success
+            !data.success ||
+            !data.verified
         ){
 
             document
@@ -864,8 +1005,44 @@ async function verifyParticipant(){
         }
 
 
+        /*
+         * Server verifies the Student ID.
+         *
+         * We additionally check the email
+         * entered by the participant against
+         * the registered email returned by
+         * the server.
+         */
+
+        if(
+            String(
+                data.student.email
+            ).toLowerCase() !==
+            String(
+                email
+            ).toLowerCase()
+        ){
+
+            document
+                .getElementById(
+                    "testArea"
+                )
+                .style.display =
+                    "none";
+
+
+            showMessage(
+                "Student ID was found, but the registered email does not match.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
         verifiedParticipant =
-            data.participant;
+            data.student;
 
 
         document
@@ -888,7 +1065,23 @@ async function verifyParticipant(){
             );
 
 
-        if(data.examOpen){
+        /*
+         * Check the real server schedule.
+         */
+
+        const scheduleResponse =
+            await fetch(
+                "/api/schedule"
+            );
+
+
+        const schedule =
+            await scheduleResponse.json();
+
+
+        if(
+            schedule.examOpen
+        ){
 
             testButton.disabled =
                 false;
@@ -908,8 +1101,7 @@ async function verifyParticipant(){
                 true;
 
             testStatus.textContent =
-                data.examMessage ||
-                "The examination is not currently open.";
+                "Identity verified, but the examination is not currently open.";
 
             showMessage(
                 "Participant verified successfully.",
@@ -952,7 +1144,7 @@ function openExam(){
 
 
     window.location.href =
-        "exam.html";
+        "/exam";
 
 }
 
