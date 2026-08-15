@@ -374,6 +374,10 @@ footer p{
 <body>
 
 
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
 <header>
 
     <div class="logo">
@@ -397,8 +401,6 @@ footer p{
         <a href="#rounds">
             Rounds
         </a>
-
-        <!-- ADMIN LOGIN BUTTON -->
 
         <a
             href="/admin"
@@ -452,8 +454,6 @@ footer p{
 
         </a>
 
-
-        <!-- ADMIN LOGIN -->
 
         <a
             href="/admin"
@@ -575,11 +575,17 @@ footer p{
             1 October 2026
         </strong>
 
-        <p style="margin-top:12px;color:#dbe5f5;">
+        <p
+            style="
+                margin-top:12px;
+                color:#dbe5f5;
+            ">
+
             Examination access is controlled
             by the GMSC server and is available
             only during the official examination
             period.
+
         </p>
 
     </div>
@@ -618,6 +624,7 @@ footer p{
         <p class="panel-description">
 
             Registration period:
+
             <strong>
                 1 August 2026 –
                 31 August 2026
@@ -654,8 +661,8 @@ footer p{
         </h2>
 
         <p>
-            Verify your registered ID before
-            accessing the examination.
+            Verify your registered phone number
+            before accessing the examination.
         </p>
 
     </div>
@@ -670,24 +677,30 @@ footer p{
 
         <p class="panel-description">
 
-            Enter the Student ID and registered
+            Enter the phone number and registered
             email used during GMSC registration.
 
         </p>
 
 
+        <!-- PHONE NUMBER -->
+
         <input
-            type="text"
-            id="studentId"
-            placeholder="Student ID"
-            autocomplete="off"
+            type="tel"
+            id="phoneNumber"
+            placeholder="Registered Phone Number"
+            autocomplete="tel"
+            inputmode="numeric"
+            maxlength="15"
         >
 
+
+        <!-- EMAIL -->
 
         <input
             type="email"
             id="studentEmail"
-            placeholder="Registered email"
+            placeholder="Registered Email"
             autocomplete="email"
         >
 
@@ -696,7 +709,7 @@ footer p{
             class="btn login-btn full"
             onclick="verifyParticipant()">
 
-            🔐 Verify ID
+            🔐 Verify Phone Number
 
         </button>
 
@@ -745,9 +758,11 @@ footer p{
         </h3>
 
         <p>
+
             Authorized administrators can access
             results, rankings, participants,
             questions and security records.
+
         </p>
 
         <a
@@ -790,15 +805,19 @@ footer p{
             </h3>
 
             <p>
+
                 Participants take the GMSC Round 1
                 examination during the official
                 examination period.
+
             </p>
 
             <p style="margin-top:12px;">
+
                 Participants who obtain
                 <strong>full marks</strong>
                 in Round 1 qualify for Round 2.
+
             </p>
 
         </div>
@@ -811,9 +830,11 @@ footer p{
             </h3>
 
             <p>
+
                 Participants who achieve full marks
                 in Round 1 are eligible for the
                 second round.
+
             </p>
 
         </div>
@@ -826,11 +847,16 @@ footer p{
             </h3>
 
             <p>
+
                 A participant who obtains
-                <strong>full marks in both Round 1
-                and Round 2</strong> will receive
-                a <strong>$250 award</strong>,
+                <strong>
+                    full marks in both Round 1
+                    and Round 2
+                </strong>
+                will receive a
+                <strong>$250 award</strong>,
                 subject to the official GMSC rules.
+
             </p>
 
         </div>
@@ -884,11 +910,14 @@ function showMessage(
             "message"
         );
 
+
     message.textContent =
         text;
 
+
     message.className =
         "message " + type;
+
 
     message.style.display =
         "block";
@@ -897,15 +926,15 @@ function showMessage(
 
 
 /* =====================================================
-   VERIFY PARTICIPANT
+   VERIFY PARTICIPANT USING PHONE NUMBER
 ===================================================== */
 
 async function verifyParticipant(){
 
-    const studentId =
+    const phoneNumber =
         document
             .getElementById(
-                "studentId"
+                "phoneNumber"
             )
             .value
             .trim();
@@ -920,10 +949,12 @@ async function verifyParticipant(){
             .trim();
 
 
-    if(!studentId){
+    /* PHONE VALIDATION */
+
+    if(!phoneNumber){
 
         showMessage(
-            "Please enter your Student ID.",
+            "Please enter your registered phone number.",
             "error"
         );
 
@@ -931,6 +962,34 @@ async function verifyParticipant(){
 
     }
 
+
+    /* Remove spaces and common symbols
+       for basic validation */
+
+    const cleanPhone =
+        phoneNumber.replace(
+            /[\s\-()]/g,
+            ""
+        );
+
+
+    if(
+        !/^\+?[0-9]{10,15}$/.test(
+            cleanPhone
+        )
+    ){
+
+        showMessage(
+            "Please enter a valid phone number.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    /* EMAIL VALIDATION */
 
     if(!email){
 
@@ -953,8 +1012,16 @@ async function verifyParticipant(){
     try{
 
         /*
-         * This endpoint matches the current
-         * server.js you provided.
+         * Server endpoint.
+         *
+         * IMPORTANT:
+         * server.js must accept:
+         *
+         * req.body.phoneNumber
+         *
+         * instead of:
+         *
+         * req.body.studentId
          */
 
         const response =
@@ -970,7 +1037,13 @@ async function verifyParticipant(){
 
                     body:
                         JSON.stringify({
-                            studentId
+
+                            phoneNumber:
+                                cleanPhone,
+
+                            email:
+                                email
+
                         })
                 }
             );
@@ -1006,17 +1079,38 @@ async function verifyParticipant(){
 
 
         /*
-         * Server verifies the Student ID.
+         * Server should return the
+         * verified participant.
+         */
+
+        verifiedParticipant =
+            data.student ||
+            data.participant;
+
+
+        if(!verifiedParticipant){
+
+            showMessage(
+                "Participant verification response is invalid.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /*
+         * Optional email verification.
          *
-         * We additionally check the email
-         * entered by the participant against
-         * the registered email returned by
-         * the server.
+         * If server returns an email,
+         * compare it with the entered email.
          */
 
         if(
+            verifiedParticipant.email &&
             String(
-                data.student.email
+                verifiedParticipant.email
             ).toLowerCase() !==
             String(
                 email
@@ -1032,17 +1126,16 @@ async function verifyParticipant(){
 
 
             showMessage(
-                "Student ID was found, but the registered email does not match.",
+                "The registered email does not match.",
                 "error"
             );
+
+            verifiedParticipant =
+                null;
 
             return;
 
         }
-
-
-        verifiedParticipant =
-            data.student;
 
 
         document
@@ -1086,8 +1179,10 @@ async function verifyParticipant(){
             testButton.disabled =
                 false;
 
+
             testStatus.textContent =
                 "Identity verified. The examination is currently open.";
+
 
             showMessage(
                 "Participant verified successfully.",
@@ -1100,8 +1195,11 @@ async function verifyParticipant(){
             testButton.disabled =
                 true;
 
+
             testStatus.textContent =
+                schedule.examMessage ||
                 "Identity verified, but the examination is not currently open.";
+
 
             showMessage(
                 "Participant verified successfully.",
@@ -1111,9 +1209,11 @@ async function verifyParticipant(){
         }
 
 
-    }catch(error){
+    }
+    catch(error){
 
         console.error(error);
+
 
         showMessage(
             "Unable to connect to the GMSC server.",
@@ -1134,7 +1234,7 @@ function openExam(){
     if(!verifiedParticipant){
 
         showMessage(
-            "Please verify your participant ID first.",
+            "Please verify your phone number first.",
             "error"
         );
 
