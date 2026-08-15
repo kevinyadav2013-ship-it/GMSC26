@@ -1,13 +1,11 @@
-```javascript
 const express = require("express");
 const path = require("path");
 const crypto = require("crypto");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-const ADMIN_KEY =
-    process.env.ADMIN_KEY || "GMSC_ADMIN_2026";
+const PORT = 3000;
+const ADMIN_KEY = "GMSC_ADMIN_2026";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -16,11 +14,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 /* =====================================================
-   IN-MEMORY DATA
-   ===================================================== */
+   DATA
+===================================================== */
 
 let registrations = [];
+
 let results = [];
+
+let securityEvents = [];
+
 let questions = [
     {
         id: "q1",
@@ -36,18 +38,16 @@ let questions = [
     }
 ];
 
-let securityEvents = [];
-
 
 /* =====================================================
    ADMIN AUTHENTICATION
-   ===================================================== */
+===================================================== */
 
 function requireAdmin(req, res, next) {
 
     const key = req.headers["x-admin-key"];
 
-    if (!key || key !== ADMIN_KEY) {
+    if (key !== ADMIN_KEY) {
 
         return res.status(401).json({
             message: "Invalid administrator key."
@@ -61,12 +61,16 @@ function requireAdmin(req, res, next) {
 
 /* =====================================================
    HOME
-   ===================================================== */
+===================================================== */
 
-app.get("/", (req, res) => {
+app.get("/", function(req, res) {
 
     res.sendFile(
-        path.join(__dirname, "public", "index.html")
+        path.join(
+            __dirname,
+            "public",
+            "index.html"
+        )
     );
 
 });
@@ -74,21 +78,21 @@ app.get("/", (req, res) => {
 
 /* =====================================================
    REGISTRATION
-   ===================================================== */
+===================================================== */
 
-app.post("/api/register", (req, res) => {
+app.post("/api/register", function(req, res) {
 
-    const {
-        name,
-        studentId,
-        email
-    } = req.body;
+    const name =
+        String(req.body.name || "").trim();
 
-    if (
-        !name ||
-        !studentId ||
-        !email
-    ) {
+    const studentId =
+        String(req.body.studentId || "").trim();
+
+    const email =
+        String(req.body.email || "").trim();
+
+
+    if (!name || !studentId || !email) {
 
         return res.status(400).json({
             message:
@@ -98,15 +102,18 @@ app.post("/api/register", (req, res) => {
     }
 
 
-    const existing =
-        registrations.find(
-            person =>
+    const alreadyRegistered =
+        registrations.find(function(person) {
+
+            return (
                 person.email.toLowerCase() ===
-                String(email).toLowerCase()
-        );
+                email.toLowerCase()
+            );
+
+        });
 
 
-    if (existing) {
+    if (alreadyRegistered) {
 
         return res.status(409).json({
             message:
@@ -120,18 +127,16 @@ app.post("/api/register", (req, res) => {
 
         registrationId:
             "GMSC-" +
-            crypto.randomBytes(4)
+            crypto
+                .randomBytes(4)
                 .toString("hex")
                 .toUpperCase(),
 
-        name:
-            String(name).trim(),
+        name: name,
 
-        studentId:
-            String(studentId).trim(),
+        studentId: studentId,
 
-        email:
-            String(email).trim(),
+        email: email,
 
         registeredAt:
             new Date().toISOString()
@@ -149,7 +154,8 @@ app.post("/api/register", (req, res) => {
         message:
             "Registration successful.",
 
-        registration
+        registration:
+            registration
 
     });
 
@@ -157,13 +163,13 @@ app.post("/api/register", (req, res) => {
 
 
 /* =====================================================
-   ADMIN STATUS / LOGIN CHECK
-   ===================================================== */
+   ADMIN STATUS
+===================================================== */
 
 app.get(
     "/api/admin/status",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         res.json({
 
@@ -199,16 +205,17 @@ app.get(
 
 /* =====================================================
    ADMIN REGISTRATIONS
-   ===================================================== */
+===================================================== */
 
 app.get(
     "/api/admin/registrations",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         res.json({
 
-            registrations
+            registrations:
+                registrations
 
         });
 
@@ -218,16 +225,17 @@ app.get(
 
 /* =====================================================
    ADMIN RESULTS
-   ===================================================== */
+===================================================== */
 
 app.get(
     "/api/admin/results",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         res.json({
 
-            results
+            results:
+                results
 
         });
 
@@ -236,17 +244,18 @@ app.get(
 
 
 /* =====================================================
-   QUESTIONS
-   ===================================================== */
+   QUESTIONS - GET
+===================================================== */
 
 app.get(
     "/api/questions",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         res.json({
 
-            questions
+            questions:
+                questions
 
         });
 
@@ -255,92 +264,100 @@ app.get(
 
 
 /* =====================================================
-   ADD QUESTION
-   ===================================================== */
+   QUESTIONS - ADD
+===================================================== */
 
 app.post(
     "/api/admin/questions",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
-        const {
-            question,
-            options,
-            correctAnswer,
-            marks
-        } = req.body;
+        const question =
+            String(
+                req.body.question || ""
+            ).trim();
+
+        const options =
+            req.body.options;
+
+        const correctAnswer =
+            Number(
+                req.body.correctAnswer
+            );
+
+        const marks =
+            Number(
+                req.body.marks
+            );
+
+
+        if (!question) {
+
+            return res.status(400).json({
+                message:
+                    "Question is required."
+            });
+
+        }
 
 
         if (
-            !question ||
             !Array.isArray(options) ||
             options.length !== 4
         ) {
 
             return res.status(400).json({
-
                 message:
-                    "Question and exactly four options are required."
-
+                    "Exactly four options are required."
             });
 
         }
 
 
-        if (
-            options.some(
-                option =>
-                    !String(option).trim()
-            )
+        for (
+            let i = 0;
+            i < options.length;
+            i++
         ) {
 
-            return res.status(400).json({
+            if (
+                !String(
+                    options[i] || ""
+                ).trim()
+            ) {
 
-                message:
-                    "All four options are required."
+                return res.status(400).json({
+                    message:
+                        "All four options are required."
+                });
 
-            });
+            }
 
         }
 
 
-        const numericCorrectAnswer =
-            Number(correctAnswer);
-
-        const numericMarks =
-            Number(marks);
-
-
         if (
-            !Number.isInteger(
-                numericCorrectAnswer
-            ) ||
-            numericCorrectAnswer < 0 ||
-            numericCorrectAnswer > 3
+            !Number.isInteger(correctAnswer) ||
+            correctAnswer < 0 ||
+            correctAnswer > 3
         ) {
 
             return res.status(400).json({
-
                 message:
                     "Correct answer must be between 0 and 3."
-
             });
 
         }
 
 
         if (
-            !Number.isFinite(
-                numericMarks
-            ) ||
-            numericMarks < 1
+            !Number.isFinite(marks) ||
+            marks < 1
         ) {
 
             return res.status(400).json({
-
                 message:
                     "Marks must be at least 1."
-
             });
 
         }
@@ -350,23 +367,27 @@ app.post(
 
             id:
                 "q-" +
-                crypto.randomBytes(6)
+                crypto
+                    .randomBytes(6)
                     .toString("hex"),
 
             question:
-                String(question).trim(),
+                question,
 
             options:
-                options.map(
-                    option =>
-                        String(option).trim()
-                ),
+                options.map(function(option) {
+
+                    return String(
+                        option
+                    ).trim();
+
+                }),
 
             correctAnswer:
-                numericCorrectAnswer,
+                correctAnswer,
 
             marks:
-                numericMarks
+                marks
 
         };
 
@@ -391,13 +412,13 @@ app.post(
 
 
 /* =====================================================
-   REMOVE QUESTION
-   ===================================================== */
+   QUESTIONS - REMOVE
+===================================================== */
 
 app.delete(
     "/api/admin/questions/:id",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         const questionId =
             req.params.id;
@@ -405,19 +426,22 @@ app.delete(
 
         const index =
             questions.findIndex(
-                question =>
-                    question.id ===
-                    questionId
+                function(question) {
+
+                    return (
+                        question.id ===
+                        questionId
+                    );
+
+                }
             );
 
 
         if (index === -1) {
 
             return res.status(404).json({
-
                 message:
                     "Question not found."
-
             });
 
         }
@@ -441,13 +465,13 @@ app.delete(
 
 
 /* =====================================================
-   SECURITY EVENTS
-   ===================================================== */
+   SECURITY EVENTS - GET
+===================================================== */
 
 app.get(
     "/api/admin/events",
     requireAdmin,
-    (req, res) => {
+    function(req, res) {
 
         res.json({
 
@@ -461,41 +485,45 @@ app.get(
 
 
 /* =====================================================
-   RECORD SECURITY EVENT
-   ===================================================== */
+   SECURITY EVENT - ADD
+===================================================== */
 
 app.post(
     "/api/events",
-    (req, res) => {
+    function(req, res) {
 
-        const {
-            studentId,
-            type,
-            details
-        } = req.body;
-
-
-        securityEvents.push({
+        const event = {
 
             timestamp:
                 new Date().toISOString(),
 
             studentId:
-                studentId || "",
+                String(
+                    req.body.studentId || ""
+                ),
 
             type:
-                type || "UNKNOWN",
+                String(
+                    req.body.type || "UNKNOWN"
+                ),
 
             details:
-                details || ""
+                String(
+                    req.body.details || ""
+                )
 
-        });
+        };
+
+
+        securityEvents.push(
+            event
+        );
 
 
         res.json({
 
             message:
-                "Event recorded."
+                "Security event recorded."
 
         });
 
@@ -504,30 +532,34 @@ app.post(
 
 
 /* =====================================================
-   EXAM QUESTIONS FOR STUDENTS
-   ===================================================== */
+   EXAM QUESTIONS
+===================================================== */
 
 app.get(
     "/api/exam/questions",
-    (req, res) => {
+    function(req, res) {
 
         const publicQuestions =
             questions.map(
-                question => ({
+                function(question) {
 
-                    id:
-                        question.id,
+                    return {
 
-                    question:
-                        question.question,
+                        id:
+                            question.id,
 
-                    options:
-                        question.options,
+                        question:
+                            question.question,
 
-                    marks:
-                        question.marks
+                        options:
+                            question.options,
 
-                })
+                        marks:
+                            question.marks
+
+                    };
+
+                }
             );
 
 
@@ -543,18 +575,25 @@ app.get(
 
 
 /* =====================================================
-   SUBMIT EXAM
-   ===================================================== */
+   EXAM SUBMISSION
+===================================================== */
 
 app.post(
     "/api/exam/submit",
-    (req, res) => {
+    function(req, res) {
 
-        const {
-            studentName,
-            studentId,
-            answers
-        } = req.body;
+        const studentName =
+            String(
+                req.body.studentName || ""
+            ).trim();
+
+        const studentId =
+            String(
+                req.body.studentId || ""
+            ).trim();
+
+        const answers =
+            req.body.answers;
 
 
         if (
@@ -564,38 +603,44 @@ app.post(
         ) {
 
             return res.status(400).json({
-
                 message:
                     "Invalid examination submission."
-
             });
 
         }
 
 
         let score = 0;
+
         let totalMarks = 0;
 
 
         questions.forEach(
-            question => {
+            function(question) {
 
                 totalMarks +=
-                    Number(question.marks);
+                    Number(
+                        question.marks
+                    );
 
 
-                const submittedAnswer =
+                const submitted =
                     answers.find(
-                        answer =>
-                            answer.questionId ===
-                            question.id
+                        function(answer) {
+
+                            return (
+                                answer.questionId ===
+                                question.id
+                            );
+
+                        }
                     );
 
 
                 if (
-                    submittedAnswer &&
+                    submitted &&
                     Number(
-                        submittedAnswer.answer
+                        submitted.answer
                     ) ===
                     Number(
                         question.correctAnswer
@@ -603,7 +648,9 @@ app.post(
                 ) {
 
                     score +=
-                        Number(question.marks);
+                        Number(
+                            question.marks
+                        );
 
                 }
 
@@ -627,21 +674,25 @@ app.post(
 
             submissionId:
                 "SUB-" +
-                crypto.randomBytes(5)
+                crypto
+                    .randomBytes(5)
                     .toString("hex")
                     .toUpperCase(),
 
             studentName:
-                String(studentName).trim(),
+                studentName,
 
             studentId:
-                String(studentId).trim(),
+                studentId,
 
-            score,
+            score:
+                score,
 
-            totalMarks,
+            totalMarks:
+                totalMarks,
 
-            percentage,
+            percentage:
+                percentage,
 
             qualifiesForRound2:
                 percentage >= 50,
@@ -662,7 +713,8 @@ app.post(
             message:
                 "Examination submitted successfully.",
 
-            result
+            result:
+                result
 
         });
 
@@ -671,11 +723,11 @@ app.post(
 
 
 /* =====================================================
-   FALLBACK
-   ===================================================== */
+   404
+===================================================== */
 
 app.use(
-    (req, res) => {
+    function(req, res) {
 
         res.status(404).json({
 
@@ -690,22 +742,22 @@ app.use(
 
 /* =====================================================
    START SERVER
-   ===================================================== */
+===================================================== */
 
 app.listen(
     PORT,
-    () => {
+    function() {
 
         console.log(
-            `GMSC server running on http://localhost:${PORT}`
+            "GMSC server running on http://localhost:" +
+            PORT
         );
 
         console.log(
-            "Admin key:",
+            "Administrator key: " +
             ADMIN_KEY
         );
 
     }
 );
-```
 
