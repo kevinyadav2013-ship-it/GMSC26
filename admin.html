@@ -1,11 +1,15 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>GMSC Administrator Portal</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     font-family:Arial,Helvetica,sans-serif;
@@ -60,7 +64,9 @@ header{
     margin-top:0;
 }
 
-input,select,textarea{
+input,
+select,
+textarea{
     width:100%;
     padding:12px;
     margin:7px 0 15px;
@@ -160,7 +166,8 @@ table{
     border-collapse:collapse;
 }
 
-th,td{
+th,
+td{
     padding:12px;
     border-bottom:1px solid #e4e7ec;
     text-align:left;
@@ -188,11 +195,36 @@ th{
     color:#991b1b;
 }
 
+.warning{
+    background:#fef3c7;
+    color:#92400e;
+}
+
 .question{
     border:1px solid #e4e7ec;
     border-radius:10px;
     padding:18px;
     margin-bottom:15px;
+    background:#ffffff;
+}
+
+.question-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:10px;
+}
+
+.question-title{
+    font-size:17px;
+    font-weight:bold;
+}
+
+.question-actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
 }
 
 .rank-highlight{
@@ -206,24 +238,55 @@ th{
 }
 
 @media(max-width:900px){
+
     .dashboard{
         grid-template-columns:repeat(2,1fr);
     }
+
 }
 
 @media(max-width:600px){
+
     .dashboard{
         grid-template-columns:1fr;
     }
+
+    .question-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .question-actions{
+        width:100%;
+    }
+
+    .question-actions button{
+        width:100%;
+    }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
+
 <header>
-    <div class="logo">GMSC ADMINISTRATOR PORTAL</div>
-    <button id="logoutButton" onclick="logout()">Logout</button>
+
+    <div class="logo">
+        GMSC ADMINISTRATOR PORTAL
+    </div>
+
+    <button
+        id="logoutButton"
+        onclick="logout()">
+
+        Logout
+
+    </button>
+
 </header>
 
 
@@ -235,7 +298,9 @@ th{
 
     <div class="login-box">
 
-        <h1>Administrator Login</h1>
+        <h1>
+            Administrator Login
+        </h1>
 
         <p>
             Authorized GMSC administrators only.
@@ -250,9 +315,10 @@ th{
         <button
             class="primary"
             style="width:100%;"
-            onclick="adminLogin()"
-        >
+            onclick="adminLogin()">
+
             Login
+
         </button>
 
         <div
@@ -276,7 +342,9 @@ th{
 
 <div class="container">
 
-    <h1>GMSC Administration</h1>
+    <h1>
+        GMSC Administration
+    </h1>
 
     <p>
         Manage participants, results, rankings,
@@ -289,23 +357,54 @@ th{
     <div class="dashboard">
 
         <div class="stat">
-            <h3>Registered Participants</h3>
-            <strong id="registeredCount">0</strong>
+
+            <h3>
+                Registered Participants
+            </h3>
+
+            <strong id="registeredCount">
+                0
+            </strong>
+
         </div>
 
-        <div class="stat">
-            <h3>Submitted Exams</h3>
-            <strong id="resultCount">0</strong>
-        </div>
 
         <div class="stat">
-            <h3>Security Events</h3>
-            <strong id="eventCount">0</strong>
+
+            <h3>
+                Submitted Exams
+            </h3>
+
+            <strong id="resultCount">
+                0
+            </strong>
+
         </div>
 
+
         <div class="stat">
-            <h3>Questions</h3>
-            <strong id="questionCount">0</strong>
+
+            <h3>
+                Security Events
+            </h3>
+
+            <strong id="eventCount">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h3>
+                Questions
+            </h3>
+
+            <strong id="questionCount">
+                0
+            </strong>
+
         </div>
 
     </div>
@@ -318,32 +417,49 @@ th{
         <button
             class="active"
             onclick="showTab('results',this)">
+
             Results
+
         </button>
+
 
         <button
             onclick="showTab('ranks',this)">
+
             Rankings
+
         </button>
+
 
         <button
             onclick="showTab('participants',this)">
+
             Participants
+
         </button>
+
 
         <button
             onclick="showTab('questions',this)">
+
             Questions
+
         </button>
+
 
         <button
             onclick="showTab('events',this)">
+
             Security Events
+
         </button>
+
 
         <button
             onclick="showTab('status',this)">
+
             Server Status
+
         </button>
 
     </div>
@@ -355,17 +471,20 @@ th{
 
     <section
         id="results"
-        class="tab active"
-    >
+        class="tab active">
 
         <div class="card">
 
-            <h2>Checked Results</h2>
+            <h2>
+                Checked Results
+            </h2>
 
             <button
                 class="primary"
                 onclick="loadResults()">
+
                 Refresh Results
+
             </button>
 
             <br><br>
@@ -376,15 +495,37 @@ th{
 
                     <thead>
 
-                    <tr>
-                        <th>Submission</th>
-                        <th>Student</th>
-                        <th>ID</th>
-                        <th>Score</th>
-                        <th>Percentage</th>
-                        <th>Round 2</th>
-                        <th>Rank</th>
-                    </tr>
+                        <tr>
+
+                            <th>
+                                Submission
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Score
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th>
+                                Round 2
+                            </th>
+
+                            <th>
+                                Rank
+                            </th>
+
+                        </tr>
 
                     </thead>
 
@@ -406,12 +547,13 @@ th{
 
     <section
         id="ranks"
-        class="tab"
-    >
+        class="tab">
 
         <div class="card">
 
-            <h2>Rank Management</h2>
+            <h2>
+                Rank Management
+            </h2>
 
             <p>
                 Rankings are calculated from server-side
@@ -423,7 +565,9 @@ th{
             <button
                 class="green"
                 onclick="calculateRanks()">
+
                 🔄 Update / Recalculate Ranks
+
             </button>
 
             <div
@@ -439,14 +583,33 @@ th{
 
                     <thead>
 
-                    <tr>
-                        <th>Rank</th>
-                        <th>Student</th>
-                        <th>ID</th>
-                        <th>Score</th>
-                        <th>Percentage</th>
-                        <th>Round 2</th>
-                    </tr>
+                        <tr>
+
+                            <th>
+                                Rank
+                            </th>
+
+                            <th>
+                                Student
+                            </th>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                Score
+                            </th>
+
+                            <th>
+                                Percentage
+                            </th>
+
+                            <th>
+                                Round 2
+                            </th>
+
+                        </tr>
 
                     </thead>
 
@@ -468,17 +631,20 @@ th{
 
     <section
         id="participants"
-        class="tab"
-    >
+        class="tab">
 
         <div class="card">
 
-            <h2>Registered Participants</h2>
+            <h2>
+                Registered Participants
+            </h2>
 
             <button
                 class="primary"
                 onclick="loadParticipants()">
+
                 Refresh Participants
+
             </button>
 
             <br><br>
@@ -489,13 +655,29 @@ th{
 
                     <thead>
 
-                    <tr>
-                        <th>Registration ID</th>
-                        <th>Name</th>
-                        <th>Student ID</th>
-                        <th>Email</th>
-                        <th>Registered</th>
-                    </tr>
+                        <tr>
+
+                            <th>
+                                Registration ID
+                            </th>
+
+                            <th>
+                                Name
+                            </th>
+
+                            <th>
+                                Student ID
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+
+                            <th>
+                                Registered
+                            </th>
+
+                        </tr>
 
                     </thead>
 
@@ -517,16 +699,20 @@ th{
 
     <section
         id="questions"
-        class="tab"
-    >
+        class="tab">
+
+
+        <!-- CURRENT QUESTIONS -->
 
         <div class="card">
 
-            <h2>Question Bank</h2>
+            <h2>
+                Question Bank
+            </h2>
 
             <p>
-                Administrators can upload/add examination
-                questions and configure their correct answers.
+                Administrators can view and remove
+                examination questions.
             </p>
 
             <br>
@@ -534,20 +720,41 @@ th{
             <button
                 class="primary"
                 onclick="loadQuestions()">
-                Load Current Questions
+
+                🔄 Load Current Questions
+
             </button>
 
-            <div id="questionsContainer">
+            <div
+                id="questionsContainer"
+                style="margin-top:20px;">
+            </div>
+
+            <div
+                id="questionMessage"
+                class="message">
             </div>
 
         </div>
 
 
+        <!-- ADD QUESTION -->
+
         <div class="card">
 
-            <h2>Add New Question</h2>
+            <h2>
+                Add New Question
+            </h2>
 
-            <label>Question</label>
+            <p>
+                Add a new question to the GMSC
+                examination question bank.
+            </p>
+
+
+            <label>
+                Question
+            </label>
 
             <textarea
                 id="newQuestion"
@@ -556,28 +763,39 @@ th{
             </textarea>
 
 
-            <label>Option 1</label>
+            <label>
+                Option 1
+            </label>
 
             <input
                 id="option1"
                 placeholder="Option 1"
             >
 
-            <label>Option 2</label>
+
+            <label>
+                Option 2
+            </label>
 
             <input
                 id="option2"
                 placeholder="Option 2"
             >
 
-            <label>Option 3</label>
+
+            <label>
+                Option 3
+            </label>
 
             <input
                 id="option3"
                 placeholder="Option 3"
             >
 
-            <label>Option 4</label>
+
+            <label>
+                Option 4
+            </label>
 
             <input
                 id="option4"
@@ -585,7 +803,9 @@ th{
             >
 
 
-            <label>Correct Answer</label>
+            <label>
+                Correct Answer
+            </label>
 
             <select id="correctAnswer">
 
@@ -608,7 +828,9 @@ th{
             </select>
 
 
-            <label>Marks</label>
+            <label>
+                Marks
+            </label>
 
             <input
                 id="questionMarks"
@@ -627,11 +849,6 @@ th{
             </button>
 
 
-            <div
-                id="questionMessage"
-                class="message">
-            </div>
-
         </div>
 
     </section>
@@ -643,17 +860,20 @@ th{
 
     <section
         id="events"
-        class="tab"
-    >
+        class="tab">
 
         <div class="card">
 
-            <h2>Proctoring / Security Events</h2>
+            <h2>
+                Proctoring / Security Events
+            </h2>
 
             <button
                 class="primary"
                 onclick="loadEvents()">
+
                 Refresh Events
+
             </button>
 
             <br><br>
@@ -664,12 +884,25 @@ th{
 
                     <thead>
 
-                    <tr>
-                        <th>Time</th>
-                        <th>Student ID</th>
-                        <th>Event</th>
-                        <th>Details</th>
-                    </tr>
+                        <tr>
+
+                            <th>
+                                Time
+                            </th>
+
+                            <th>
+                                Student ID
+                            </th>
+
+                            <th>
+                                Event
+                            </th>
+
+                            <th>
+                                Details
+                            </th>
+
+                        </tr>
 
                     </thead>
 
@@ -691,17 +924,20 @@ th{
 
     <section
         id="status"
-        class="tab"
-    >
+        class="tab">
 
         <div class="card">
 
-            <h2>GMSC Server Status</h2>
+            <h2>
+                GMSC Server Status
+            </h2>
 
             <button
                 class="primary"
                 onclick="loadStatus()">
+
                 Check Server
+
             </button>
 
             <br><br>
@@ -720,6 +956,10 @@ th{
 
 
 <script>
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
 
 let ADMIN_KEY = "";
 
@@ -758,6 +998,7 @@ async function api(
     options.headers =
         options.headers || {};
 
+
     options.headers[
         "x-admin-key"
     ] =
@@ -771,15 +1012,27 @@ async function api(
         );
 
 
-    const data =
-        await response.json();
+    let data;
+
+    try{
+
+        data =
+            await response.json();
+
+    }catch{
+
+        throw new Error(
+            "Server returned an invalid response."
+        );
+
+    }
 
 
     if(!response.ok){
 
         throw new Error(
             data.message ||
-            "Request failed"
+            "Request failed."
         );
 
     }
@@ -1037,13 +1290,19 @@ function renderResults(){
                 </td>
 
                 <td>
-                    ${result.score}
+                    ${escapeHtml(
+                        result.score
+                    )}
                     /
-                    ${result.totalMarks}
+                    ${escapeHtml(
+                        result.totalMarks
+                    )}
                 </td>
 
                 <td>
-                    ${result.percentage}%
+                    ${escapeHtml(
+                        result.percentage
+                    )}%
                 </td>
 
                 <td>
@@ -1082,16 +1341,6 @@ function calculateRanks(){
     allRanks =
         [...allResults];
 
-
-    /*
-       Ranking rule:
-
-       1. Higher score first
-       2. Higher percentage first
-       3. Earlier submission time first
-
-       This keeps the ranking deterministic.
-    */
 
     allRanks.sort(
         (a,b) => {
@@ -1136,16 +1385,16 @@ function calculateRanks(){
     renderRanks();
 
 
-    if(
+    const rankMessage =
         document.getElementById(
             "rankMessage"
-        )
-    ){
+        );
+
+
+    if(rankMessage){
 
         showMessage(
-            document.getElementById(
-                "rankMessage"
-            ),
+            rankMessage,
             "Ranks recalculated successfully.",
             "success"
         );
@@ -1213,13 +1462,19 @@ function renderRanks(){
                 </td>
 
                 <td>
-                    ${result.score}
+                    ${escapeHtml(
+                        result.score
+                    )}
                     /
-                    ${result.totalMarks}
+                    ${escapeHtml(
+                        result.totalMarks
+                    )}
                 </td>
 
                 <td>
-                    ${result.percentage}%
+                    ${escapeHtml(
+                        result.percentage
+                    )}%
                 </td>
 
                 <td>
@@ -1374,6 +1629,29 @@ async function loadQuestions(){
         container.innerHTML = "";
 
 
+        if(questions.length === 0){
+
+            container.innerHTML = `
+
+                <div
+                    style="
+                        padding:20px;
+                        text-align:center;
+                        color:#667085;
+                    "
+                >
+
+                    No questions found.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
         questions.forEach(
             (question,index) => {
 
@@ -1387,36 +1665,90 @@ async function loadQuestions(){
                     "question";
 
 
+                /*
+                   The server should provide
+                   question.id.
+
+                   Example:
+
+                   {
+                       id:"q1",
+                       question:"...",
+                       options:[...],
+                       correctAnswer:0,
+                       marks:1
+                   }
+                */
+
+
                 div.innerHTML = `
 
-                    <strong>
-                        Question ${index + 1}
-                    </strong>
+                    <div class="question-header">
+
+                        <div class="question-title">
+
+                            Question ${index + 1}
+
+                        </div>
+
+
+                        <div class="question-actions">
+
+                            <button
+                                class="red"
+                                onclick="removeQuestion('${escapeAttribute(question.id)}')"
+                            >
+
+                                🗑 Remove Question
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
 
                     <p style="margin:10px 0;">
+
                         ${escapeHtml(
                             question.question
                         )}
+
                     </p>
 
+
                     <ol>
+
                         ${
-                            question.options
-                            .map(
-                                option =>
-                                `<li>
-                                    ${escapeHtml(
-                                        option
-                                    )}
-                                </li>`
+                            Array.isArray(
+                                question.options
                             )
-                            .join("")
+                            ? question.options
+                                .map(
+                                    option =>
+                                    `<li>
+                                        ${escapeHtml(
+                                            option
+                                        )}
+                                    </li>`
+                                )
+                                .join("")
+                            : ""
                         }
+
                     </ol>
 
+
                     <p style="margin-top:10px;">
-                        Marks:
-                        ${question.marks}
+
+                        <strong>
+                            Marks:
+                        </strong>
+
+                        ${escapeHtml(
+                            question.marks
+                        )}
+
                     </p>
 
                 `;
@@ -1433,6 +1765,15 @@ async function loadQuestions(){
     }catch(error){
 
         console.error(error);
+
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            error.message,
+            "error"
+        );
 
     }
 
@@ -1511,6 +1852,24 @@ async function addQuestion(){
     }
 
 
+    if(
+        !Number.isFinite(marks) ||
+        marks < 1
+    ){
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            "Marks must be at least 1.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
     try{
 
         await api(
@@ -1556,8 +1915,124 @@ async function addQuestion(){
             .value = "";
 
 
-        loadQuestions();
+        document
+            .getElementById(
+                "option1"
+            )
+            .value = "";
 
+
+        document
+            .getElementById(
+                "option2"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "option3"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "option4"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "correctAnswer"
+            )
+            .value = "0";
+
+
+        document
+            .getElementById(
+                "questionMarks"
+            )
+            .value = "1";
+
+
+        await loadQuestions();
+
+
+    }catch(error){
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            error.message,
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   REMOVE QUESTION
+===================================================== */
+
+async function removeQuestion(
+    questionId
+){
+
+    if(!questionId){
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            "Question ID is missing. Your server must provide an ID for each question.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to permanently remove this question?"
+        );
+
+
+    if(!confirmed){
+
+        return;
+
+    }
+
+
+    try{
+
+        await api(
+            `/api/admin/questions/${encodeURIComponent(
+                questionId
+            )}`,
+            {
+                method:"DELETE"
+            }
+        );
+
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            "Question removed successfully.",
+            "success"
+        );
+
+
+        await loadQuestions();
 
     }catch(error){
 
@@ -1687,59 +2162,114 @@ async function loadStatus(){
         box.innerHTML = `
 
             <p>
-                <strong>Server:</strong>
+
+                <strong>
+                    Server:
+                </strong>
+
                 ${escapeHtml(
                     data.server
                 )}
+
             </p>
 
+
             <p>
-                <strong>Status:</strong>
+
+                <strong>
+                    Status:
+                </strong>
+
                 <span class="status-online">
+
                     ${escapeHtml(
                         data.status
                     )}
+
                 </span>
+
             </p>
 
+
             <p>
-                <strong>Registration Open:</strong>
+
+                <strong>
+                    Registration Open:
+                </strong>
+
                 ${
                     data.registrationOpen
                     ? "YES"
                     : "NO"
                 }
+
             </p>
 
+
             <p>
-                <strong>Exam Open:</strong>
+
+                <strong>
+                    Exam Open:
+                </strong>
+
                 ${
                     data.examOpen
                     ? "YES"
                     : "NO"
                 }
+
             </p>
 
-            <p>
-                <strong>Active Sessions:</strong>
-                ${data.activeSessions}
-            </p>
 
             <p>
-                <strong>Registered Participants:</strong>
-                ${data.registeredParticipants}
+
+                <strong>
+                    Active Sessions:
+                </strong>
+
+                ${escapeHtml(
+                    data.activeSessions
+                )}
+
             </p>
 
-            <p>
-                <strong>Stored Results:</strong>
-                ${data.storedResults}
-            </p>
 
             <p>
-                <strong>Checked At:</strong>
+
+                <strong>
+                    Registered Participants:
+                </strong>
+
+                ${escapeHtml(
+                    data.registeredParticipants
+                )}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Stored Results:
+                </strong>
+
+                ${escapeHtml(
+                    data.storedResults
+                )}
+
+            </p>
+
+
+            <p>
+
+                <strong>
+                    Checked At:
+                </strong>
+
                 ${escapeHtml(
                     data.timestamp
                 )}
+
             </p>
 
         `;
@@ -1793,7 +2323,35 @@ function escapeHtml(
 
 }
 
+
+function escapeAttribute(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "\\",
+        "\\\\"
+    )
+    .replaceAll(
+        "'",
+        "\\'"
+    )
+    .replaceAll(
+        "\n",
+        "\\n"
+    )
+    .replaceAll(
+        "\r",
+        "\\r"
+    );
+
+}
+
 </script>
 
 </body>
 </html>
+```
