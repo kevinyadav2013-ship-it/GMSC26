@@ -968,7 +968,7 @@ app.get(
    404
 ========================================================= */
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "exam.html"));
+    res.sendFile(path.join(__dirname, "index.html"));
 });
 app.use(
     (req, res) => {
