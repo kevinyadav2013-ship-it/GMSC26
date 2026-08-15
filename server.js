@@ -12,11 +12,21 @@ const ADMIN_SECRET =
 
 const DATA_DIR = path.join(__dirname, "data");
 
-const RESULTS_FILE = path.join(DATA_DIR, "results.json");
-const EVENTS_FILE = path.join(DATA_DIR, "proctoring-events.json");
-const REGISTRATIONS_FILE = path.join(DATA_DIR, "registrations.json");
-const QUESTIONS_FILE = path.join(DATA_DIR, "questions.json");
-const RANKS_FILE = path.join(DATA_DIR, "ranks.json");
+const RESULTS_FILE =
+    path.join(DATA_DIR, "results.json");
+
+const EVENTS_FILE =
+    path.join(DATA_DIR, "proctoring-events.json");
+
+const REGISTRATIONS_FILE =
+    path.join(DATA_DIR, "registrations.json");
+
+const QUESTIONS_FILE =
+    path.join(DATA_DIR, "questions.json");
+
+const RANKS_FILE =
+    path.join(DATA_DIR, "ranks.json");
+
 
 /* =========================================================
    GMSC SCHEDULE
@@ -39,8 +49,15 @@ const RESULT_DATE =
 
 const EXAM_DURATION_MINUTES = 60;
 
+
+/* =========================================================
+   AWARD / ROUND RULES
+========================================================= */
+
 const ROUND_2_FULL_MARKS_REQUIRED = true;
+
 const ROUND_2_AWARD_USD = 250;
+
 
 /* =========================================================
    BASIC SETUP
@@ -58,17 +75,25 @@ app.use(
     })
 );
 
+
 if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, {
-        recursive: true
-    });
+
+    fs.mkdirSync(
+        DATA_DIR,
+        {
+            recursive: true
+        }
+    );
+
 }
+
 
 /* =========================================================
    INITIAL QUESTIONS
 ========================================================= */
 
 const INITIAL_QUESTIONS = [
+
     {
         id: 1,
         question:
@@ -211,20 +236,31 @@ const INITIAL_QUESTIONS = [
         correctAnswer: 2,
         marks: 1
     }
+
 ];
+
 
 /* =========================================================
    FILE HELPERS
 ========================================================= */
 
 function ensureFile(file, value) {
+
     if (!fs.existsSync(file)) {
+
         fs.writeFileSync(
             file,
-            JSON.stringify(value, null, 2)
+            JSON.stringify(
+                value,
+                null,
+                2
+            )
         );
+
     }
+
 }
+
 
 ensureFile(RESULTS_FILE, []);
 ensureFile(EVENTS_FILE, []);
@@ -232,93 +268,119 @@ ensureFile(REGISTRATIONS_FILE, []);
 ensureFile(QUESTIONS_FILE, INITIAL_QUESTIONS);
 ensureFile(RANKS_FILE, []);
 
+
 function readJson(file) {
+
     try {
+
         return JSON.parse(
-            fs.readFileSync(file, "utf8")
+            fs.readFileSync(
+                file,
+                "utf8"
+            )
         );
+
     } catch {
+
         return [];
+
     }
+
 }
+
 
 function writeJson(file, data) {
+
     fs.writeFileSync(
         file,
-        JSON.stringify(data, null, 2)
+        JSON.stringify(
+            data,
+            null,
+            2
+        )
     );
+
 }
 
+
 /* =========================================================
-   SESSIONS
+   SESSION STORAGE
 ========================================================= */
 
 const sessions = new Map();
+
 
 /* =========================================================
    HELPERS
 ========================================================= */
 
 function generateToken() {
-    return crypto.randomBytes(32).toString("hex");
+
+    return crypto
+        .randomBytes(32)
+        .toString("hex");
+
 }
 
+
 function generateId(prefix) {
+
     return (
         prefix +
         "-" +
-        Date.now().toString(36).toUpperCase() +
+        Date.now()
+            .toString(36)
+            .toUpperCase() +
         "-" +
-        crypto.randomBytes(4).toString("hex").toUpperCase()
+        crypto
+            .randomBytes(4)
+            .toString("hex")
+            .toUpperCase()
     );
+
 }
 
+
 function cleanString(value, maxLength = 300) {
-    if (typeof value !== "string") {
+
+    if (
+        typeof value !== "string"
+    ) {
+
         return "";
+
     }
 
     return value
         .trim()
         .slice(0, maxLength);
+
 }
 
-function normalizePhone(value) {
-    return cleanString(value, 30)
-        .replace(/\s+/g, "")
-        .replace(/-/g, "");
-}
-
-function normalizeEmail(value) {
-    return cleanString(value, 150)
-        .toLowerCase();
-}
-
-function isValidPhone(phone) {
-    return /^[+]?[0-9]{10,15}$/.test(phone);
-}
-
-function isValidEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
 
 function isRegistrationOpen() {
+
     const now = new Date();
 
     return (
         now >= REGISTRATION_START &&
         now <= REGISTRATION_END
     );
+
 }
 
+
 function isExamOpen() {
+
     const now = new Date();
 
     return (
         now >= EXAM_START &&
         now <= EXAM_END
     );
+
 }
+
 
 /* =========================================================
    STUDENT SESSION AUTH
@@ -332,48 +394,75 @@ function requireExamSession(req, res, next) {
     const token =
         req.headers["x-exam-token"];
 
+
     if (!sessionId || !token) {
+
         return res.status(401).json({
+
             success: false,
+
             message:
                 "Exam session credentials are required."
+
         });
+
     }
+
 
     const session =
         sessions.get(sessionId);
 
+
     if (!session) {
+
         return res.status(401).json({
+
             success: false,
+
             message:
                 "Exam session not found or expired."
+
         });
+
     }
 
+
     if (session.token !== token) {
+
         return res.status(401).json({
+
             success: false,
+
             message:
                 "Invalid exam session."
+
         });
+
     }
+
 
     if (Date.now() > session.expiresAt) {
 
         sessions.delete(sessionId);
 
         return res.status(410).json({
+
             success: false,
+
             message:
                 "Exam session expired."
+
         });
+
     }
+
 
     req.examSession = session;
 
     next();
+
 }
+
 
 /* =========================================================
    ADMIN AUTH
@@ -384,17 +473,28 @@ function requireAdmin(req, res, next) {
     const key =
         req.headers["x-admin-key"];
 
-    if (!key || key !== ADMIN_SECRET) {
+
+    if (
+        !key ||
+        key !== ADMIN_SECRET
+    ) {
 
         return res.status(401).json({
+
             success: false,
+
             message:
                 "Invalid administrator key."
+
         });
+
     }
 
+
     next();
+
 }
+
 
 /* =========================================================
    PUBLIC SCHEDULE
@@ -405,6 +505,7 @@ app.get(
     (req, res) => {
 
         res.json({
+
             success: true,
 
             registrationStart:
@@ -436,9 +537,12 @@ app.get(
 
             examOpen:
                 isExamOpen()
+
         });
+
     }
 );
+
 
 /* =========================================================
    REGISTER STUDENT
@@ -451,11 +555,16 @@ app.post(
         if (!isRegistrationOpen()) {
 
             return res.status(403).json({
+
                 success: false,
+
                 message:
                     "Registration is currently closed."
+
             });
+
         }
+
 
         const name =
             cleanString(
@@ -463,81 +572,66 @@ app.post(
                 100
             );
 
-        const phone =
-            normalizePhone(
-                req.body.phone
+        const studentId =
+            cleanString(
+                req.body.studentId,
+                100
             );
 
         const email =
-            normalizeEmail(
-                req.body.email
+            cleanString(
+                req.body.email,
+                150
             );
 
-        if (name.length < 2) {
+
+        if (
+            name.length < 2 ||
+            !studentId ||
+            !email.includes("@")
+        ) {
 
             return res.status(400).json({
+
                 success: false,
+
                 message:
-                    "Please enter a valid name."
+                    "Valid registration details are required."
+
             });
+
         }
 
-        if (!isValidPhone(phone)) {
-
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Please enter a valid phone number."
-            });
-        }
-
-        if (!isValidEmail(email)) {
-
-            return res.status(400).json({
-                success: false,
-                message:
-                    "Please enter a valid email address."
-            });
-        }
 
         const registrations =
             readJson(
                 REGISTRATIONS_FILE
             );
 
-        const duplicatePhone =
+
+        const duplicate =
             registrations.find(
                 person =>
-                    normalizePhone(
-                        person.phone
-                    ) === phone
+                    String(
+                        person.studentId
+                    ).toLowerCase() ===
+                    studentId.toLowerCase()
             );
 
-        if (duplicatePhone) {
+
+        if (duplicate) {
 
             return res.status(409).json({
+
                 success: false,
+
                 message:
-                    "This phone number is already registered."
+                    "This Student ID is already registered."
+
             });
+
         }
 
-        const duplicateEmail =
-            registrations.find(
-                person =>
-                    normalizeEmail(
-                        person.email
-                    ) === email
-            );
-
-        if (duplicateEmail) {
-
-            return res.status(409).json({
-                success: false,
-                message:
-                    "This email address is already registered."
-            });
-        }
 
         const registration = {
 
@@ -546,47 +640,57 @@ app.post(
 
             name,
 
-            phone,
+            studentId,
 
             email,
 
             registeredAt:
                 new Date().toISOString(),
 
-            verified: false
+            verified: true
+
         };
+
 
         registrations.push(
             registration
         );
+
 
         writeJson(
             REGISTRATIONS_FILE,
             registrations
         );
 
-        console.log(
-            `[GMSC] NEW REGISTRATION: ${name} | ${phone} | ${email}`
-        );
 
-        res.json({
+        res.status(201).json({
 
             success: true,
 
             registrationId:
                 registration.registrationId,
 
-            message:
-                "Registration successful.",
-
             student: {
-                name,
-                phone,
-                email
-            }
+
+                name:
+                    registration.name,
+
+                studentId:
+                    registration.studentId,
+
+                email:
+                    registration.email
+
+            },
+
+            message:
+                "Registration successful."
+
         });
+
     }
 );
+
 
 /* =========================================================
    VERIFY STUDENT
@@ -596,51 +700,44 @@ app.post(
     "/api/verify-student",
     (req, res) => {
 
-        const phone =
-            normalizePhone(
-                req.body.phone
+        const studentId =
+            cleanString(
+                req.body.studentId,
+                100
             );
 
-        const email =
-            normalizeEmail(
-                req.body.email
-            );
-
-        if (!phone || !email) {
-
-            return res.status(400).json({
-                success: false,
-                verified: false,
-                message:
-                    "Phone number and email are required."
-            });
-        }
 
         const registrations =
             readJson(
                 REGISTRATIONS_FILE
             );
 
-        const person =
+
+        const student =
             registrations.find(
-                item =>
-                    normalizePhone(
-                        item.phone
-                    ) === phone &&
-                    normalizeEmail(
-                        item.email
-                    ) === email
+                person =>
+                    String(
+                        person.studentId
+                    ).toLowerCase() ===
+                    studentId.toLowerCase()
             );
 
-        if (!person) {
+
+        if (!student) {
 
             return res.status(404).json({
+
                 success: false,
+
                 verified: false,
+
                 message:
-                    "Student registration was not found."
+                    "Student ID not found."
+
             });
+
         }
+
 
         res.json({
 
@@ -648,26 +745,17 @@ app.post(
 
             verified: true,
 
-            student: {
+            student
 
-                name:
-                    person.name,
-
-                phone:
-                    person.phone,
-
-                email:
-                    person.email,
-
-                registrationId:
-                    person.registrationId
-            }
         });
+
     }
 );
 
+
 /* =========================================================
    PUBLIC QUESTIONS
+   ANSWERS ARE NEVER SENT
 ========================================================= */
 
 app.get(
@@ -679,9 +767,11 @@ app.get(
                 QUESTIONS_FILE
             );
 
+
         const safeQuestions =
             questions.map(
                 question => ({
+
                     id:
                         question.id,
 
@@ -693,15 +783,23 @@ app.get(
 
                     marks:
                         question.marks
+
                 })
             );
 
+
         res.json({
+
             success: true,
-            questions: safeQuestions
+
+            questions:
+                safeQuestions
+
         });
+
     }
 );
+
 
 /* =========================================================
    START EXAM
@@ -714,46 +812,53 @@ app.post(
         if (!isExamOpen()) {
 
             return res.status(403).json({
+
                 success: false,
+
                 message:
                     "The examination is not currently open."
+
             });
+
         }
 
-        const phone =
-            normalizePhone(
-                req.body.phone
+
+        const studentId =
+            cleanString(
+                req.body.studentId,
+                100
             );
 
-        const email =
-            normalizeEmail(
-                req.body.email
-            );
 
         const registrations =
             readJson(
                 REGISTRATIONS_FILE
             );
 
+
         const student =
             registrations.find(
                 item =>
-                    normalizePhone(
-                        item.phone
-                    ) === phone &&
-                    normalizeEmail(
-                        item.email
-                    ) === email
+                    String(
+                        item.studentId
+                    ).toLowerCase() ===
+                    studentId.toLowerCase()
             );
+
 
         if (!student) {
 
             return res.status(403).json({
+
                 success: false,
+
                 message:
-                    "Student registration was not found."
+                    "Student is not registered."
+
             });
+
         }
+
 
         for (
             const [
@@ -763,19 +868,26 @@ app.post(
         ) {
 
             if (
-                normalizePhone(
-                    existingSession.phone
-                ) === phone &&
+                existingSession.studentId
+                    .toLowerCase() ===
+                student.studentId
+                    .toLowerCase() &&
                 !existingSession.submitted
             ) {
 
                 return res.status(409).json({
+
                     success: false,
+
                     message:
                         "This student already has an active exam session."
+
                 });
+
             }
+
         }
+
 
         const sessionId =
             crypto.randomUUID();
@@ -796,6 +908,7 @@ app.post(
                 EXAM_END.getTime()
             );
 
+
         const session = {
 
             sessionId,
@@ -805,14 +918,11 @@ app.post(
             studentName:
                 student.name,
 
-            phone:
-                student.phone,
+            studentId:
+                student.studentId,
 
             email:
                 student.email,
-
-            registrationId:
-                student.registrationId,
 
             startedAt,
 
@@ -821,12 +931,15 @@ app.post(
             submitted: false,
 
             violations: []
+
         };
+
 
         sessions.set(
             sessionId,
             session
         );
+
 
         res.json({
 
@@ -840,14 +953,8 @@ app.post(
             studentName:
                 student.name,
 
-            phone:
-                student.phone,
-
-            email:
-                student.email,
-
-            registrationId:
-                student.registrationId,
+            studentId:
+                student.studentId,
 
             startedAt:
                 new Date(
@@ -861,12 +968,15 @@ app.post(
 
             durationMinutes:
                 EXAM_DURATION_MINUTES
+
         });
+
     }
 );
 
+
 /* =========================================================
-   PROCTORING EVENT
+   PROCTORING
 ========================================================= */
 
 app.post(
@@ -877,14 +987,20 @@ app.post(
         const session =
             req.examSession;
 
+
         if (session.submitted) {
 
             return res.status(400).json({
+
                 success: false,
+
                 message:
                     "Exam already submitted."
+
             });
+
         }
+
 
         const event = {
 
@@ -895,10 +1011,7 @@ app.post(
                 session.sessionId,
 
             studentId:
-                session.registrationId,
-
-            phone:
-                session.phone,
+                session.studentId,
 
             type:
                 cleanString(
@@ -914,30 +1027,41 @@ app.post(
 
             timestamp:
                 new Date().toISOString()
+
         };
+
 
         session.violations.push(
             event
         );
+
 
         const events =
             readJson(
                 EVENTS_FILE
             );
 
+
         events.push(event);
+
 
         writeJson(
             EVENTS_FILE,
             events
         );
 
+
         res.json({
+
             success: true,
+
             recorded: true
+
         });
+
     }
 );
+
 
 /* =========================================================
    SUBMIT EXAM
@@ -951,19 +1075,26 @@ app.post(
         const session =
             req.examSession;
 
+
         if (session.submitted) {
 
             return res.status(409).json({
+
                 success: false,
+
                 message:
                     "Exam already submitted."
+
             });
+
         }
+
 
         const questions =
             readJson(
                 QUESTIONS_FILE
             );
+
 
         let answers =
             Array.isArray(
@@ -972,15 +1103,14 @@ app.post(
                 ? req.body.answers
                 : [];
 
+
         answers =
             questions.map(
-                (
-                    question,
-                    index
-                ) => {
+                (question, index) => {
 
                     const answer =
                         answers[index];
+
 
                     if (
                         Number.isInteger(answer) &&
@@ -988,38 +1118,48 @@ app.post(
                         answer <
                         question.options.length
                     ) {
+
                         return answer;
+
                     }
 
+
                     return null;
+
                 }
             );
 
+
         let score = 0;
+
         let totalMarks = 0;
 
+
         questions.forEach(
-            (
-                question,
-                index
-            ) => {
+            (question, index) => {
 
                 const marks =
                     Number(
                         question.marks || 1
                     );
 
+
                 totalMarks += marks;
+
 
                 if (
                     answers[index] !== null &&
                     answers[index] ===
                     question.correctAnswer
                 ) {
+
                     score += marks;
+
                 }
+
             }
         );
+
 
         const percentage =
             totalMarks > 0
@@ -1032,10 +1172,17 @@ app.post(
                 )
                 : 0;
 
+
+        const round =
+            Number(req.body.round) === 2
+                ? 2
+                : 1;
+
+
         const qualifiesForRound2 =
-            ROUND_2_FULL_MARKS_REQUIRED
-                ? score === totalMarks
-                : false;
+            round === 1 &&
+            score === totalMarks;
+
 
         const submission = {
 
@@ -1048,14 +1195,11 @@ app.post(
             studentName:
                 session.studentName,
 
-            phone:
-                session.phone,
+            studentId:
+                session.studentId,
 
             email:
                 session.email,
-
-            registrationId:
-                session.registrationId,
 
             startedAt:
                 new Date(
@@ -1082,10 +1226,7 @@ app.post(
 
             qualifiesForRound2,
 
-            round:
-                Number(req.body.round) === 2
-                    ? 2
-                    : 1,
+            round,
 
             qualifiesFor250USD:
                 false,
@@ -1095,21 +1236,24 @@ app.post(
 
             securityEvents:
                 session.violations
+
         };
+
 
         const results =
             readJson(
                 RESULTS_FILE
             );
 
-        results.push(
-            submission
-        );
+
+        results.push(submission);
+
 
         writeJson(
             RESULTS_FILE,
             results
         );
+
 
         session.submitted = true;
 
@@ -1117,7 +1261,9 @@ app.post(
             session.sessionId
         );
 
+
         recalculateRanks();
+
 
         res.json({
 
@@ -1137,17 +1283,19 @@ app.post(
             qualifiesFor250USD:
                 false,
 
-            round:
-                submission.round,
+            round,
 
             submittedAt:
                 submission.submittedAt
+
         });
+
     }
 );
 
+
 /* =========================================================
-   RANKS
+   RANK CALCULATION
 ========================================================= */
 
 function recalculateRanks() {
@@ -1157,12 +1305,14 @@ function recalculateRanks() {
             RESULTS_FILE
         );
 
+
     const validResults =
         results.filter(
             result =>
                 typeof result.score ===
                 "number"
         );
+
 
     validResults.sort(
         (a, b) => {
@@ -1171,21 +1321,27 @@ function recalculateRanks() {
                 Number(b.score) !==
                 Number(a.score)
             ) {
+
                 return (
                     Number(b.score) -
                     Number(a.score)
                 );
+
             }
+
 
             if (
                 Number(b.percentage) !==
                 Number(a.percentage)
             ) {
+
                 return (
                     Number(b.percentage) -
                     Number(a.percentage)
                 );
+
             }
+
 
             return new Date(
                 a.submittedAt
@@ -1193,15 +1349,42 @@ function recalculateRanks() {
             new Date(
                 b.submittedAt
             );
+
         }
     );
 
+
+    const oldRanks =
+        readJson(
+            RANKS_FILE
+        );
+
+
+    const manualRanks =
+        new Map();
+
+
+    oldRanks.forEach(
+        item => {
+
+            if (
+                item.manual === true
+            ) {
+
+                manualRanks.set(
+                    item.submissionId,
+                    item.rank
+                );
+
+            }
+
+        }
+    );
+
+
     const ranks =
         validResults.map(
-            (
-                result,
-                index
-            ) => ({
+            (result, index) => ({
 
                 submissionId:
                     result.submissionId,
@@ -1209,11 +1392,8 @@ function recalculateRanks() {
                 studentName:
                     result.studentName,
 
-                phone:
-                    result.phone,
-
-                registrationId:
-                    result.registrationId,
+                studentId:
+                    result.studentId,
 
                 score:
                     result.score,
@@ -1231,23 +1411,36 @@ function recalculateRanks() {
                     result.round || 1,
 
                 rank:
-                    index + 1,
+                    manualRanks.has(
+                        result.submissionId
+                    )
+                        ? manualRanks.get(
+                            result.submissionId
+                        )
+                        : index + 1,
 
                 manual:
-                    false,
+                    manualRanks.has(
+                        result.submissionId
+                    ),
 
                 updatedAt:
                     new Date().toISOString()
+
             })
         );
+
 
     writeJson(
         RANKS_FILE,
         ranks
     );
 
+
     return ranks;
+
 }
+
 
 /* =========================================================
    ADMIN STATUS
@@ -1262,11 +1455,9 @@ app.get(
 
             success: true,
 
-            server:
-                "GMSC",
+            server: "GMSC",
 
-            status:
-                "online",
+            status: "online",
 
             registrationStart:
                 REGISTRATION_START.toISOString(),
@@ -1285,12 +1476,6 @@ app.get(
 
             examDurationMinutes:
                 EXAM_DURATION_MINUTES,
-
-            round2FullMarksRequired:
-                ROUND_2_FULL_MARKS_REQUIRED,
-
-            round2AwardUSD:
-                ROUND_2_AWARD_USD,
 
             registrationOpen:
                 isRegistrationOpen(),
@@ -1323,9 +1508,12 @@ app.get(
 
             timestamp:
                 new Date().toISOString()
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN RESULTS
@@ -1341,8 +1529,10 @@ app.get(
                 RESULTS_FILE
             );
 
+
         const ranks =
             recalculateRanks();
+
 
         const resultData =
             results.map(
@@ -1355,6 +1545,7 @@ app.get(
                                 result.submissionId
                         );
 
+
                     return {
 
                         submissionId:
@@ -1363,11 +1554,8 @@ app.get(
                         studentName:
                             result.studentName,
 
-                        phone:
-                            result.phone,
-
-                        registrationId:
-                            result.registrationId,
+                        studentId:
+                            result.studentId,
 
                         email:
                             result.email,
@@ -1404,19 +1592,28 @@ app.get(
 
                         violationCount:
                             result.violationCount
+
                     };
+
                 }
             );
 
+
         res.json({
+
             success: true,
-            results: resultData
+
+            results:
+                resultData
+
         });
+
     }
 );
 
+
 /* =========================================================
-   ADMIN REGISTRATIONS
+   ADMIN PARTICIPANTS
 ========================================================= */
 
 app.get(
@@ -1429,17 +1626,18 @@ app.get(
                 REGISTRATIONS_FILE
             );
 
+
         res.json({
 
             success: true,
 
-            count:
-                registrations.length,
-
             registrations
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN DETAILED RESULT
@@ -1455,6 +1653,7 @@ app.get(
                 RESULTS_FILE
             );
 
+
         const result =
             results.find(
                 item =>
@@ -1462,21 +1661,32 @@ app.get(
                     req.params.submissionId
             );
 
+
         if (!result) {
 
             return res.status(404).json({
+
                 success: false,
+
                 message:
                     "Submission not found."
+
             });
+
         }
 
+
         res.json({
+
             success: true,
+
             result
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN EVENTS
@@ -1495,9 +1705,12 @@ app.get(
                 readJson(
                     EVENTS_FILE
                 )
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN QUESTIONS
@@ -1516,9 +1729,16 @@ app.get(
                 readJson(
                     QUESTIONS_FILE
                 )
+
         });
+
     }
 );
+
+
+/* =========================================================
+   ADD QUESTION
+========================================================= */
 
 app.post(
     "/api/admin/questions",
@@ -1531,6 +1751,7 @@ app.post(
                 2000
             );
 
+
         const options =
             Array.isArray(
                 req.body.options
@@ -1544,15 +1765,18 @@ app.post(
                 )
                 : [];
 
+
         const correctAnswer =
             Number(
                 req.body.correctAnswer
             );
 
+
         const marks =
             Number(
                 req.body.marks
             );
+
 
         if (
             !questionText ||
@@ -1564,34 +1788,44 @@ app.post(
                 correctAnswer
             ) ||
             correctAnswer < 0 ||
-            correctAnswer >= options.length ||
+            correctAnswer >=
+                options.length ||
             !Number.isFinite(marks) ||
             marks <= 0
         ) {
 
             return res.status(400).json({
+
                 success: false,
+
                 message:
                     "Invalid question data."
+
             });
+
         }
+
 
         const questions =
             readJson(
                 QUESTIONS_FILE
             );
 
+
+        const newId =
+            questions.length > 0
+                ? Math.max(
+                    ...questions.map(
+                        q =>
+                            Number(q.id) || 0
+                    )
+                ) + 1
+                : 1;
+
+
         const newQuestion = {
 
-            id:
-                questions.length > 0
-                    ? Math.max(
-                        ...questions.map(
-                            q =>
-                                Number(q.id) || 0
-                        )
-                    ) + 1
-                    : 1,
+            id: newId,
 
             question:
                 questionText,
@@ -1601,18 +1835,22 @@ app.post(
             correctAnswer,
 
             marks
+
         };
+
 
         questions.push(
             newQuestion
         );
+
 
         writeJson(
             QUESTIONS_FILE,
             questions
         );
 
-        res.json({
+
+        res.status(201).json({
 
             success: true,
 
@@ -1621,45 +1859,63 @@ app.post(
 
             question:
                 newQuestion
+
         });
+
     }
 );
+
+
+/* =========================================================
+   EDIT QUESTION
+========================================================= */
 
 app.put(
     "/api/admin/questions/:id",
     requireAdmin,
     (req, res) => {
 
-        const questions =
-            readJson(
-                QUESTIONS_FILE
-            );
-
         const id =
             Number(
                 req.params.id
             );
 
+
+        const questions =
+            readJson(
+                QUESTIONS_FILE
+            );
+
+
         const index =
             questions.findIndex(
                 question =>
-                    Number(question.id) === id
+                    Number(
+                        question.id
+                    ) === id
             );
+
 
         if (index === -1) {
 
             return res.status(404).json({
+
                 success: false,
+
                 message:
                     "Question not found."
+
             });
+
         }
+
 
         const questionText =
             cleanString(
                 req.body.question,
                 2000
             );
+
 
         const options =
             Array.isArray(
@@ -1674,15 +1930,18 @@ app.put(
                 )
                 : [];
 
+
         const correctAnswer =
             Number(
                 req.body.correctAnswer
             );
 
+
         const marks =
             Number(
                 req.body.marks
             );
+
 
         if (
             !questionText ||
@@ -1694,15 +1953,23 @@ app.put(
                 correctAnswer
             ) ||
             correctAnswer < 0 ||
-            correctAnswer >= options.length
+            correctAnswer >=
+                options.length ||
+            !Number.isFinite(marks) ||
+            marks <= 0
         ) {
 
             return res.status(400).json({
+
                 success: false,
+
                 message:
                     "Invalid question data."
+
             });
+
         }
+
 
         questions[index] = {
 
@@ -1715,16 +1982,16 @@ app.put(
 
             correctAnswer,
 
-            marks:
-                Number.isFinite(marks) && marks > 0
-                    ? marks
-                    : 1
+            marks
+
         };
+
 
         writeJson(
             QUESTIONS_FILE,
             questions
         );
+
 
         res.json({
 
@@ -1735,30 +2002,42 @@ app.put(
 
             question:
                 questions[index]
+
         });
+
     }
 );
+
+
+/* =========================================================
+   REMOVE QUESTION
+========================================================= */
 
 app.delete(
     "/api/admin/questions/:id",
     requireAdmin,
     (req, res) => {
 
-        const questions =
-            readJson(
-                QUESTIONS_FILE
-            );
-
         const id =
             Number(
                 req.params.id
             );
 
+
+        const questions =
+            readJson(
+                QUESTIONS_FILE
+            );
+
+
         const filtered =
             questions.filter(
                 question =>
-                    Number(question.id) !== id
+                    Number(
+                        question.id
+                    ) !== id
             );
+
 
         if (
             filtered.length ===
@@ -1766,26 +2045,35 @@ app.delete(
         ) {
 
             return res.status(404).json({
+
                 success: false,
+
                 message:
                     "Question not found."
+
             });
+
         }
+
 
         writeJson(
             QUESTIONS_FILE,
             filtered
         );
 
+
         res.json({
 
             success: true,
 
             message:
-                "Question deleted successfully."
+                "Question removed successfully."
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN RANKS
@@ -1797,15 +2085,197 @@ app.get(
     (req, res) => {
 
         res.json({
+
             success: true,
+
             ranks:
                 recalculateRanks()
+
         });
+
     }
 );
 
+
 /* =========================================================
-   ADMIN ANSWER KEY
+   MANUAL RANK UPDATE
+========================================================= */
+
+app.put(
+    "/api/admin/ranks/:submissionId",
+    requireAdmin,
+    (req, res) => {
+
+        const submissionId =
+            cleanString(
+                req.params.submissionId,
+                200
+            );
+
+
+        const requestedRank =
+            Number(
+                req.body.rank
+            );
+
+
+        if (
+            !Number.isInteger(
+                requestedRank
+            ) ||
+            requestedRank < 1
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "Rank must be a positive integer."
+
+            });
+
+        }
+
+
+        let ranks =
+            recalculateRanks();
+
+
+        const item =
+            ranks.find(
+                rank =>
+                    rank.submissionId ===
+                    submissionId
+            );
+
+
+        if (!item) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Submission rank not found."
+
+            });
+
+        }
+
+
+        item.rank =
+            requestedRank;
+
+        item.manual =
+            true;
+
+        item.updatedAt =
+            new Date().toISOString();
+
+
+        writeJson(
+            RANKS_FILE,
+            ranks
+        );
+
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Rank updated successfully.",
+
+            rank:
+                item
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   RESET MANUAL RANK
+========================================================= */
+
+app.delete(
+    "/api/admin/ranks/:submissionId",
+    requireAdmin,
+    (req, res) => {
+
+        const submissionId =
+            cleanString(
+                req.params.submissionId,
+                200
+            );
+
+
+        let ranks =
+            readJson(
+                RANKS_FILE
+            );
+
+
+        const item =
+            ranks.find(
+                rank =>
+                    rank.submissionId ===
+                    submissionId
+            );
+
+
+        if (!item) {
+
+            return res.status(404).json({
+
+                success: false,
+
+                message:
+                    "Rank not found."
+
+            });
+
+        }
+
+
+        ranks =
+            ranks.filter(
+                rank =>
+                    rank.submissionId !==
+                    submissionId
+            );
+
+
+        writeJson(
+            RANKS_FILE,
+            ranks
+        );
+
+
+        const recalculated =
+            recalculateRanks();
+
+
+        res.json({
+
+            success: true,
+
+            message:
+                "Manual rank removed.",
+
+            ranks:
+                recalculated
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ANSWER KEY
 ========================================================= */
 
 app.get(
@@ -1817,6 +2287,7 @@ app.get(
             readJson(
                 QUESTIONS_FILE
             );
+
 
         res.json({
 
@@ -1834,14 +2305,18 @@ app.get(
 
                         marks:
                             question.marks
+
                     })
                 )
+
         });
+
     }
 );
 
+
 /* =========================================================
-   ADMIN EXAM INFO
+   ADMIN EXAM INFORMATION
 ========================================================= */
 
 app.get(
@@ -1860,6 +2335,7 @@ app.get(
 
                 end:
                     REGISTRATION_END.toISOString()
+
             },
 
             exam: {
@@ -1872,6 +2348,7 @@ app.get(
 
                 durationMinutes:
                     EXAM_DURATION_MINUTES
+
             },
 
             resultDate:
@@ -1884,10 +2361,14 @@ app.get(
 
                 fullMarksBothRoundsAwardUSD:
                     ROUND_2_AWARD_USD
+
             }
+
         });
+
     }
 );
+
 
 /* =========================================================
    ADMIN AWARDS
@@ -1903,82 +2384,108 @@ app.get(
                 RESULTS_FILE
             );
 
+
         const students =
             new Map();
+
 
         results.forEach(
             result => {
 
-                const key =
-                    result.registrationId ||
-                    result.phone;
-
-                if (!key) {
+                if (!result.studentId) {
                     return;
                 }
 
-                if (!students.has(key)) {
+
+                if (
+                    !students.has(
+                        result.studentId
+                    )
+                ) {
 
                     students.set(
-                        key,
+                        result.studentId,
                         {
 
-                            registrationId:
-                                result.registrationId,
+                            studentId:
+                                result.studentId,
 
                             studentName:
                                 result.studentName,
-
-                            phone:
-                                result.phone,
 
                             round1FullMarks:
                                 false,
 
                             round2FullMarks:
                                 false
+
                         }
                     );
+
                 }
 
+
                 const student =
-                    students.get(key);
+                    students.get(
+                        result.studentId
+                    );
+
 
                 if (
                     result.round === 1 &&
-                    result.score === result.totalMarks
+                    result.score ===
+                    result.totalMarks
                 ) {
-                    student.round1FullMarks = true;
+
+                    student.round1FullMarks =
+                        true;
+
                 }
+
 
                 if (
                     result.round === 2 &&
-                    result.score === result.totalMarks
+                    result.score ===
+                    result.totalMarks
                 ) {
-                    student.round2FullMarks = true;
+
+                    student.round2FullMarks =
+                        true;
+
                 }
+
             }
         );
+
 
         const awards =
             Array.from(
                 students.values()
             ).map(
-                student => ({
+                student => {
 
-                    ...student,
-
-                    qualifiesFor250USD:
+                    const qualified =
                         student.round1FullMarks &&
-                        student.round2FullMarks,
+                        student.round2FullMarks;
 
-                    awardUSD:
-                        student.round1FullMarks &&
-                        student.round2FullMarks
-                            ? ROUND_2_AWARD_USD
-                            : 0
-                })
+
+                    return {
+
+                        ...student,
+
+                        qualifiesFor250USD:
+                            qualified,
+
+                        awardUSD:
+                            qualified
+                                ? ROUND_2_AWARD_USD
+                                : 0
+
+                    };
+
+                }
             );
+
 
         res.json({
 
@@ -1988,12 +2495,15 @@ app.get(
                 ROUND_2_AWARD_USD,
 
             awards
+
         });
+
     }
 );
 
+
 /* =========================================================
-   ROOT ROUTES
+   PAGE ROUTES
 ========================================================= */
 
 app.get(
@@ -2006,8 +2516,10 @@ app.get(
                 "index.html"
             )
         );
+
     }
 );
+
 
 app.get(
     "/register",
@@ -2019,8 +2531,10 @@ app.get(
                 "register.html"
             )
         );
+
     }
 );
+
 
 app.get(
     "/admin",
@@ -2032,8 +2546,10 @@ app.get(
                 "admin.html"
             )
         );
+
     }
 );
+
 
 app.get(
     "/exam",
@@ -2045,8 +2561,10 @@ app.get(
                 "exam.html"
             )
         );
+
     }
 );
+
 
 /* =========================================================
    404
@@ -2060,42 +2578,50 @@ app.use(
         ) {
 
             return res.status(404).json({
+
                 success: false,
+
                 message:
                     "API endpoint not found."
+
             });
+
         }
+
 
         res.status(404).send(
             "GMSC page not found."
         );
+
     }
 );
+
 
 /* =========================================================
    ERROR HANDLER
 ========================================================= */
 
 app.use(
-    (
-        error,
-        req,
-        res,
-        next
-    ) => {
+    (error, req, res, next) => {
 
         console.error(
             "SERVER ERROR:",
             error
         );
 
+
         res.status(500).json({
+
             success: false,
+
             message:
                 "Internal server error."
+
         });
+
     }
 );
+
 
 /* =========================================================
    START SERVER
@@ -2106,10 +2632,22 @@ app.listen(
     () => {
 
         console.log("");
-        console.log("======================================");
-        console.log("          GMSC SERVER ONLINE");
-        console.log("======================================");
-        console.log(`Port: ${PORT}`);
+
+        console.log(
+            "======================================"
+        );
+
+        console.log(
+            "          GMSC SERVER ONLINE"
+        );
+
+        console.log(
+            "======================================"
+        );
+
+        console.log(
+            `Port: ${PORT}`
+        );
 
         console.log(
             `Questions: ${
@@ -2124,7 +2662,7 @@ app.listen(
         );
 
         console.log(
-            "Exam: 1 Sep 2026 - 11:59:59 PM"
+            "Exam: 1 Sep 2026"
         );
 
         console.log(
@@ -2136,18 +2674,31 @@ app.listen(
         );
 
         console.log(
-            "Registration system: PHONE + EMAIL"
+            "Registration storage: ENABLED"
         );
 
         console.log(
-            "Admin registration monitoring: ENABLED"
+            "Admin participants: ENABLED"
+        );
+
+        console.log(
+            "Question add/edit/remove: ENABLED"
+        );
+
+        console.log(
+            "Question marks: ENABLED"
+        );
+
+        console.log(
+            "Rank management: ENABLED"
         );
 
         console.log(
             "======================================"
         );
+
         console.log("");
+
     }
 );
-
 
