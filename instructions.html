@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GMSC | Examination Instructions</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f4f7fb;
+    color:#172033;
+}
+
+header{
+    background:#07152f;
+    color:white;
+    padding:18px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.portal{
+    color:#b8c4d8;
+    font-size:14px;
+}
+
+.container{
+    max-width:900px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:40px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+}
+
+.title{
+    text-align:center;
+    margin-bottom:35px;
+}
+
+.title h1{
+    font-size:34px;
+    margin-bottom:10px;
+}
+
+.title p{
+    color:#667085;
+}
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.info-box{
+    background:#f4f7fb;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+}
+
+.info-box strong{
+    display:block;
+    font-size:20px;
+    margin-top:7px;
+    color:#104f8a;
+}
+
+.rules{
+    margin-bottom:30px;
+}
+
+.rules h2{
+    margin-bottom:18px;
+}
+
+.rules li{
+    margin:13px 0;
+    line-height:1.6;
+}
+
+.security{
+    background:#eef8ff;
+    border-left:5px solid #28c7e8;
+    padding:18px;
+    border-radius:8px;
+    margin-bottom:25px;
+    line-height:1.6;
+}
+
+/* DEVICE CHECK */
+
+.device-check{
+    background:#f8fafc;
+    border:1px solid #d0d5dd;
+    border-radius:12px;
+    padding:22px;
+    margin-bottom:25px;
+}
+
+.device-check h2{
+    margin-bottom:10px;
+}
+
+.status{
+    margin:15px 0;
+    padding:12px;
+    border-radius:8px;
+    background:#fff3cd;
+    color:#664d03;
+}
+
+.check-btn{
+    padding:13px 20px;
+    border:none;
+    border-radius:8px;
+    background:#104f8a;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.check-btn:hover{
+    background:#07152f;
+}
+
+.checkbox{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    margin-bottom:25px;
+    line-height:1.5;
+}
+
+.checkbox input{
+    margin-top:4px;
+    width:18px;
+    height:18px;
+}
+
+.start-btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:9px;
+    background:#07152f;
+    color:white;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.start-btn:disabled{
+    background:#aab2bf;
+    cursor:not-allowed;
+}
+
+.start-btn:not(:disabled):hover{
+    background:#104f8a;
+}
+
+.back{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    color:#104f8a;
+    text-decoration:none;
+}
+
+@media(max-width:700px){
+
+    .info{
+        grid-template-columns:1fr;
+    }
+
+    .card{
+        padding:25px;
+    }
+
+    .title h1{
+        font-size:28px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GMSC
+    </div>
+
+    <div class="portal">
+        Student Examination Portal
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <div class="title">
+
+            <h1>
+                Examination Instructions
+            </h1>
+
+            <p>
+                Complete all requirements before beginning the examination.
+            </p>
+
+        </div>
+
+
+        <div class="info">
+
+            <div class="info-box">
+                Duration
+                <strong>30 Minutes</strong>
+            </div>
+
+            <div class="info-box">
+                Questions
+                <strong>10</strong>
+            </div>
+
+            <div class="info-box">
+                Mode
+                <strong>Proctored</strong>
+            </div>
+
+        </div>
+
+
+        <div class="rules">
+
+            <h2>Important Instructions</h2>
+
+            <ul>
+
+                <li>
+                    Read every question carefully before selecting an answer.
+                </li>
+
+                <li>
+                    The examination has a fixed time limit.
+                </li>
+
+                <li>
+                    Do not use unauthorized assistance during the examination.
+                </li>
+
+                <li>
+                    Do not intentionally leave the examination page.
+                </li>
+
+                <li>
+                    Submit the examination when you have completed all questions.
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="security">
+
+            <strong>🛡 Proctored Examination</strong>
+
+            <br><br>
+
+            Camera and microphone access are required
+            before the examination can begin.
+
+        </div>
+
+
+        <!-- CAMERA AND MICROPHONE CHECK --> <!-- FULLSCREEN AND SCREEN SHARE CHECK -->
+
+<div class="device-check">
+
+    <h2>🖥️ Fullscreen & 📺 Screen Share</h2>
+
+    <p>
+        Fullscreen mode and screen sharing are required
+        before the examination can begin.
+    </p>
+
+    <div class="status" id="screenStatus">
+        ⚠️ Fullscreen and screen sharing have not been checked.
+    </div>
+
+    <button
+        class="check-btn"
+        onclick="checkScreenRequirements()">
+
+        Check Fullscreen & Screen Share
+
+    </button>
+
+</div>
+
+        <div class="device-check">
+
+            <h2>🎥 Camera & 🎤 Microphone Check</h2>
+
+            <p>
+                Click the button below and allow access to both
+                your camera and microphone.
+            </p>
+
+            <div class="status" id="deviceStatus">
+                ⚠️ Camera and microphone have not been checked.
+            </div>
+
+            <button
+                class="check-btn"
+                onclick="checkDevices()">
+
+                Check Camera & Microphone
+
+            </button>
+
+        </div>
+
+
+        <!-- AGREEMENT -->
+
+        <label class="checkbox">
+
+            <input type="checkbox" id="agree">
+
+            <span>
+                I have read and understood the examination instructions
+                and agree to follow the official GMSC examination rules.
+            </span>
+
+        </label>
+
+
+        <button
+            class="start-btn"
+            id="startButton"
+            disabled
+            onclick="beginExam()">
+
+            Begin Examination
+
+        </button>
+
+
+        <a href="dashboard.html" class="back">
+            ← Back to Student Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let devicesApproved = false;
+let devicesApproved = false;
+
+const agree = document.getElementById("agree");
+
+const startButton = document.getElementById("startButton");
+
+const deviceStatus = document.getElementById("deviceStatus");
+
+function updateStartButton(){
+
+    if(
+        devicesApproved &&
+        screenApproved &&
+        agree.checked
+    ){
+
+        startButton.disabled = false;
+
+    }else{
+
+        startButton.disabled = true;
+
+    }
+
+}
+
+
+agree.addEventListener("change", updateStartButton);
+
+
+async function checkDevices(){
+
+    deviceStatus.textContent =
+        "⏳ Requesting camera and microphone permission...";
+
+    try{
+
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video:true,
+            audio:true
+        });
+
+        devicesApproved = true;
+
+        deviceStatus.textContent =
+            "✅ Camera and microphone permission granted. You can continue.";
+
+        deviceStatus.style.background = "#d1fae5";
+        deviceStatus.style.color = "#065f46";
+
+        updateStartButton();
+
+        /*
+        Keep the permission active for now.
+        The exam page will request/access the devices again
+        when the actual proctoring system is implemented.
+        */
+
+        stream.getTracks().forEach(track => track.stop());
+
+    }catch(error){
+
+        devicesApproved = false;
+
+        deviceStatus.textContent =
+            "❌ Camera and microphone permission is required. Please allow both and try again.";
+
+        deviceStatus.style.background = "#fee2e2";
+        deviceStatus.style.color = "#991b1b";
+
+        updateStartButton();
+
+    }
+
+}
+async function checkScreenRequirements(){
+
+    const screenStatus =
+        document.getElementById("screenStatus");
+
+    try{
+
+        /*
+         * Request screen sharing.
+         * The browser will show its own
+         * screen-selection window.
+         */
+
+        const screenStream =
+            await navigator.mediaDevices.getDisplayMedia({
+                video:true,
+                audio:false
+            });
+
+
+        /*
+         * Enter fullscreen.
+         */
+
+        await document.documentElement.requestFullscreen();
+
+
+        screenApproved = true;
+
+        screenStatus.textContent =
+            "✅ Screen sharing and fullscreen are ready.";
+
+        screenStatus.style.background = "#d1fae5";
+        screenStatus.style.color = "#065f46";
+
+        updateStartButton();
+
+
+        /*
+         * If the student stops screen sharing,
+         * they must not be allowed to continue.
+         */
+
+        const videoTrack =
+            screenStream.getVideoTracks()[0];
+
+        if(videoTrack){
+
+            videoTrack.addEventListener(
+                "ended",
+                function(){
+
+                    screenApproved = false;
+
+                    screenStatus.textContent =
+                        "❌ Screen sharing was stopped.";
+
+                    screenStatus.style.background =
+                        "#fee2e2";
+
+                    screenStatus.style.color =
+                        "#991b1b";
+
+                    updateStartButton();
+
+                }
+            );
+
+        }
+
+    }catch(error){
+
+        screenApproved = false;
+
+        screenStatus.textContent =
+            "❌ Fullscreen and screen sharing are required.";
+
+        screenStatus.style.background =
+            "#fee2e2";
+
+        screenStatus.style.color =
+            "#991b1b";
+
+        updateStartButton();
+
+    }
+
+}
+
+function beginExam(){
+
+    if(!devicesApproved){
+
+        alert("Camera and microphone permission is required.");
+
+        return;
+
+    }
+
+    if(!agree.checked){
+
+        alert("Please accept the examination instructions.");
+
+        return;
+
+    }
+
+    window.location.href = "exam.html";
+
+}
+
+</script>
+
+</body>
+</html>

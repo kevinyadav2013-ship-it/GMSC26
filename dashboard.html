@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GMSC | Student Dashboard</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+/* HEADER */
+
+header{
+    background:#07152f;
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.logout{
+    color:white;
+    text-decoration:none;
+    border:1px solid rgba(255,255,255,0.4);
+    padding:9px 16px;
+    border-radius:7px;
+}
+
+.logout:hover{
+    background:white;
+    color:#07152f;
+}
+
+/* CONTAINER */
+
+.container{
+    max-width:1150px;
+    margin:40px auto;
+    padding:0 20px;
+}
+
+/* WELCOME */
+
+.welcome{
+    background:linear-gradient(135deg,#07152f,#104f8a);
+    color:white;
+    padding:35px;
+    border-radius:18px;
+    margin-bottom:30px;
+}
+
+.welcome h1{
+    margin-bottom:10px;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 6px 25px rgba(0,0,0,0.07);
+}
+
+.card-icon{
+    font-size:35px;
+    margin-bottom:15px;
+}
+
+.card h2{
+    margin-bottom:12px;
+}
+
+.card p{
+    color:#667085;
+    line-height:1.6;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+
+.btn{
+    display:inline-block;
+    background:#07152f;
+    color:white;
+    text-decoration:none;
+    padding:13px 20px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#104f8a;
+}
+
+/* NOTICE */
+
+.notice{
+    margin-top:30px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 6px 25px rgba(0,0,0,0.07);
+}
+
+.notice h2{
+    margin-bottom:15px;
+}
+
+.notice li{
+    margin:10px 0;
+    line-height:1.5;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    header{
+        padding:15px 20px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        GMSC
+    </div>
+
+    <a href="index.html" class="logout">
+        Logout
+    </a>
+
+</header>
+
+
+<div class="container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <h1>
+            Welcome to GMSC Student Portal 👋
+        </h1>
+
+        <p>
+            Your examination and competition information
+            will appear here.
+        </p>
+
+    </section>
+
+
+    <!-- CARDS -->
+
+    <div class="grid">
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📝
+            </div>
+
+            <h2>
+                GMSC Examination
+            </h2>
+
+            <p>
+                Take your scheduled mathematics and science
+                examination through the official GMSC examination system.
+            </p>
+
+            <a href="exam.html" class="btn">
+                Enter Examination
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                📊
+            </div>
+
+            <h2>
+                My Results
+            </h2>
+
+            <p>
+                Your examination results and performance
+                information will appear here after the test.
+            </p>
+
+            <a href="#" class="btn">
+                View Results
+            </a>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-icon">
+                🏆
+            </div>
+
+            <h2>
+                Competition
+            </h2>
+
+            <p>
+                View information about GMSC competitions,
+                examination rules and important announcements.
+            </p>
+
+            <a href="index.html#competition" class="btn">
+                View Competition
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- IMPORTANT NOTICE -->
+
+    <section class="notice">
+
+        <h2>
+            Important Instructions
+        </h2>
+
+        <ul>
+
+            <li>
+                Make sure you have a stable internet connection
+                before starting the examination.
+            </li>
+
+            <li>
+                Read all examination instructions carefully.
+            </li>
+
+            <li>
+                Do not use unauthorized assistance during the test.
+            </li>
+
+            <li>
+                Camera and microphone permissions may be required
+                for proctored examinations.
+            </li>
+
+            <li>
+                Once the examination begins, follow all
+                instructions displayed on the examination screen.
+            </li>
+
+        </ul>
+
+    </section>
+
+
+</div>
+
+</body>
+</html>

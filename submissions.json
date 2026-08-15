@@ -1,0 +1,220 @@
+[
+  {
+    "submissionId": "GMSC-1786794064404",
+    "submittedAt": "2026-08-15T11:41:04.404Z",
+    "reason": "manual",
+    "score": 2,
+    "totalMarks": 10,
+    "percentage": 20,
+    "questionResults": [
+      {
+        "questionId": 1,
+        "submittedAnswer": 0,
+        "correct": true,
+        "marks": 1
+      },
+      {
+        "questionId": 2,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 3,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 4,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 5,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 6,
+        "submittedAnswer": null,
+        "correct": true,
+        "marks": 1
+      },
+      {
+        "questionId": 7,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 8,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 9,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      },
+      {
+        "questionId": 10,
+        "submittedAnswer": null,
+        "correct": false,
+        "marks": 0
+      }
+    ]
+  },
+  {
+    "submissionId": "GMSC-1786796515520-77B15CEF",
+    "sessionId": "83168d29-283c-4338-92c2-bc9a258957fa",
+    "studentName": "SHASHI",
+    "studentId": "GG",
+    "email": "kevinyadav2013@gmail.com",
+    "submittedAt": "2026-08-15T12:21:55.520Z",
+    "reason": "manual",
+    "score": 2,
+    "totalMarks": 10,
+    "percentage": 20,
+    "questionResults": [
+      {
+        "questionId": 1,
+        "submittedAnswer": 1,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 2,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 3,
+        "submittedAnswer": 1,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 4,
+        "submittedAnswer": 2,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 5,
+        "submittedAnswer": 2,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 6,
+        "submittedAnswer": 2,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 7,
+        "submittedAnswer": 3,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 8,
+        "submittedAnswer": 2,
+        "correct": true,
+        "marksAwarded": 1
+      },
+      {
+        "questionId": 9,
+        "submittedAnswer": 1,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 10,
+        "submittedAnswer": 2,
+        "correct": true,
+        "marksAwarded": 1
+      }
+    ]
+  },
+  {
+    "submissionId": "GMSC-1786798041591-A9BAACC5",
+    "sessionId": "0007b0b0-42fa-4536-8997-7c88f59c45fa",
+    "studentName": "VX",
+    "studentId": "DE",
+    "email": "kevinyadav2013@gmail.com",
+    "submittedAt": "2026-08-15T12:47:21.591Z",
+    "reason": "manual",
+    "score": 1,
+    "totalMarks": 10,
+    "percentage": 10,
+    "questionResults": [
+      {
+        "questionId": 1,
+        "submittedAnswer": 1,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 2,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 3,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 4,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 5,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 6,
+        "submittedAnswer": 0,
+        "correct": true,
+        "marksAwarded": 1
+      },
+      {
+        "questionId": 7,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 8,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 9,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      },
+      {
+        "questionId": 10,
+        "submittedAnswer": 0,
+        "correct": false,
+        "marksAwarded": 0
+      }
+    ]
+  }
+]

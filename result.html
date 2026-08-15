@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>GMSC | Examination Submitted</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:#f4f7fb;
+    color:#172033;
+}
+
+
+/* ================= HEADER ================= */
+
+header{
+    background:#07152f;
+    color:white;
+    padding:18px 7%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.portal{
+    color:#b8c4d8;
+    font-size:14px;
+}
+
+
+/* ================= CONTAINER ================= */
+
+.container{
+    max-width:750px;
+    margin:70px auto;
+    padding:20px;
+}
+
+
+/* ================= CARD ================= */
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:45px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+    text-align:center;
+}
+
+
+/* ================= ICON ================= */
+
+.success-icon{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:#d1fae5;
+    color:#065f46;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 25px;
+    font-size:40px;
+    font-weight:bold;
+}
+
+
+/* ================= TITLE ================= */
+
+h1{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#667085;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+
+/* ================= STATUS ================= */
+
+.status-box{
+    background:#eef8ff;
+    border-left:5px solid #28c7e8;
+    border-radius:10px;
+    padding:20px;
+    text-align:left;
+    line-height:1.7;
+    margin-bottom:25px;
+}
+
+.status-box strong{
+    color:#104f8a;
+}
+
+
+/* ================= NOTICE ================= */
+
+.notice{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#9a3412;
+    border-radius:10px;
+    padding:20px;
+    text-align:left;
+    line-height:1.7;
+    margin-bottom:30px;
+}
+
+
+/* ================= EXAM INFO ================= */
+
+.info{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-bottom:30px;
+}
+
+.info-box{
+    background:#f8fafc;
+    padding:18px;
+    border-radius:10px;
+    text-align:left;
+}
+
+.info-box span{
+    display:block;
+    color:#667085;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.info-box strong{
+    font-size:16px;
+}
+
+
+/* ================= BUTTON ================= */
+
+.button{
+    display:block;
+    width:100%;
+    padding:15px;
+    border-radius:9px;
+    background:#07152f;
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.button:hover{
+    background:#104f8a;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    .card{
+        padding:28px 20px;
+    }
+
+    h1{
+        font-size:27px;
+    }
+
+    .info{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        GMSC
+    </div>
+
+    <div class="portal">
+        Examination Portal
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <div class="card">
+
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+
+        <!-- TITLE -->
+
+        <h1>
+            Examination Submitted
+        </h1>
+
+
+        <p class="subtitle">
+
+            Your examination responses have been
+            successfully recorded.
+
+        </p>
+
+
+        <!-- STATUS -->
+
+        <div class="status-box">
+
+            <strong>
+                Examination Status
+            </strong>
+
+            <br><br>
+
+            Your responses have been securely
+            recorded for evaluation.
+
+            <br>
+
+            The examination has now ended.
+
+        </div>
+
+
+        <!-- IMPORTANT NOTICE -->
+
+        <div class="notice">
+
+            <strong>
+                Results are not displayed here.
+            </strong>
+
+            <br><br>
+
+            Your marks will be evaluated by the
+            GMSC examination system and will be
+            available only to the authorized
+            examination administrators.
+
+        </div>
+
+
+        <!-- EXAM INFORMATION -->
+
+        <div class="info">
+
+
+            <div class="info-box">
+
+                <span>
+                    Examination
+                </span>
+
+                <strong>
+                    GMSC Examination
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Submission Time
+                </span>
+
+                <strong id="submissionTime">
+                    --
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Result
+                </span>
+
+                <strong>
+                    Under Evaluation
+                </strong>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>
+                    Score
+                </span>
+
+                <strong>
+                    Not Displayed
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- RETURN -->
+
+        <a
+            href="dashboard.html"
+            class="button">
+
+            Return to Dashboard
+
+        </a>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+==================================================
+SUBMISSION TIME
+==================================================
+*/
+
+const submissionTime =
+    new Date().toLocaleString();
+
+
+document.getElementById(
+    "submissionTime"
+).textContent =
+    submissionTime;
+
+
+/*
+==================================================
+IMPORTANT
+
+This page intentionally contains:
+
+- NO answer key
+- NO score
+- NO correct answers
+- NO marking logic
+
+The actual marking system should run on a
+secure server, not inside this student-facing page.
+==================================================
+*/
+
+</script>
+
+
+</body>
+
+</html>

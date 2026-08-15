@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>GMSC | Admin Results</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#172033;
+}
+
+
+/* ================= HEADER ================= */
+
+header{
+    background:#07152f;
+    color:white;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.admin-label{
+    color:#b8c4d8;
+    font-size:14px;
+}
+
+
+/* ================= CONTAINER ================= */
+
+.container{
+    max-width:1200px;
+    margin:40px auto;
+    padding:20px;
+}
+
+
+/* ================= TITLE ================= */
+
+.title{
+    margin-bottom:25px;
+}
+
+.title h1{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.title p{
+    color:#667085;
+}
+
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    padding:22px;
+    border-radius:12px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+}
+
+.stat span{
+    display:block;
+    color:#667085;
+    font-size:13px;
+    margin-bottom:8px;
+}
+
+.stat strong{
+    font-size:25px;
+    color:#104f8a;
+}
+
+
+/* ================= TABLE ================= */
+
+.table-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,0.06);
+
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#07152f;
+    color:white;
+    padding:14px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #eaecf0;
+}
+
+tr:hover{
+    background:#f8fafc;
+}
+
+
+/* ================= STATUS ================= */
+
+.status{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.submitted{
+    background:#d1fae5;
+    color:#065f46;
+}
+
+.auto{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:45px;
+    color:#667085;
+}
+
+
+/* ================= SECURITY ================= */
+
+.security{
+    margin-top:25px;
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    padding:18px;
+    border-radius:10px;
+    color:#9a3412;
+    line-height:1.7;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media(max-width:800px){
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:500px){
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo">
+        GMSC
+    </div>
+
+    <div class="admin-label">
+        Administrator Results Panel
+    </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+
+    <div class="title">
+
+        <h1>
+            Examination Results
+        </h1>
+
+        <p>
+            Private administrator dashboard
+        </p>
+
+    </div>
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <span>
+                Total Submissions
+            </span>
+
+            <strong id="totalSubmissions">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Evaluated
+            </span>
+
+            <strong id="evaluated">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Pending
+            </span>
+
+            <strong id="pending">
+                0
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <span>
+                Auto Submitted
+            </span>
+
+            <strong id="autoSubmitted">
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RESULTS TABLE ================= -->
+
+    <div class="table-card">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Participant
+                    </th>
+
+                    <th>
+                        Exam
+                    </th>
+
+                    <th>
+                        Marks
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Submission Time
+                    </th>
+
+                    <th>
+                        Submission Type
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody id="resultsTable">
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty">
+
+                        No examination submissions
+                        are available yet.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <!-- ================= SECURITY NOTICE ================= -->
+
+    <div class="security">
+
+        <strong>
+            🔐 Administrator Security
+        </strong>
+
+        <br><br>
+
+        This page is intended only for authorized
+        GMSC examination administrators.
+
+        <br>
+
+        The actual results and answer keys should
+        be stored on a secure server and should
+        not be placed inside the student's HTML.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/*
+==================================================
+TEMPORARY ADMIN DASHBOARD
+==================================================
+
+The table is intentionally empty.
+
+Later, the server will provide:
+
+• Participant
+• Examination
+• Marks
+• Status
+• Submission time
+• Submission type
+
+The answer key will remain server-side.
+==================================================
+*/
+
+</script>
+
+
+</body>
+
+</html>
