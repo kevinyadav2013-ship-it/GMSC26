@@ -20,14 +20,14 @@
 }
 
 body{
-    background:#f5f7fb;
+    background:#f4f7fb;
     color:#172033;
 }
 
 header{
     background:#07152f;
     color:white;
-    padding:20px 7%;
+    padding:18px 6%;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -39,46 +39,45 @@ header{
 .logo{
     font-size:28px;
     font-weight:800;
-    letter-spacing:1px;
 }
 
 .nav{
     display:flex;
-    gap:25px;
+    gap:22px;
+    align-items:center;
 }
 
 .nav a{
     color:white;
     text-decoration:none;
-    font-weight:600;
+    font-weight:bold;
 }
 
 .hero{
     background:linear-gradient(
         135deg,
         #07152f,
-        #12356d
+        #123b78
     );
-
     color:white;
     text-align:center;
     padding:90px 20px;
 }
 
 .hero h1{
-    font-size:52px;
+    font-size:48px;
     margin-bottom:18px;
 }
 
 .hero p{
-    max-width:800px;
+    max-width:850px;
     margin:auto;
-    font-size:20px;
+    font-size:19px;
     line-height:1.6;
-    color:#dce6f7;
+    color:#dbe5f5;
 }
 
-.hero-buttons{
+.buttons{
     margin-top:30px;
     display:flex;
     justify-content:center;
@@ -87,21 +86,34 @@ header{
 }
 
 .btn{
-    display:inline-block;
-    padding:14px 25px;
+    border:none;
     border-radius:9px;
-    text-decoration:none;
+    padding:14px 24px;
     font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    text-decoration:none;
+    display:inline-block;
 }
 
-.primary{
+.register{
     background:white;
     color:#07152f;
 }
 
-.secondary{
-    border:1px solid white;
+.login-btn{
+    background:#1d5fd1;
     color:white;
+}
+
+.test-btn{
+    background:#16a34a;
+    color:white;
+}
+
+.test-btn:disabled{
+    background:#98a2b3;
+    cursor:not-allowed;
 }
 
 .container{
@@ -112,7 +124,7 @@ header{
 
 .section-title{
     text-align:center;
-    margin-bottom:40px;
+    margin-bottom:35px;
 }
 
 .section-title h2{
@@ -131,93 +143,131 @@ header{
     gap:20px;
 }
 
-.schedule-card{
+.card{
     background:white;
     border-radius:15px;
     padding:25px;
     box-shadow:
         0 5px 25px
-        rgba(0,0,0,0.08);
-    border-top:5px solid #07152f;
+        rgba(0,0,0,.08);
 }
 
-.schedule-card h3{
-    font-size:18px;
+.card h3{
     margin-bottom:12px;
 }
 
 .date{
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
-    color:#07152f;
     margin-bottom:8px;
 }
 
-.schedule-card p{
+.card p{
     color:#667085;
     line-height:1.5;
 }
 
-.exam-info{
-    margin-top:20px;
+.exam-window{
+    margin-top:25px;
     background:#07152f;
     color:white;
-    border-radius:15px;
     padding:30px;
+    border-radius:15px;
     text-align:center;
 }
 
-.exam-info h3{
-    font-size:25px;
+.exam-window h3{
+    font-size:24px;
     margin-bottom:10px;
 }
 
-.exam-time{
-    font-size:22px;
-    font-weight:bold;
+.exam-window strong{
+    font-size:21px;
 }
 
-.rules{
-    display:grid;
-    grid-template-columns:
-        repeat(2,1fr);
-    gap:25px;
-}
-
-.rule-card{
+.panel{
+    max-width:650px;
+    margin:0 auto;
     background:white;
+    border-radius:16px;
     padding:30px;
-    border-radius:15px;
     box-shadow:
         0 5px 25px
-        rgba(0,0,0,0.07);
+        rgba(0,0,0,.08);
 }
 
-.rule-card h3{
-    margin-bottom:12px;
+.panel h2{
+    margin-bottom:10px;
 }
 
-.rule-card p{
+.panel-description{
     color:#667085;
-    line-height:1.6;
+    margin-bottom:20px;
+    line-height:1.5;
 }
 
-.round-box{
-    background:white;
-    border-radius:18px;
-    padding:40px;
-    box-shadow:
-        0 5px 25px
-        rgba(0,0,0,0.08);
-    text-align:center;
+input{
+    width:100%;
+    padding:13px;
+    border:1px solid #d0d5dd;
+    border-radius:8px;
+    margin-bottom:12px;
+    font-size:15px;
+}
+
+.full{
+    width:100%;
+}
+
+.message{
+    display:none;
+    margin-top:15px;
+    padding:13px;
+    border-radius:8px;
+    line-height:1.5;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.warning{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+#testArea{
+    display:none;
+    margin-top:25px;
+    padding-top:25px;
+    border-top:1px solid #e4e7ec;
+}
+
+#testStatus{
+    margin-bottom:15px;
+    color:#667085;
+    line-height:1.5;
+}
+
+.rounds{
+    max-width:850px;
+    margin:auto;
 }
 
 .round{
-    margin:20px auto;
-    max-width:750px;
-    padding:25px;
-    border-radius:12px;
-    background:#f5f7fb;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,.07);
 }
 
 .round h3{
@@ -226,15 +276,6 @@ header{
 
 .round p{
     color:#667085;
-    line-height:1.6;
-}
-
-.notice{
-    margin-top:25px;
-    padding:20px;
-    border-radius:10px;
-    background:#eef4ff;
-    color:#173a72;
     line-height:1.6;
 }
 
@@ -267,19 +308,15 @@ footer p{
     }
 
     .nav{
-        gap:15px;
+        flex-wrap:wrap;
+        justify-content:center;
     }
 
     .hero h1{
-        font-size:38px;
+        font-size:36px;
     }
 
-    .hero p{
-        font-size:17px;
-    }
-
-    .schedule,
-    .rules{
+    .schedule{
         grid-template-columns:1fr;
     }
 
@@ -308,12 +345,12 @@ footer p{
             Schedule
         </a>
 
-        <a href="#rounds">
-            Rounds
+        <a href="#login">
+            Login
         </a>
 
-        <a href="exam.html">
-            Examination
+        <a href="#rounds">
+            Rounds
         </a>
 
     </nav>
@@ -332,28 +369,29 @@ footer p{
     </h1>
 
     <p>
-        A challenging academic competition designed
-        to test mathematical reasoning, scientific
-        understanding and problem-solving ability.
+        A competitive examination designed to
+        challenge mathematical reasoning,
+        scientific knowledge and advanced
+        problem-solving skills.
     </p>
 
 
-    <div class="hero-buttons">
+    <div class="buttons">
 
         <a
-            href="exam.html"
-            class="btn primary">
+            href="#registration"
+            class="btn register">
 
-            Enter Examination
+            📝 Registration
 
         </a>
 
 
         <a
-            href="#schedule"
-            class="btn secondary">
+            href="#login"
+            class="btn login-btn">
 
-            View Schedule
+            🔐 Participant Login
 
         </a>
 
@@ -375,7 +413,7 @@ footer p{
         </h2>
 
         <p>
-            Important competition dates
+            Important dates
         </p>
 
     </div>
@@ -384,10 +422,10 @@ footer p{
     <div class="schedule">
 
 
-        <div class="schedule-card">
+        <div class="card">
 
             <h3>
-                Registration Opens
+                Registration Starts
             </h3>
 
             <div class="date">
@@ -395,13 +433,13 @@ footer p{
             </div>
 
             <p>
-                Registration begins for GMSC 2026.
+                Registration opens.
             </p>
 
         </div>
 
 
-        <div class="schedule-card">
+        <div class="card">
 
             <h3>
                 Registration Deadline
@@ -412,16 +450,16 @@ footer p{
             </div>
 
             <p>
-                Last date to complete registration.
+                Final date for registration.
             </p>
 
         </div>
 
 
-        <div class="schedule-card">
+        <div class="card">
 
             <h3>
-                Examination
+                Round 1 Examination
             </h3>
 
             <div class="date">
@@ -429,13 +467,13 @@ footer p{
             </div>
 
             <p>
-                GMSC Round 1 examination day.
+                GMSC Round 1 examination.
             </p>
 
         </div>
 
 
-        <div class="schedule-card">
+        <div class="card">
 
             <h3>
                 Results
@@ -446,7 +484,7 @@ footer p{
             </div>
 
             <p>
-                Round 1 results will be announced.
+                Round 1 results announcement.
             </p>
 
         </div>
@@ -454,19 +492,163 @@ footer p{
     </div>
 
 
-    <div class="exam-info">
+    <div class="exam-window">
 
         <h3>
             Examination Window
         </h3>
 
-        <div class="exam-time">
-            12:00 AM – 11:59:59 PM
+        <strong>
+            1 October 2026 —
+            12:00 AM to 11:59:59 PM
+        </strong>
+
+    </div>
+
+</section>
+
+
+<!-- REGISTRATION -->
+
+<section
+    class="container"
+    id="registration">
+
+    <div class="section-title">
+
+        <h2>
+            Registration
+        </h2>
+
+        <p>
+            Registration is handled through
+            the official GMSC registration system.
+        </p>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h2>
+            GMSC Registration
+        </h2>
+
+        <p class="panel-description">
+
+            Registration period:
+            <strong>
+                1 August 2026 –
+                1 September 2026
+            </strong>
+
+        </p>
+
+
+        <a
+            href="register.html"
+            class="btn register full">
+
+            📝 Register for GMSC
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- LOGIN -->
+
+<section
+    class="container"
+    id="login">
+
+    <div class="section-title">
+
+        <h2>
+            Participant Login
+        </h2>
+
+        <p>
+            Verify your registered ID before
+            accessing the examination.
+        </p>
+
+    </div>
+
+
+    <div class="panel">
+
+        <h2>
+            Verify Participant
+        </h2>
+
+
+        <p class="panel-description">
+
+            Enter the Student ID used during
+            GMSC registration.
+
+        </p>
+
+
+        <input
+            type="text"
+            id="studentId"
+            placeholder="Student ID"
+            autocomplete="off"
+        >
+
+
+        <input
+            type="email"
+            id="studentEmail"
+            placeholder="Registered email"
+            autocomplete="email"
+        >
+
+
+        <button
+            class="btn login-btn full"
+            onclick="verifyParticipant()">
+
+            🔐 Verify ID
+
+        </button>
+
+
+        <div
+            id="message"
+            class="message">
         </div>
 
-        <p style="margin-top:10px;">
-            1 October 2026
-        </p>
+
+        <!-- TEST AREA -->
+
+        <div id="testArea">
+
+            <h3>
+                Examination Access
+            </h3>
+
+
+            <p id="testStatus">
+                Verification required.
+            </p>
+
+
+            <button
+                id="testButton"
+                class="btn test-btn full"
+                disabled
+                onclick="openExam()">
+
+                📝 Start Test
+
+            </button>
+
+        </div>
 
     </div>
 
@@ -485,14 +667,10 @@ footer p{
             Competition Structure
         </h2>
 
-        <p>
-            GMSC qualification pathway
-        </p>
-
     </div>
 
 
-    <div class="round-box">
+    <div class="rounds">
 
 
         <div class="round">
@@ -502,10 +680,10 @@ footer p{
             </h3>
 
             <p>
-                Participants take the GMSC
+                Participants take the GMSC Round 1
                 examination on 1 October 2026.
-                Participants achieving full marks
-                qualify for Round 2.
+                A participant achieving full marks
+                qualifies for Round 2.
             </p>
 
         </div>
@@ -518,101 +696,9 @@ footer p{
             </h3>
 
             <p>
-                Qualified participants proceed
-                to the second stage of the
-                competition.
-            </p>
-
-        </div>
-
-
-        <div class="notice">
-
-            <strong>
-                Qualification Rule:
-            </strong>
-
-            A participant who achieves full marks
-            in Round 1 qualifies for Round 2.
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- IMPORTANT INFORMATION -->
-
-<section class="container">
-
-    <div class="section-title">
-
-        <h2>
-            Important Information
-        </h2>
-
-    </div>
-
-
-    <div class="rules">
-
-
-        <div class="rule-card">
-
-            <h3>
-                Examination
-            </h3>
-
-            <p>
-                The examination is conducted online.
-                Participants should use a compatible
-                computer with a stable internet
-                connection.
-            </p>
-
-        </div>
-
-
-        <div class="rule-card">
-
-            <h3>
-                Secure Examination
-            </h3>
-
-            <p>
-                The examination may request camera,
-                microphone and screen-sharing
-                permissions for examination
-                supervision.
-            </p>
-
-        </div>
-
-
-        <div class="rule-card">
-
-            <h3>
-                Results
-            </h3>
-
-            <p>
-                Round 1 results are scheduled for
-                1 December 2026.
-            </p>
-
-        </div>
-
-
-        <div class="rule-card">
-
-            <h3>
-                Qualification
-            </h3>
-
-            <p>
-                Full marks in Round 1 are required
-                for qualification to Round 2.
+                Participants who achieve full marks
+                in Round 1 are eligible for the
+                second round.
             </p>
 
         </div>
@@ -621,8 +707,6 @@ footer p{
 
 </section>
 
-
-<!-- FOOTER -->
 
 <footer>
 
@@ -639,6 +723,240 @@ footer p{
     </p>
 
 </footer>
+
+
+<script>
+
+/* =====================================================
+   GMSC PARTICIPANT VERIFICATION
+===================================================== */
+
+let verifiedParticipant = null;
+
+
+/* =====================================================
+   SHOW MESSAGE
+===================================================== */
+
+function showMessage(
+    text,
+    type
+){
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message " + type;
+
+    message.style.display =
+        "block";
+
+}
+
+
+/* =====================================================
+   VERIFY PARTICIPANT
+===================================================== */
+
+async function verifyParticipant(){
+
+    const studentId =
+        document
+            .getElementById(
+                "studentId"
+            )
+            .value
+            .trim();
+
+
+    const email =
+        document
+            .getElementById(
+                "studentEmail"
+            )
+            .value
+            .trim();
+
+
+    if(!studentId){
+
+        showMessage(
+            "Please enter your Student ID.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    if(!email){
+
+        showMessage(
+            "Please enter your registered email.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    showMessage(
+        "Verifying your registration...",
+        "warning"
+    );
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/participant/verify",
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            studentId,
+                            email
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            document
+                .getElementById(
+                    "testArea"
+                )
+                .style.display =
+                    "none";
+
+
+            showMessage(
+                data.message ||
+                "Participant verification failed.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        verifiedParticipant =
+            data.participant;
+
+
+        document
+            .getElementById(
+                "testArea"
+            )
+            .style.display =
+                "block";
+
+
+        const testButton =
+            document.getElementById(
+                "testButton"
+            );
+
+
+        const testStatus =
+            document.getElementById(
+                "testStatus"
+            );
+
+
+        if(data.examOpen){
+
+            testButton.disabled =
+                false;
+
+            testStatus.textContent =
+                "Identity verified. The examination is currently open.";
+
+            showMessage(
+                "Participant verified successfully.",
+                "success"
+            );
+
+        }
+        else{
+
+            testButton.disabled =
+                true;
+
+            testStatus.textContent =
+                data.examMessage ||
+                "The examination is not currently open.";
+
+            showMessage(
+                "Participant verified successfully.",
+                "success"
+            );
+
+        }
+
+
+    }catch(error){
+
+        console.error(error);
+
+        showMessage(
+            "Unable to connect to the GMSC server.",
+            "error"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   OPEN EXAM
+===================================================== */
+
+function openExam(){
+
+    if(!verifiedParticipant){
+
+        showMessage(
+            "Please verify your participant ID first.",
+            "error"
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "exam.html";
+
+}
+
+</script>
 
 
 </body>
