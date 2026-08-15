@@ -1,0 +1,83 @@
+[
+  {
+    "violationId": "a0ff5612-0338-440d-910a-6aeadaf5e831",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "security_warning",
+    "details": "Examination window lost focus.",
+    "timestamp": "2026-08-15T12:36:41.554Z"
+  },
+  {
+    "violationId": "940520bc-fc2a-4859-9b95-79b025c3f65f",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "fullscreen_exit",
+    "details": "Fullscreen mode was exited.",
+    "timestamp": "2026-08-15T12:36:45.328Z"
+  },
+  {
+    "violationId": "369a4d85-102e-4cf2-9844-78c59468fde5",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "fullscreen_exit",
+    "details": "Fullscreen mode was exited.",
+    "timestamp": "2026-08-15T12:36:49.998Z"
+  },
+  {
+    "violationId": "f7108b92-f66c-46ba-a28a-f0050679995f",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "security_warning",
+    "details": "Examination window lost focus.",
+    "timestamp": "2026-08-15T12:36:52.041Z"
+  },
+  {
+    "violationId": "1a90db58-bcc8-48e0-9776-13454dbd9b2a",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "page_hidden",
+    "details": "Examination page became hidden.",
+    "timestamp": "2026-08-15T12:36:52.065Z"
+  },
+  {
+    "violationId": "758b6abf-8d46-4f41-b89f-3ebe9eea8691",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "page_hidden",
+    "details": "Examination page became hidden.",
+    "timestamp": "2026-08-15T12:37:02.232Z"
+  },
+  {
+    "violationId": "8df9fa67-9a40-4d27-abe8-a0d5186011ba",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "security_warning",
+    "details": "Examination window lost focus.",
+    "timestamp": "2026-08-15T12:37:02.253Z"
+  },
+  {
+    "violationId": "ab5bc68c-ccbf-4cd8-852d-dfd36be797f8",
+    "sessionId": "92347297-0886-4082-9230-40fe198ca96f",
+    "studentName": "YT",
+    "studentId": "IY",
+    "type": "microphone_stopped",
+    "details": "Microphone track ended.",
+    "timestamp": "2026-08-15T12:37:02.268Z"
+  },
+  {
+    "violationId": "8ea32ec8-494e-4482-8354-90cd28bce764",
+    "sessionId": "0007b0b0-42fa-4536-8997-7c88f59c45fa",
+    "studentName": "VX",
+    "studentId": "DE",
+    "type": "other",
+    "details": "Exam window lost focus.",
+    "timestamp": "2026-08-15T12:47:20.924Z"
+  }
+]
