@@ -1,519 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>GMSC | Global Mathematics & Science Competition</title>
 
 <style>
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-html{
-    scroll-behavior:smooth;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-    background:#f5f8fc;
+    background:#f5f7fb;
     color:#172033;
 }
 
-/* NAVIGATION */
-
 header{
-    position:sticky;
-    top:0;
-    z-index:1000;
     background:#07152f;
     color:white;
-    padding:18px 7%;
+    padding:20px 7%;
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    box-shadow:0 3px 15px rgba(0,0,0,0.2);
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .logo{
+    font-size:28px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.nav{
     display:flex;
-    align-items:center;
-    gap:12px;
+    gap:25px;
 }
 
-.logo-circle{
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:#28c7e8;
-    color:#07152f;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:18px;
-}
-
-.logo-text{
-    font-size:24px;
-    font-weight:bold;
-}
-
-nav a{
+.nav a{
     color:white;
     text-decoration:none;
-    margin-left:25px;
-    font-weight:500;
+    font-weight:600;
 }
-
-nav a:hover{
-    color:#28c7e8;
-}
-
-/* HERO */
 
 .hero{
-    min-height:680px;
-    padding:80px 7%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    background:linear-gradient(135deg,#07152f,#104f8a);
+    background:linear-gradient(
+        135deg,
+        #07152f,
+        #12356d
+    );
+
     color:white;
-}
-
-.hero-content{
-    max-width:700px;
-}
-
-.badge{
-    display:inline-block;
-    background:rgba(255,255,255,0.12);
-    padding:10px 18px;
-    border-radius:30px;
-    margin-bottom:25px;
-    font-size:14px;
+    text-align:center;
+    padding:90px 20px;
 }
 
 .hero h1{
-    font-size:64px;
-    line-height:1.05;
-    margin-bottom:20px;
-}
-
-.hero h1 span{
-    color:#28c7e8;
+    font-size:52px;
+    margin-bottom:18px;
 }
 
 .hero p{
+    max-width:800px;
+    margin:auto;
     font-size:20px;
-    line-height:1.7;
-    color:#e5edf8;
-    margin-bottom:35px;
+    line-height:1.6;
+    color:#dce6f7;
 }
 
-.buttons{
+.hero-buttons{
+    margin-top:30px;
     display:flex;
+    justify-content:center;
     gap:15px;
     flex-wrap:wrap;
 }
 
 .btn{
-    padding:15px 27px;
-    border-radius:8px;
+    display:inline-block;
+    padding:14px 25px;
+    border-radius:9px;
     text-decoration:none;
     font-weight:bold;
-    display:inline-block;
 }
 
 .primary{
-    background:#28c7e8;
+    background:white;
     color:#07152f;
 }
 
 .secondary{
-    border:2px solid white;
+    border:1px solid white;
     color:white;
 }
 
-.primary:hover{
-    background:white;
-}
-
-.secondary:hover{
-    background:white;
-    color:#07152f;
-}
-
-/* HERO CARD */
-
-.hero-card{
-    width:360px;
-    padding:35px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.1);
-    border:1px solid rgba(255,255,255,0.2);
-    backdrop-filter:blur(10px);
-}
-
-.hero-card h2{
-    margin-bottom:25px;
-}
-
-.stat{
-    display:flex;
-    justify-content:space-between;
-    padding:17px 0;
-    border-bottom:1px solid rgba(255,255,255,0.15);
-}
-
-.stat:last-child{
-    border-bottom:none;
-}
-
-/* SECTIONS */
-
-section.content{
-    padding:80px 7%;
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:60px 20px;
 }
 
 .section-title{
     text-align:center;
-    margin-bottom:50px;
+    margin-bottom:40px;
 }
 
 .section-title h2{
-    font-size:40px;
-    margin-bottom:12px;
+    font-size:34px;
+    margin-bottom:10px;
 }
 
 .section-title p{
-    color:#657085;
+    color:#667085;
 }
 
-/* CARDS */
-
-.cards{
+.schedule{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:
+        repeat(4,1fr);
+    gap:20px;
+}
+
+.schedule-card{
+    background:white;
+    border-radius:15px;
+    padding:25px;
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.08);
+    border-top:5px solid #07152f;
+}
+
+.schedule-card h3{
+    font-size:18px;
+    margin-bottom:12px;
+}
+
+.date{
+    font-size:24px;
+    font-weight:bold;
+    color:#07152f;
+    margin-bottom:8px;
+}
+
+.schedule-card p{
+    color:#667085;
+    line-height:1.5;
+}
+
+.exam-info{
+    margin-top:20px;
+    background:#07152f;
+    color:white;
+    border-radius:15px;
+    padding:30px;
+    text-align:center;
+}
+
+.exam-info h3{
+    font-size:25px;
+    margin-bottom:10px;
+}
+
+.exam-time{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.rules{
+    display:grid;
+    grid-template-columns:
+        repeat(2,1fr);
     gap:25px;
 }
 
-.card{
+.rule-card{
     background:white;
-    padding:32px;
-    border-radius:16px;
-    box-shadow:0 8px 30px rgba(20,40,80,0.08);
-    transition:0.3s;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.07);
 }
 
-.card:hover{
-    transform:translateY(-7px);
-}
-
-.icon{
-    font-size:35px;
-    margin-bottom:20px;
-}
-
-.card h3{
+.rule-card h3{
     margin-bottom:12px;
-    font-size:21px;
 }
 
-.card p{
+.rule-card p{
     color:#667085;
     line-height:1.6;
 }
 
-/* NOTICE */
-
-.notice{
-    background:#07152f;
-    color:white;
-    padding:60px 7%;
+.round-box{
+    background:white;
+    border-radius:18px;
+    padding:40px;
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.08);
+    text-align:center;
 }
 
-.notice-box{
-    max-width:1000px;
-    margin:auto;
-    padding:35px;
-    border:1px solid rgba(255,255,255,0.15);
-    border-radius:15px;
+.round{
+    margin:20px auto;
+    max-width:750px;
+    padding:25px;
+    border-radius:12px;
+    background:#f5f7fb;
 }
 
-.notice h2{
-    margin-bottom:20px;
+.round h3{
+    margin-bottom:10px;
 }
 
-.notice li{
-    margin:15px 0;
+.round p{
+    color:#667085;
     line-height:1.6;
 }
 
-/* FOOTER */
+.notice{
+    margin-top:25px;
+    padding:20px;
+    border-radius:10px;
+    background:#eef4ff;
+    color:#173a72;
+    line-height:1.6;
+}
 
 footer{
-    background:#040d1d;
-    color:#aab4c5;
-    text-align:center;
-    padding:30px;
-}
-
-footer strong{
+    background:#07152f;
     color:white;
+    text-align:center;
+    padding:35px 20px;
 }
 
-/* MOBILE */
+footer p{
+    color:#b8c4d8;
+    margin-top:8px;
+}
 
 @media(max-width:900px){
 
-    .hero{
+    .schedule{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
         flex-direction:column;
-        text-align:center;
-        gap:50px;
+        gap:15px;
+    }
+
+    .nav{
+        gap:15px;
     }
 
     .hero h1{
-        font-size:48px;
+        font-size:38px;
     }
 
-    .buttons{
-        justify-content:center;
+    .hero p{
+        font-size:17px;
     }
 
-    .cards{
+    .schedule,
+    .rules{
         grid-template-columns:1fr;
-    }
-
-    nav{
-        display:none;
     }
 
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- NAVIGATION -->
 
 <header>
 
     <div class="logo">
-
-        <div class="logo-circle">
-            GM
-        </div>
-
-        <div class="logo-text">
-            GMSC
-        </div>
-
+        GMSC
     </div>
 
-   <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#competition">Competition</a>
-    <a href="#rules">Rules</a>
-    <a href="register.html">Register</a>
-    <a href="login.html">Login</a>
-</nav>
+    <nav class="nav">
+
+        <a href="#home">
+            Home
+        </a>
+
+        <a href="#schedule">
+            Schedule
+        </a>
+
+        <a href="#rounds">
+            Rounds
+        </a>
+
+        <a href="exam.html">
+            Examination
+        </a>
+
+    </nav>
+
 </header>
 
 
 <!-- HERO -->
 
-<section class="hero" id="home">
+<section
+    class="hero"
+    id="home">
 
-    <div class="hero-content">
+    <h1>
+        Global Mathematics & Science Competition
+    </h1>
 
-        <div class="badge">
-            🌎 Global Mathematics & Science Competition
-        </div>
-
-        <h1>
-            Think.<br>
-            <span>Discover.</span><br>
-            Compete.
-        </h1>
-
-        <p>
-            A modern academic competition designed to
-            challenge mathematical thinking, scientific
-            knowledge and problem-solving ability.
-        </p>
-
-        <div class="buttons">
-
-            <a href="register.html" class="btn primary">
-    Register Now
-</a>
-
-            <a href="#rules" class="btn secondary">
-                View Rules
-            </a>
-
-        </div>
-
-    </div>
+    <p>
+        A challenging academic competition designed
+        to test mathematical reasoning, scientific
+        understanding and problem-solving ability.
+    </p>
 
 
-    <div class="hero-card">
+    <div class="hero-buttons">
 
-        <h2>GMSC 2026</h2>
+        <a
+            href="exam.html"
+            class="btn primary">
 
-        <div class="stat">
-            <span>Competition</span>
-            <strong>Online</strong>
-        </div>
+            Enter Examination
 
-        <div class="stat">
-            <span>Subjects</span>
-            <strong>Math + Science</strong>
-        </div>
+        </a>
 
-        <div class="stat">
-            <span>Mode</span>
-            <strong>Proctored</strong>
-        </div>
 
-        <div class="stat">
-            <span>Platform</span>
-            <strong>GMSC Website</strong>
-        </div>
+        <a
+            href="#schedule"
+            class="btn secondary">
+
+            View Schedule
+
+        </a>
 
     </div>
 
 </section>
 
 
-<!-- ABOUT -->
+<!-- SCHEDULE -->
 
-<section class="content" id="about">
+<section
+    class="container"
+    id="schedule">
 
     <div class="section-title">
 
-        <h2>About GMSC</h2>
+        <h2>
+            GMSC 2026 Schedule
+        </h2>
 
         <p>
-            Building a platform for students who love
-            mathematics, science and challenging problems.
+            Important competition dates
         </p>
 
     </div>
 
 
-    <div class="cards">
+    <div class="schedule">
 
-        <div class="card">
 
-            <div class="icon">🧠</div>
+        <div class="schedule-card">
 
-            <h3>Mathematical Thinking</h3>
+            <h3>
+                Registration Opens
+            </h3>
+
+            <div class="date">
+                1 August 2026
+            </div>
 
             <p>
-                Questions designed to test logical reasoning,
-                problem-solving and mathematical understanding.
+                Registration begins for GMSC 2026.
             </p>
 
         </div>
 
 
-        <div class="card">
+        <div class="schedule-card">
 
-            <div class="icon">🔬</div>
+            <h3>
+                Registration Deadline
+            </h3>
 
-            <h3>Scientific Knowledge</h3>
+            <div class="date">
+                1 September 2026
+            </div>
 
             <p>
-                Explore questions covering important scientific
-                concepts and their real-world applications.
+                Last date to complete registration.
             </p>
 
         </div>
 
 
-        <div class="card">
+        <div class="schedule-card">
 
-            <div class="icon">🏆</div>
+            <h3>
+                Examination
+            </h3>
 
-            <h3>Academic Competition</h3>
+            <div class="date">
+                1 October 2026
+            </div>
 
             <p>
-                Challenge yourself in a competitive environment
-                and measure your academic performance.
+                GMSC Round 1 examination day.
             </p>
 
         </div>
+
+
+        <div class="schedule-card">
+
+            <h3>
+                Results
+            </h3>
+
+            <div class="date">
+                1 December 2026
+            </div>
+
+            <p>
+                Round 1 results will be announced.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="exam-info">
+
+        <h3>
+            Examination Window
+        </h3>
+
+        <div class="exam-time">
+            12:00 AM – 11:59:59 PM
+        </div>
+
+        <p style="margin-top:10px;">
+            1 October 2026
+        </p>
 
     </div>
 
 </section>
 
 
-<!-- COMPETITION -->
+<!-- ROUNDS -->
 
-<section class="content" id="competition">
+<section
+    class="container"
+    id="rounds">
 
     <div class="section-title">
 
-        <h2>Competition Features</h2>
+        <h2>
+            Competition Structure
+        </h2>
 
         <p>
-            Designed to provide a professional online
-            examination experience.
+            GMSC qualification pathway
         </p>
 
     </div>
 
 
-    <div class="cards">
+    <div class="round-box">
 
-        <div class="card">
 
-            <div class="icon">⏱️</div>
+        <div class="round">
 
-            <h3>Timed Examination</h3>
+            <h3>
+                Round 1
+            </h3>
 
             <p>
-                Participants receive a fixed examination time
-                with automatic submission when the timer ends.
+                Participants take the GMSC
+                examination on 1 October 2026.
+                Participants achieving full marks
+                qualify for Round 2.
             </p>
 
         </div>
 
 
-        <div class="card">
+        <div class="round">
 
-            <div class="icon">🛡️</div>
-
-            <h3>Proctored Mode</h3>
+            <h3>
+                Round 2
+            </h3>
 
             <p>
-                Camera, microphone and browser controls can
-                be used to create a more secure examination environment.
+                Qualified participants proceed
+                to the second stage of the
+                competition.
             </p>
 
         </div>
 
 
-        <div class="card">
+        <div class="notice">
 
-            <div class="icon">📊</div>
+            <strong>
+                Qualification Rule:
+            </strong>
 
-            <h3>Results & Ranking</h3>
-
-            <p>
-                Participants can receive their score and,
-                when enabled by the organizers, ranking information.
-            </p>
+            A participant who achieves full marks
+            in Round 1 qualifies for Round 2.
 
         </div>
 
@@ -522,38 +542,80 @@ footer strong{
 </section>
 
 
-<!-- RULES -->
+<!-- IMPORTANT INFORMATION -->
 
-<section class="notice" id="rules">
+<section class="container">
 
-    <div class="notice-box">
+    <div class="section-title">
 
-        <h2>Important Rules</h2>
+        <h2>
+            Important Information
+        </h2>
 
-        <ul>
+    </div>
 
-            <li>
-                Participants must follow all official GMSC instructions.
-            </li>
 
-            <li>
-                The examination must be completed within the allotted time.
-            </li>
+    <div class="rules">
 
-            <li>
-                Participants may be required to provide camera and microphone
-                permissions for proctored examinations.
-            </li>
 
-            <li>
-                Participants must not use unauthorized assistance during the test.
-            </li>
+        <div class="rule-card">
 
-            <li>
-                Any suspicious examination events may be recorded for review.
-            </li>
+            <h3>
+                Examination
+            </h3>
 
-        </ul>
+            <p>
+                The examination is conducted online.
+                Participants should use a compatible
+                computer with a stable internet
+                connection.
+            </p>
+
+        </div>
+
+
+        <div class="rule-card">
+
+            <h3>
+                Secure Examination
+            </h3>
+
+            <p>
+                The examination may request camera,
+                microphone and screen-sharing
+                permissions for examination
+                supervision.
+            </p>
+
+        </div>
+
+
+        <div class="rule-card">
+
+            <h3>
+                Results
+            </h3>
+
+            <p>
+                Round 1 results are scheduled for
+                1 December 2026.
+            </p>
+
+        </div>
+
+
+        <div class="rule-card">
+
+            <h3>
+                Qualification
+            </h3>
+
+            <p>
+                Full marks in Round 1 are required
+                for qualification to Round 2.
+            </p>
+
+        </div>
 
     </div>
 
@@ -564,13 +626,21 @@ footer strong{
 
 <footer>
 
+    <strong>
+        GMSC
+    </strong>
+
     <p>
-        © 2026 <strong>GMSC</strong> —
         Global Mathematics & Science Competition
+    </p>
+
+    <p>
+        © 2026 GMSC
     </p>
 
 </footer>
 
 
 </body>
+
 </html>
