@@ -1,10 +1,14 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
 <title>GMSC Administrator Portal</title>
 
@@ -195,45 +199,28 @@ th{
     color:#991b1b;
 }
 
-.warning{
-    background:#fef3c7;
-    color:#92400e;
-}
-
 .question{
     border:1px solid #e4e7ec;
     border-radius:10px;
     padding:18px;
     margin-bottom:15px;
-    background:#ffffff;
+    background:#fff;
 }
 
 .question-header{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
-    margin-bottom:10px;
-}
-
-.question-title{
-    font-size:17px;
-    font-weight:bold;
-}
-
-.question-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-}
-
-.rank-highlight{
-    font-size:22px;
-    font-weight:bold;
 }
 
 .status-online{
     color:#15803d;
+    font-weight:bold;
+}
+
+.auto-refresh{
+    color:#15803d;
+    font-size:14px;
     font-weight:bold;
 }
 
@@ -251,19 +238,6 @@ th{
         grid-template-columns:1fr;
     }
 
-    .question-header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .question-actions{
-        width:100%;
-    }
-
-    .question-actions button{
-        width:100%;
-    }
-
 }
 
 </style>
@@ -272,683 +246,533 @@ th{
 
 <body>
 
-
 <header>
 
-    <div class="logo">
-        GMSC ADMINISTRATOR PORTAL
-    </div>
+<div class="logo">
+GMSC ADMINISTRATOR PORTAL
+</div>
 
-    <button
-        id="logoutButton"
-        onclick="logout()">
-
-        Logout
-
-    </button>
+<button
+id="logoutButton"
+onclick="logout()"
+>
+Logout
+</button>
 
 </header>
 
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+<!-- LOGIN -->
 
 <div id="loginScreen">
 
-    <div class="login-box">
+<div class="login-box">
 
-        <h1>
-            Administrator Login
-        </h1>
+<h1>
+Administrator Login
+</h1>
 
-        <p>
-            Authorized GMSC administrators only.
-        </p>
+<p>
+Authorized GMSC administrators only.
+</p>
 
-        <input
-            id="adminKey"
-            type="password"
-            placeholder="Administrator Secret Key"
-        >
+<input
+id="adminKey"
+type="password"
+placeholder="Administrator Secret Key"
+>
 
-        <button
-            class="primary"
-            style="width:100%;"
-            onclick="adminLogin()">
+<button
+class="primary"
+style="width:100%;"
+onclick="adminLogin()"
+>
+Login
+</button>
 
-            Login
+<div
+id="loginMessage"
+class="message"
+></div>
 
-        </button>
-
-        <div
-            id="loginMessage"
-            class="message">
-        </div>
-
-    </div>
+</div>
 
 </div>
 
 
-<!-- =====================================================
-     ADMIN DASHBOARD
-===================================================== -->
+<!-- ADMIN PANEL -->
 
 <div
-    id="adminPanel"
-    style="display:none;"
+id="adminPanel"
+style="display:none;"
 >
 
 <div class="container">
 
-    <h1>
-        GMSC Administration
-    </h1>
+<h1>
+GMSC Administration
+</h1>
 
-    <p>
-        Manage participants, results, rankings,
-        questions and examination data.
-    </p>
+<p>
+Manage participants, results, rankings,
+questions and examination data.
+</p>
 
 
-    <!-- DASHBOARD -->
+<!-- DASHBOARD -->
 
-    <div class="dashboard">
+<div class="dashboard">
 
-        <div class="stat">
+<div class="stat">
 
-            <h3>
-                Registered Participants
-            </h3>
+<h3>
+Registered Participants
+</h3>
 
-            <strong id="registeredCount">
-                0
-            </strong>
+<strong id="registeredCount">
+0
+</strong>
 
-        </div>
+</div>
 
+<div class="stat">
 
-        <div class="stat">
+<h3>
+Submitted Exams
+</h3>
 
-            <h3>
-                Submitted Exams
-            </h3>
+<strong id="resultCount">
+0
+</strong>
 
-            <strong id="resultCount">
-                0
-            </strong>
+</div>
 
-        </div>
+<div class="stat">
 
+<h3>
+Security Events
+</h3>
 
-        <div class="stat">
+<strong id="eventCount">
+0
+</strong>
 
-            <h3>
-                Security Events
-            </h3>
+</div>
 
-            <strong id="eventCount">
-                0
-            </strong>
+<div class="stat">
 
-        </div>
+<h3>
+Questions
+</h3>
 
+<strong id="questionCount">
+0
+</strong>
 
-        <div class="stat">
+</div>
 
-            <h3>
-                Questions
-            </h3>
+</div>
 
-            <strong id="questionCount">
-                0
-            </strong>
 
-        </div>
+<!-- TABS -->
 
-    </div>
+<div class="tabs">
 
+<button
+class="active"
+onclick="showTab('results',this)"
+>
+Results
+</button>
 
-    <!-- TABS -->
+<button
+onclick="showTab('ranks',this)"
+>
+Rankings
+</button>
 
-    <div class="tabs">
+<button
+onclick="showTab('participants',this)"
+>
+Participants
+</button>
 
-        <button
-            class="active"
-            onclick="showTab('results',this)">
+<button
+onclick="showTab('questions',this)"
+>
+Questions
+</button>
 
-            Results
+<button
+onclick="showTab('events',this)"
+>
+Security Events
+</button>
 
-        </button>
+<button
+onclick="showTab('status',this)"
+>
+Server Status
+</button>
 
+</div>
 
-        <button
-            onclick="showTab('ranks',this)">
 
-            Rankings
+<!-- RESULTS -->
 
-        </button>
+<section
+id="results"
+class="tab active"
+>
 
+<div class="card">
 
-        <button
-            onclick="showTab('participants',this)">
+<h2>
+Checked Results
+</h2>
 
-            Participants
+<button
+class="primary"
+onclick="loadResults()"
+>
+Refresh Results
+</button>
 
-        </button>
+<br><br>
 
+<div class="table-wrapper">
 
-        <button
-            onclick="showTab('questions',this)">
+<table>
 
-            Questions
+<thead>
 
-        </button>
+<tr>
 
+<th>Submission</th>
+<th>Student</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Score</th>
+<th>Percentage</th>
+<th>Round 2</th>
+<th>Rank</th>
 
-        <button
-            onclick="showTab('events',this)">
+</tr>
 
-            Security Events
+</thead>
 
-        </button>
+<tbody id="resultsTable">
+</tbody>
 
+</table>
 
-        <button
-            onclick="showTab('status',this)">
+</div>
 
-            Server Status
+</div>
 
-        </button>
+</section>
 
-    </div>
 
+<!-- RANKS -->
 
-    <!-- =================================================
-         RESULTS
-    ================================================== -->
+<section
+id="ranks"
+class="tab"
+>
 
-    <section
-        id="results"
-        class="tab active">
+<div class="card">
 
-        <div class="card">
+<h2>
+Rank Management
+</h2>
 
-            <h2>
-                Checked Results
-            </h2>
+<button
+class="green"
+onclick="calculateRanks()"
+>
+🔄 Update / Recalculate Ranks
+</button>
 
-            <button
-                class="primary"
-                onclick="loadResults()">
+<br><br>
 
-                Refresh Results
+<div class="table-wrapper">
 
-            </button>
+<table>
 
-            <br><br>
+<thead>
 
-            <div class="table-wrapper">
+<tr>
 
-                <table>
+<th>Rank</th>
+<th>Student</th>
+<th>Phone</th>
+<th>Score</th>
+<th>Percentage</th>
+<th>Round 2</th>
 
-                    <thead>
+</tr>
 
-                        <tr>
+</thead>
 
-                            <th>
-                                Submission
-                            </th>
+<tbody id="rankTable">
+</tbody>
 
-                            <th>
-                                Student
-                            </th>
+</table>
 
-                            <th>
-                                ID
-                            </th>
+</div>
 
-                            <th>
-                                Score
-                            </th>
+</div>
 
-                            <th>
-                                Percentage
-                            </th>
+</section>
 
-                            <th>
-                                Round 2
-                            </th>
 
-                            <th>
-                                Rank
-                            </th>
+<!-- PARTICIPANTS -->
 
-                        </tr>
+<section
+id="participants"
+class="tab"
+>
 
-                    </thead>
+<div class="card">
 
-                    <tbody id="resultsTable">
-                    </tbody>
+<h2>
+Registered Participants
+</h2>
 
-                </table>
+<p class="auto-refresh">
+● Automatically checking for new registrations every 5 seconds
+</p>
 
-            </div>
+<button
+class="primary"
+onclick="loadParticipants()"
+>
+🔄 Refresh Participants
+</button>
 
-        </div>
+<br><br>
 
-    </section>
+<div
+id="participantMessage"
+class="message"
+></div>
 
+<div class="table-wrapper">
 
-    <!-- =================================================
-         RANKINGS
-    ================================================== -->
+<table>
 
-    <section
-        id="ranks"
-        class="tab">
+<thead>
 
-        <div class="card">
+<tr>
 
-            <h2>
-                Rank Management
-            </h2>
+<th>Registration ID</th>
+<th>Name</th>
+<th>Phone Number</th>
+<th>Email</th>
+<th>Registered At</th>
 
-            <p>
-                Rankings are calculated from server-side
-                examination results.
-            </p>
+</tr>
 
-            <br>
+</thead>
 
-            <button
-                class="green"
-                onclick="calculateRanks()">
+<tbody id="participantsTable">
+</tbody>
 
-                🔄 Update / Recalculate Ranks
+</table>
 
-            </button>
+</div>
 
-            <div
-                id="rankMessage"
-                class="message">
-            </div>
+</div>
 
-            <br>
+</section>
 
-            <div class="table-wrapper">
 
-                <table>
+<!-- QUESTIONS -->
 
-                    <thead>
+<section
+id="questions"
+class="tab"
+>
 
-                        <tr>
+<div class="card">
 
-                            <th>
-                                Rank
-                            </th>
+<h2>
+Question Bank
+</h2>
 
-                            <th>
-                                Student
-                            </th>
+<button
+class="primary"
+onclick="loadQuestions()"
+>
+🔄 Load Current Questions
+</button>
 
-                            <th>
-                                ID
-                            </th>
+<div
+id="questionsContainer"
+style="margin-top:20px;"
+>
+</div>
 
-                            <th>
-                                Score
-                            </th>
+</div>
 
-                            <th>
-                                Percentage
-                            </th>
 
-                            <th>
-                                Round 2
-                            </th>
+<div class="card">
 
-                        </tr>
+<h2>
+Add New Question
+</h2>
 
-                    </thead>
+<textarea
+id="newQuestion"
+rows="4"
+placeholder="Enter question"
+></textarea>
 
-                    <tbody id="rankTable">
-                    </tbody>
+<input
+id="option1"
+placeholder="Option 1"
+>
 
-                </table>
+<input
+id="option2"
+placeholder="Option 2"
+>
 
-            </div>
+<input
+id="option3"
+placeholder="Option 3"
+>
 
-        </div>
+<input
+id="option4"
+placeholder="Option 4"
+>
 
-    </section>
+<select id="correctAnswer">
 
+<option value="0">
+Option 1
+</option>
 
-    <!-- =================================================
-         PARTICIPANTS
-    ================================================== -->
+<option value="1">
+Option 2
+</option>
 
-    <section
-        id="participants"
-        class="tab">
+<option value="2">
+Option 3
+</option>
 
-        <div class="card">
+<option value="3">
+Option 4
+</option>
 
-            <h2>
-                Registered Participants
-            </h2>
+</select>
 
-            <button
-                class="primary"
-                onclick="loadParticipants()">
+<input
+id="questionMarks"
+type="number"
+value="1"
+min="1"
+>
 
-                Refresh Participants
+<button
+class="green"
+onclick="addQuestion()"
+>
+➕ Add Question
+</button>
 
-            </button>
+<div
+id="questionMessage"
+class="message"
+></div>
 
-            <br><br>
+</div>
 
-            <div class="table-wrapper">
+</section>
 
-                <table>
 
-                    <thead>
+<!-- EVENTS -->
 
-                        <tr>
+<section
+id="events"
+class="tab"
+>
 
-                            <th>
-                                Registration ID
-                            </th>
+<div class="card">
 
-                            <th>
-                                Name
-                            </th>
+<h2>
+Proctoring / Security Events
+</h2>
 
-                            <th>
-                                Student ID
-                            </th>
+<button
+class="primary"
+onclick="loadEvents()"
+>
+Refresh Events
+</button>
 
-                            <th>
-                                Email
-                            </th>
+<br><br>
 
-                            <th>
-                                Registered
-                            </th>
+<div class="table-wrapper">
 
-                        </tr>
+<table>
 
-                    </thead>
+<thead>
 
-                    <tbody id="participantsTable">
-                    </tbody>
+<tr>
 
-                </table>
+<th>Time</th>
+<th>Registration ID</th>
+<th>Phone</th>
+<th>Event</th>
+<th>Details</th>
 
-            </div>
+</tr>
 
-        </div>
+</thead>
 
-    </section>
+<tbody id="eventsTable">
+</tbody>
 
+</table>
 
-    <!-- =================================================
-         QUESTIONS
-    ================================================== -->
+</div>
 
-    <section
-        id="questions"
-        class="tab">
+</div>
 
+</section>
 
-        <!-- CURRENT QUESTIONS -->
 
-        <div class="card">
+<!-- STATUS -->
 
-            <h2>
-                Question Bank
-            </h2>
+<section
+id="status"
+class="tab"
+>
 
-            <p>
-                Administrators can view and remove
-                examination questions.
-            </p>
+<div class="card">
 
-            <br>
+<h2>
+GMSC Server Status
+</h2>
 
-            <button
-                class="primary"
-                onclick="loadQuestions()">
+<button
+class="primary"
+onclick="loadStatus()"
+>
+Check Server
+</button>
 
-                🔄 Load Current Questions
+<br><br>
 
-            </button>
+<div id="serverStatus">
+No status loaded.
+</div>
 
-            <div
-                id="questionsContainer"
-                style="margin-top:20px;">
-            </div>
+</div>
 
-            <div
-                id="questionMessage"
-                class="message">
-            </div>
-
-        </div>
-
-
-        <!-- ADD QUESTION -->
-
-        <div class="card">
-
-            <h2>
-                Add New Question
-            </h2>
-
-            <p>
-                Add a new question to the GMSC
-                examination question bank.
-            </p>
-
-
-            <label>
-                Question
-            </label>
-
-            <textarea
-                id="newQuestion"
-                rows="4"
-                placeholder="Enter question">
-            </textarea>
-
-
-            <label>
-                Option 1
-            </label>
-
-            <input
-                id="option1"
-                placeholder="Option 1"
-            >
-
-
-            <label>
-                Option 2
-            </label>
-
-            <input
-                id="option2"
-                placeholder="Option 2"
-            >
-
-
-            <label>
-                Option 3
-            </label>
-
-            <input
-                id="option3"
-                placeholder="Option 3"
-            >
-
-
-            <label>
-                Option 4
-            </label>
-
-            <input
-                id="option4"
-                placeholder="Option 4"
-            >
-
-
-            <label>
-                Correct Answer
-            </label>
-
-            <select id="correctAnswer">
-
-                <option value="0">
-                    Option 1
-                </option>
-
-                <option value="1">
-                    Option 2
-                </option>
-
-                <option value="2">
-                    Option 3
-                </option>
-
-                <option value="3">
-                    Option 4
-                </option>
-
-            </select>
-
-
-            <label>
-                Marks
-            </label>
-
-            <input
-                id="questionMarks"
-                type="number"
-                value="1"
-                min="1"
-            >
-
-
-            <button
-                class="green"
-                onclick="addQuestion()">
-
-                ➕ Add Question
-
-            </button>
-
-
-        </div>
-
-    </section>
-
-
-    <!-- =================================================
-         SECURITY EVENTS
-    ================================================== -->
-
-    <section
-        id="events"
-        class="tab">
-
-        <div class="card">
-
-            <h2>
-                Proctoring / Security Events
-            </h2>
-
-            <button
-                class="primary"
-                onclick="loadEvents()">
-
-                Refresh Events
-
-            </button>
-
-            <br><br>
-
-            <div class="table-wrapper">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Time
-                            </th>
-
-                            <th>
-                                Student ID
-                            </th>
-
-                            <th>
-                                Event
-                            </th>
-
-                            <th>
-                                Details
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="eventsTable">
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =================================================
-         SERVER STATUS
-    ================================================== -->
-
-    <section
-        id="status"
-        class="tab">
-
-        <div class="card">
-
-            <h2>
-                GMSC Server Status
-            </h2>
-
-            <button
-                class="primary"
-                onclick="loadStatus()">
-
-                Check Server
-
-            </button>
-
-            <br><br>
-
-            <div id="serverStatus">
-                No status loaded.
-            </div>
-
-        </div>
-
-    </section>
+</section>
 
 </div>
 
@@ -957,38 +781,18 @@ th{
 
 <script>
 
-/* =====================================================
-   GLOBAL VARIABLES
-===================================================== */
-
 let ADMIN_KEY = "";
 
 let allResults = [];
 
 let allRanks = [];
 
+let participantRefreshTimer = null;
+
 
 /* =====================================================
-   HELPERS
+   API
 ===================================================== */
-
-function showMessage(
-    element,
-    text,
-    type
-){
-
-    element.textContent =
-        text;
-
-    element.className =
-        "message " + type;
-
-    element.style.display =
-        "block";
-
-}
-
 
 async function api(
     url,
@@ -998,19 +802,14 @@ async function api(
     options.headers =
         options.headers || {};
 
-
-    options.headers[
-        "x-admin-key"
-    ] =
+    options.headers["x-admin-key"] =
         ADMIN_KEY;
-
 
     const response =
         await fetch(
             url,
             options
         );
-
 
     let data;
 
@@ -1022,11 +821,10 @@ async function api(
     }catch{
 
         throw new Error(
-            "Server returned an invalid response."
+            "Invalid server response."
         );
 
     }
-
 
     if(!response.ok){
 
@@ -1037,9 +835,7 @@ async function api(
 
     }
 
-
     return data;
-
 }
 
 
@@ -1051,31 +847,22 @@ async function adminLogin(){
 
     const key =
         document
-            .getElementById(
-                "adminKey"
-            )
+            .getElementById("adminKey")
             .value
             .trim();
-
 
     if(!key){
 
         showMessage(
-            document.getElementById(
-                "loginMessage"
-            ),
+            document.getElementById("loginMessage"),
             "Enter the administrator key.",
             "error"
         );
 
         return;
-
     }
 
-
-    ADMIN_KEY =
-        key;
-
+    ADMIN_KEY = key;
 
     try{
 
@@ -1083,48 +870,32 @@ async function adminLogin(){
             "/api/admin/status"
         );
 
+        document.getElementById(
+            "loginScreen"
+        ).style.display = "none";
 
-        document
-            .getElementById(
-                "loginScreen"
-            )
-            .style.display =
-                "none";
+        document.getElementById(
+            "adminPanel"
+        ).style.display = "block";
 
-
-        document
-            .getElementById(
-                "adminPanel"
-            )
-            .style.display =
-                "block";
-
-
-        document
-            .getElementById(
-                "logoutButton"
-            )
-            .style.display =
-                "block";
-
+        document.getElementById(
+            "logoutButton"
+        ).style.display = "block";
 
         loadEverything();
 
+        startAutomaticParticipantRefresh();
 
     }catch(error){
 
         ADMIN_KEY = "";
 
         showMessage(
-            document.getElementById(
-                "loginMessage"
-            ),
+            document.getElementById("loginMessage"),
             error.message,
             "error"
         );
-
     }
-
 }
 
 
@@ -1134,64 +905,16 @@ async function adminLogin(){
 
 function logout(){
 
+    stopAutomaticParticipantRefresh();
+
     ADMIN_KEY = "";
 
     location.reload();
-
 }
 
 
 /* =====================================================
-   TABS
-===================================================== */
-
-function showTab(
-    id,
-    button
-){
-
-    document
-        .querySelectorAll(
-            ".tab"
-        )
-        .forEach(
-            tab =>
-                tab.classList.remove(
-                    "active"
-                )
-        );
-
-
-    document
-        .getElementById(
-            id
-        )
-        .classList.add(
-            "active"
-        );
-
-
-    document
-        .querySelectorAll(
-            ".tabs button"
-        )
-        .forEach(
-            b =>
-                b.classList.remove(
-                    "active"
-                )
-        );
-
-
-    button.classList.add(
-        "active"
-    );
-
-}
-
-
-/* =====================================================
-   LOAD EVERYTHING
+   EVERYTHING
 ===================================================== */
 
 function loadEverything(){
@@ -1205,7 +928,174 @@ function loadEverything(){
     loadStatus();
 
     loadQuestions();
+}
 
+
+/* =====================================================
+   AUTO PARTICIPANT REFRESH
+===================================================== */
+
+function startAutomaticParticipantRefresh(){
+
+    stopAutomaticParticipantRefresh();
+
+    participantRefreshTimer =
+        setInterval(
+            () => {
+
+                if(ADMIN_KEY){
+
+                    loadParticipants(
+                        true
+                    );
+
+                }
+
+            },
+            5000
+        );
+}
+
+
+function stopAutomaticParticipantRefresh(){
+
+    if(
+        participantRefreshTimer
+    ){
+
+        clearInterval(
+            participantRefreshTimer
+        );
+
+        participantRefreshTimer =
+            null;
+    }
+}
+
+
+/* =====================================================
+   PARTICIPANTS
+===================================================== */
+
+async function loadParticipants(
+    automatic = false
+){
+
+    try{
+
+        const data =
+            await api(
+                "/api/admin/registrations"
+            );
+
+        const registrations =
+            data.registrations || [];
+
+        const oldCount =
+            Number(
+                document.getElementById(
+                    "registeredCount"
+                ).textContent
+            );
+
+        document.getElementById(
+            "registeredCount"
+        ).textContent =
+            registrations.length;
+
+        const table =
+            document.getElementById(
+                "participantsTable"
+            );
+
+        table.innerHTML = "";
+
+        registrations
+            .slice()
+            .reverse()
+            .forEach(
+                person => {
+
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
+
+                    row.innerHTML = `
+
+<td>
+${escapeHtml(person.registrationId)}
+</td>
+
+<td>
+<strong>
+${escapeHtml(person.name)}
+</strong>
+</td>
+
+<td>
+${escapeHtml(person.phone)}
+</td>
+
+<td>
+${escapeHtml(person.email)}
+</td>
+
+<td>
+${escapeHtml(
+    new Date(
+        person.registeredAt
+    ).toLocaleString()
+)}
+</td>
+
+`;
+
+                    table.appendChild(
+                        row
+                    );
+                }
+            );
+
+        if(
+            automatic &&
+            registrations.length >
+            oldCount
+        ){
+
+            showMessage(
+                document.getElementById(
+                    "participantMessage"
+                ),
+                "🎉 New participant registered!",
+                "success"
+            );
+
+            setTimeout(
+                () => {
+
+                    const box =
+                        document.getElementById(
+                            "participantMessage"
+                        );
+
+                    if(box){
+                        box.style.display =
+                            "none";
+                    }
+
+                },
+                4000
+            );
+        }
+
+    }catch(error){
+
+        console.error(
+            "Participant refresh:",
+            error
+        );
+    }
 }
 
 
@@ -1222,30 +1112,24 @@ async function loadResults(){
                 "/api/admin/results"
             );
 
-
         allResults =
             data.results || [];
 
-
-        document
-            .getElementById(
-                "resultCount"
-            )
-            .textContent =
-                allResults.length;
-
+        document.getElementById(
+            "resultCount"
+        ).textContent =
+            allResults.length;
 
         renderResults();
 
-        calculateRanks();
-
+        calculateRanks(
+            false
+        );
 
     }catch(error){
 
         console.error(error);
-
     }
-
 }
 
 
@@ -1256,9 +1140,7 @@ function renderResults(){
             "resultsTable"
         );
 
-
     table.innerHTML = "";
-
 
     allResults.forEach(
         result => {
@@ -1268,79 +1150,64 @@ function renderResults(){
                     "tr"
                 );
 
-
             row.innerHTML = `
 
-                <td>
-                    ${escapeHtml(
-                        result.submissionId
-                    )}
-                </td>
+<td>
+${escapeHtml(result.submissionId)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.studentName
-                    )}
-                </td>
+<td>
+${escapeHtml(result.studentName)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.studentId
-                    )}
-                </td>
+<td>
+${escapeHtml(result.phone)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.score
-                    )}
-                    /
-                    ${escapeHtml(
-                        result.totalMarks
-                    )}
-                </td>
+<td>
+${escapeHtml(result.email)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.percentage
-                    )}%
-                </td>
+<td>
+${escapeHtml(result.score)}
+/
+${escapeHtml(result.totalMarks)}
+</td>
 
-                <td>
-                    ${
-                        result.qualifiesForRound2
-                        ? "YES"
-                        : "NO"
-                    }
-                </td>
+<td>
+${escapeHtml(result.percentage)}%
+</td>
 
-                <td>
-                    ${getRank(
-                        result.submissionId
-                    )}
-                </td>
+<td>
+${
+    result.qualifiesForRound2
+    ? "YES"
+    : "NO"
+}
+</td>
 
-            `;
+<td>
+${getRank(result.submissionId)}
+</td>
 
+`;
 
-            table.appendChild(
-                row
-            );
-
+            table.appendChild(row);
         }
     );
-
 }
 
 
 /* =====================================================
-   RANK CALCULATION
+   RANKS
 ===================================================== */
 
-function calculateRanks(){
+function calculateRanks(
+    showMessageBox = true
+){
 
     allRanks =
         [...allResults];
-
 
     allRanks.sort(
         (a,b) => {
@@ -1354,53 +1221,23 @@ function calculateRanks(){
                     Number(b.score) -
                     Number(a.score)
                 );
-
             }
 
-
-            if(
-                Number(b.percentage) !==
-                Number(a.percentage)
-            ){
-
-                return (
-                    Number(b.percentage) -
-                    Number(a.percentage)
-                );
-
-            }
-
-
-            return new Date(
-                a.submittedAt
-            ) -
-            new Date(
-                b.submittedAt
+            return (
+                new Date(a.submittedAt) -
+                new Date(b.submittedAt)
             );
-
         }
     );
 
-
     renderRanks();
 
+    if(showMessageBox){
 
-    const rankMessage =
-        document.getElementById(
-            "rankMessage"
+        alert(
+            "Ranks recalculated successfully."
         );
-
-
-    if(rankMessage){
-
-        showMessage(
-            rankMessage,
-            "Ranks recalculated successfully.",
-            "success"
-        );
-
     }
-
 }
 
 
@@ -1415,11 +1252,9 @@ function getRank(
                 submissionId
         );
 
-
     return index >= 0
         ? index + 1
         : "-";
-
 }
 
 
@@ -1430,9 +1265,7 @@ function renderRanks(){
             "rankTable"
         );
 
-
     table.innerHTML = "";
-
 
     allRanks.forEach(
         (result,index) => {
@@ -1442,155 +1275,45 @@ function renderRanks(){
                     "tr"
                 );
 
-
             row.innerHTML = `
 
-                <td class="rank-highlight">
-                    ${index + 1}
-                </td>
+<td>
+<strong>
+${index + 1}
+</strong>
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.studentName
-                    )}
-                </td>
+<td>
+${escapeHtml(result.studentName)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.studentId
-                    )}
-                </td>
+<td>
+${escapeHtml(result.phone)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.score
-                    )}
-                    /
-                    ${escapeHtml(
-                        result.totalMarks
-                    )}
-                </td>
+<td>
+${escapeHtml(result.score)}
+/
+${escapeHtml(result.totalMarks)}
+</td>
 
-                <td>
-                    ${escapeHtml(
-                        result.percentage
-                    )}%
-                </td>
+<td>
+${escapeHtml(result.percentage)}%
+</td>
 
-                <td>
-                    ${
-                        result.qualifiesForRound2
-                        ? "YES"
-                        : "NO"
-                    }
-                </td>
+<td>
+${
+    result.qualifiesForRound2
+    ? "YES"
+    : "NO"
+}
+</td>
 
-            `;
+`;
 
-
-            table.appendChild(
-                row
-            );
-
+            table.appendChild(row);
         }
     );
-
-}
-
-
-/* =====================================================
-   PARTICIPANTS
-===================================================== */
-
-async function loadParticipants(){
-
-    try{
-
-        const data =
-            await api(
-                "/api/admin/registrations"
-            );
-
-
-        const registrations =
-            data.registrations || [];
-
-
-        document
-            .getElementById(
-                "registeredCount"
-            )
-            .textContent =
-                registrations.length;
-
-
-        const table =
-            document.getElementById(
-                "participantsTable"
-            );
-
-
-        table.innerHTML = "";
-
-
-        registrations.forEach(
-            person => {
-
-                const row =
-                    document.createElement(
-                        "tr"
-                    );
-
-
-                row.innerHTML = `
-
-                    <td>
-                        ${escapeHtml(
-                            person.registrationId
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            person.name
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            person.studentId
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            person.email
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            person.registeredAt
-                        )}
-                    </td>
-
-                `;
-
-
-                table.appendChild(
-                    row
-                );
-
-            }
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
 }
 
 
@@ -1604,53 +1327,23 @@ async function loadQuestions(){
 
         const data =
             await api(
-                "/api/questions"
+                "/api/admin/questions"
             );
-
 
         const questions =
             data.questions || [];
 
-
-        document
-            .getElementById(
-                "questionCount"
-            )
-            .textContent =
-                questions.length;
-
+        document.getElementById(
+            "questionCount"
+        ).textContent =
+            questions.length;
 
         const container =
             document.getElementById(
                 "questionsContainer"
             );
 
-
         container.innerHTML = "";
-
-
-        if(questions.length === 0){
-
-            container.innerHTML = `
-
-                <div
-                    style="
-                        padding:20px;
-                        text-align:center;
-                        color:#667085;
-                    "
-                >
-
-                    No questions found.
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
 
         questions.forEach(
             (question,index) => {
@@ -1660,123 +1353,60 @@ async function loadQuestions(){
                         "div"
                     );
 
-
                 div.className =
                     "question";
 
-
-                /*
-                   The server should provide
-                   question.id.
-
-                   Example:
-
-                   {
-                       id:"q1",
-                       question:"...",
-                       options:[...],
-                       correctAnswer:0,
-                       marks:1
-                   }
-                */
-
-
                 div.innerHTML = `
 
-                    <div class="question-header">
+<h3>
+Question ${index + 1}
+</h3>
 
-                        <div class="question-title">
+<p>
+${escapeHtml(question.question)}
+</p>
 
-                            Question ${index + 1}
+<ol>
 
-                        </div>
+${
+    question.options
+        .map(
+            option =>
+                `<li>
+                    ${escapeHtml(option)}
+                </li>`
+        )
+        .join("")
+}
 
+</ol>
 
-                        <div class="question-actions">
+<p>
+<strong>
+Marks:
+</strong>
+${escapeHtml(question.marks)}
+</p>
 
-                            <button
-                                class="red"
-                                onclick="removeQuestion('${escapeAttribute(question.id)}')"
-                            >
+<button
+class="red"
+onclick="removeQuestion(${question.id})"
+>
+🗑 Remove Question
+</button>
 
-                                🗑 Remove Question
-
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-                    <p style="margin:10px 0;">
-
-                        ${escapeHtml(
-                            question.question
-                        )}
-
-                    </p>
-
-
-                    <ol>
-
-                        ${
-                            Array.isArray(
-                                question.options
-                            )
-                            ? question.options
-                                .map(
-                                    option =>
-                                    `<li>
-                                        ${escapeHtml(
-                                            option
-                                        )}
-                                    </li>`
-                                )
-                                .join("")
-                            : ""
-                        }
-
-                    </ol>
-
-
-                    <p style="margin-top:10px;">
-
-                        <strong>
-                            Marks:
-                        </strong>
-
-                        ${escapeHtml(
-                            question.marks
-                        )}
-
-                    </p>
-
-                `;
-
+`;
 
                 container.appendChild(
                     div
                 );
-
             }
         );
-
 
     }catch(error){
 
         console.error(error);
-
-
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            error.message,
-            "error"
-        );
-
     }
-
 }
 
 
@@ -1787,13 +1417,9 @@ async function loadQuestions(){
 async function addQuestion(){
 
     const question =
-        document
-            .getElementById(
-                "newQuestion"
-            )
-            .value
-            .trim();
-
+        document.getElementById(
+            "newQuestion"
+        ).value.trim();
 
     const options = [
 
@@ -1812,9 +1438,7 @@ async function addQuestion(){
         document.getElementById(
             "option4"
         ).value.trim()
-
     ];
-
 
     const correctAnswer =
         Number(
@@ -1823,7 +1447,6 @@ async function addQuestion(){
             ).value
         );
 
-
     const marks =
         Number(
             document.getElementById(
@@ -1831,50 +1454,12 @@ async function addQuestion(){
             ).value
         );
 
-
-    if(
-        !question ||
-        options.some(
-            option => !option
-        )
-    ){
-
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            "Complete the question and all four options.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
-    if(
-        !Number.isFinite(marks) ||
-        marks < 1
-    ){
-
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            "Marks must be at least 1.",
-            "error"
-        );
-
-        return;
-
-    }
-
-
     try{
 
         await api(
             "/api/admin/questions",
             {
+
                 method:"POST",
 
                 headers:{
@@ -1892,12 +1477,9 @@ async function addQuestion(){
                         correctAnswer,
 
                         marks
-
                     })
-
             }
         );
-
 
         showMessage(
             document.getElementById(
@@ -1907,58 +1489,7 @@ async function addQuestion(){
             "success"
         );
 
-
-        document
-            .getElementById(
-                "newQuestion"
-            )
-            .value = "";
-
-
-        document
-            .getElementById(
-                "option1"
-            )
-            .value = "";
-
-
-        document
-            .getElementById(
-                "option2"
-            )
-            .value = "";
-
-
-        document
-            .getElementById(
-                "option3"
-            )
-            .value = "";
-
-
-        document
-            .getElementById(
-                "option4"
-            )
-            .value = "";
-
-
-        document
-            .getElementById(
-                "correctAnswer"
-            )
-            .value = "0";
-
-
-        document
-            .getElementById(
-                "questionMarks"
-            )
-            .value = "1";
-
-
-        await loadQuestions();
-
+        loadQuestions();
 
     }catch(error){
 
@@ -1969,9 +1500,7 @@ async function addQuestion(){
             error.message,
             "error"
         );
-
     }
-
 }
 
 
@@ -1980,77 +1509,37 @@ async function addQuestion(){
 ===================================================== */
 
 async function removeQuestion(
-    questionId
+    id
 ){
 
-    if(!questionId){
-
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            "Question ID is missing. Your server must provide an ID for each question.",
-            "error"
-        );
-
+    if(
+        !confirm(
+            "Remove this question?"
+        )
+    ){
         return;
-
     }
-
-
-    const confirmed =
-        confirm(
-            "Are you sure you want to permanently remove this question?"
-        );
-
-
-    if(!confirmed){
-
-        return;
-
-    }
-
 
     try{
 
         await api(
-            `/api/admin/questions/${encodeURIComponent(
-                questionId
-            )}`,
+            `/api/admin/questions/${id}`,
             {
                 method:"DELETE"
             }
         );
 
-
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            "Question removed successfully.",
-            "success"
-        );
-
-
-        await loadQuestions();
+        loadQuestions();
 
     }catch(error){
 
-        showMessage(
-            document.getElementById(
-                "questionMessage"
-            ),
-            error.message,
-            "error"
-        );
-
+        alert(error.message);
     }
-
 }
 
 
 /* =====================================================
-   SECURITY EVENTS
+   EVENTS
 ===================================================== */
 
 async function loadEvents(){
@@ -2062,80 +1551,66 @@ async function loadEvents(){
                 "/api/admin/events"
             );
 
-
         const events =
             data.events || [];
 
-
-        document
-            .getElementById(
-                "eventCount"
-            )
-            .textContent =
-                events.length;
-
+        document.getElementById(
+            "eventCount"
+        ).textContent =
+            events.length;
 
         const table =
             document.getElementById(
                 "eventsTable"
             );
 
-
         table.innerHTML = "";
 
+        events
+            .slice()
+            .reverse()
+            .forEach(
+                event => {
 
-        events.forEach(
-            event => {
+                    const row =
+                        document.createElement(
+                            "tr"
+                        );
 
-                const row =
-                    document.createElement(
-                        "tr"
+                    row.innerHTML = `
+
+<td>
+${escapeHtml(event.timestamp)}
+</td>
+
+<td>
+${escapeHtml(event.studentId)}
+</td>
+
+<td>
+${escapeHtml(event.phone)}
+</td>
+
+<td>
+${escapeHtml(event.type)}
+</td>
+
+<td>
+${escapeHtml(event.details)}
+</td>
+
+`;
+
+                    table.appendChild(
+                        row
                     );
-
-
-                row.innerHTML = `
-
-                    <td>
-                        ${escapeHtml(
-                            event.timestamp
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            event.studentId
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            event.type
-                        )}
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            event.details
-                        )}
-                    </td>
-
-                `;
-
-
-                table.appendChild(
-                    row
-                );
-
-            }
-        );
-
+                }
+            );
 
     }catch(error){
 
         console.error(error);
-
     }
-
 }
 
 
@@ -2152,206 +1627,142 @@ async function loadStatus(){
                 "/api/admin/status"
             );
 
+        document.getElementById(
+            "serverStatus"
+        ).innerHTML = `
 
-        const box =
-            document.getElementById(
-                "serverStatus"
-            );
+<p>
+<strong>Server:</strong>
+${escapeHtml(data.server)}
+</p>
 
+<p>
+<strong>Status:</strong>
+<span class="status-online">
+${escapeHtml(data.status)}
+</span>
+</p>
 
-        box.innerHTML = `
+<p>
+<strong>Registration Open:</strong>
+${data.registrationOpen ? "YES" : "NO"}
+</p>
 
-            <p>
+<p>
+<strong>Exam Open:</strong>
+${data.examOpen ? "YES" : "NO"}
+</p>
 
-                <strong>
-                    Server:
-                </strong>
+<p>
+<strong>Registered Participants:</strong>
+${escapeHtml(data.registeredParticipants)}
+</p>
 
-                ${escapeHtml(
-                    data.server
-                )}
+<p>
+<strong>Stored Results:</strong>
+${escapeHtml(data.storedResults)}
+</p>
 
-            </p>
+<p>
+<strong>Security Events:</strong>
+${escapeHtml(data.storedSecurityEvents)}
+</p>
 
+<p>
+<strong>Questions:</strong>
+${escapeHtml(data.questionCount)}
+</p>
 
-            <p>
+<p>
+<strong>Checked At:</strong>
+${escapeHtml(data.timestamp)}
+</p>
 
-                <strong>
-                    Status:
-                </strong>
-
-                <span class="status-online">
-
-                    ${escapeHtml(
-                        data.status
-                    )}
-
-                </span>
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Registration Open:
-                </strong>
-
-                ${
-                    data.registrationOpen
-                    ? "YES"
-                    : "NO"
-                }
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Exam Open:
-                </strong>
-
-                ${
-                    data.examOpen
-                    ? "YES"
-                    : "NO"
-                }
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Active Sessions:
-                </strong>
-
-                ${escapeHtml(
-                    data.activeSessions
-                )}
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Registered Participants:
-                </strong>
-
-                ${escapeHtml(
-                    data.registeredParticipants
-                )}
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Stored Results:
-                </strong>
-
-                ${escapeHtml(
-                    data.storedResults
-                )}
-
-            </p>
-
-
-            <p>
-
-                <strong>
-                    Checked At:
-                </strong>
-
-                ${escapeHtml(
-                    data.timestamp
-                )}
-
-            </p>
-
-        `;
-
+`;
 
     }catch(error){
 
-        document
-            .getElementById(
-                "serverStatus"
-            )
-            .textContent =
-                error.message;
-
+        document.getElementById(
+            "serverStatus"
+        ).textContent =
+            error.message;
     }
-
 }
 
 
 /* =====================================================
-   HTML SAFETY
+   TABS
 ===================================================== */
 
-function escapeHtml(
-    value
+function showTab(
+    id,
+    button
 ){
 
-    return String(
-        value ?? ""
-    )
-    .replaceAll(
-        "&",
-        "&amp;"
-    )
-    .replaceAll(
-        "<",
-        "&lt;"
-    )
-    .replaceAll(
-        ">",
-        "&gt;"
-    )
-    .replaceAll(
-        '"',
-        "&quot;"
-    )
-    .replaceAll(
-        "'",
-        "&#039;"
-    );
+    document
+        .querySelectorAll(".tab")
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
+        );
 
+    document
+        .getElementById(id)
+        .classList.add("active");
+
+    document
+        .querySelectorAll(".tabs button")
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "active"
+                )
+        );
+
+    button.classList.add("active");
 }
 
 
-function escapeAttribute(
-    value
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+    element,
+    text,
+    type
 ){
+
+    element.textContent =
+        text;
+
+    element.className =
+        "message " + type;
+
+    element.style.display =
+        "block";
+}
+
+
+/* =====================================================
+   SECURITY
+===================================================== */
+
+function escapeHtml(value){
 
     return String(
         value ?? ""
     )
-    .replaceAll(
-        "\\",
-        "\\\\"
-    )
-    .replaceAll(
-        "'",
-        "\\'"
-    )
-    .replaceAll(
-        "\n",
-        "\\n"
-    )
-    .replaceAll(
-        "\r",
-        "\\r"
-    );
-
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
 </script>
 
 </body>
 </html>
-```
