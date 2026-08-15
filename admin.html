@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>GMSC | Administrator Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMSC Administrator Portal</title>
 
 <style>
 *{
@@ -13,123 +13,145 @@
 
 body{
     margin:0;
-    background:#f3f6fa;
+    background:#f4f7fb;
     color:#172033;
 }
 
 header{
     background:#07152f;
     color:white;
-    padding:18px 5%;
+    padding:20px 6%;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
 .logo{
-    font-size:25px;
-    font-weight:bold;
+    font-size:27px;
+    font-weight:800;
+}
+
+#logoutButton{
+    display:none;
+    background:#dc2626;
+    color:white;
+    border:0;
+    padding:10px 18px;
+    border-radius:7px;
+    cursor:pointer;
 }
 
 .container{
     max-width:1250px;
-    margin:30px auto;
-    padding:20px;
+    margin:auto;
+    padding:35px 20px;
+}
+
+.login-box{
+    max-width:450px;
+    margin:80px auto;
+    background:white;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 5px 25px rgba(0,0,0,.08);
+}
+
+.login-box h1{
+    margin-top:0;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    margin:7px 0 15px;
+    border:1px solid #d0d5dd;
+    border-radius:7px;
+}
+
+button{
+    border:0;
+    border-radius:7px;
+    padding:11px 17px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.primary{
+    background:#155eef;
+    color:white;
+}
+
+.green{
+    background:#16a34a;
+    color:white;
+}
+
+.red{
+    background:#dc2626;
+    color:white;
+}
+
+.gray{
+    background:#667085;
+    color:white;
 }
 
 .card{
     background:white;
     border-radius:14px;
     padding:25px;
-    margin-bottom:20px;
+    margin-bottom:25px;
     box-shadow:0 5px 20px rgba(0,0,0,.07);
 }
 
-input{
-    width:100%;
-    padding:13px;
-    margin:10px 0 15px;
-    border:1px solid #d0d5dd;
-    border-radius:8px;
-}
-
-button{
-    border:0;
-    border-radius:8px;
-    padding:11px 16px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.login{
-    width:100%;
-    background:#07152f;
-    color:white;
-}
-
-.refresh{
-    background:#07152f;
-    color:white;
-}
-
-.logout{
-    background:#e4e7ec;
-}
-
-.hidden{
-    display:none!important;
-}
-
-.error{
-    background:#fee2e2;
-    color:#991b1b;
-    padding:14px;
-    border-radius:8px;
-    margin-bottom:15px;
-}
-
-.success{
-    background:#d1fae5;
-    color:#065f46;
-    padding:14px;
-    border-radius:8px;
-    margin-bottom:15px;
-}
-
-.login-box{
-    max-width:450px;
-    margin:50px auto;
-}
-
-.controls{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    margin-bottom:20px;
-}
-
-.stats{
+.dashboard{
     display:grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(180px,1fr));
-    gap:15px;
-    margin-bottom:20px;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
 }
 
 .stat{
-    background:#f8fafc;
-    border:1px solid #e4e7ec;
-    padding:20px;
-    border-radius:10px;
+    background:white;
+    padding:22px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,.06);
 }
 
-.stat-number{
+.stat h3{
+    margin:0 0 10px;
+    color:#667085;
+    font-size:14px;
+}
+
+.stat strong{
     font-size:28px;
-    font-weight:bold;
-    margin-top:8px;
 }
 
-.table-wrap{
+.tabs{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.tabs button{
+    background:#e7ecf4;
+}
+
+.tabs button.active{
+    background:#07152f;
+    color:white;
+}
+
+.tab{
+    display:none;
+}
+
+.tab.active{
+    display:block;
+}
+
+.table-wrapper{
     overflow-x:auto;
 }
 
@@ -139,7 +161,7 @@ table{
 }
 
 th,td{
-    padding:13px;
+    padding:12px;
     border-bottom:1px solid #e4e7ec;
     text-align:left;
     white-space:nowrap;
@@ -149,60 +171,49 @@ th{
     background:#f8fafc;
 }
 
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:6px;
-    font-size:12px;
-    font-weight:bold;
+.message{
+    padding:12px;
+    margin-top:12px;
+    border-radius:7px;
+    display:none;
 }
 
-.badge-danger{
+.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
     background:#fee2e2;
     color:#991b1b;
 }
 
-.badge-warning{
-    background:#fff7ed;
-    color:#9a3412;
+.question{
+    border:1px solid #e4e7ec;
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:15px;
 }
 
-.badge-ok{
-    background:#d1fae5;
-    color:#065f46;
+.rank-highlight{
+    font-size:22px;
+    font-weight:bold;
 }
 
-.empty{
-    text-align:center;
-    padding:35px;
-    color:#667085;
+.status-online{
+    color:#15803d;
+    font-weight:bold;
 }
 
-.small{
-    color:#667085;
-    font-size:14px;
-}
-
-h1,h2,h3{
-    margin-top:0;
-}
-
-@media(max-width:700px){
-    .container{
-        padding:10px;
+@media(max-width:900px){
+    .dashboard{
+        grid-template-columns:repeat(2,1fr);
     }
+}
 
-    .card{
-        padding:18px;
-    }
-
-    header{
-        padding:15px 20px;
-    }
-
-    th,td{
-        padding:9px;
-        font-size:12px;
+@media(max-width:600px){
+    .dashboard{
+        grid-template-columns:1fr;
     }
 }
 </style>
@@ -211,157 +222,497 @@ h1,h2,h3{
 <body>
 
 <header>
-    <div class="logo">GMSC</div>
-    <div>Administrator Portal</div>
+    <div class="logo">GMSC ADMINISTRATOR PORTAL</div>
+    <button id="logoutButton" onclick="logout()">Logout</button>
 </header>
 
-<div class="container">
 
-<!-- LOGIN -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
-<div id="loginBox" class="card login-box">
+<div id="loginScreen">
 
-    <h1>Administrator Login</h1>
+    <div class="login-box">
 
-    <p class="small">
-        Enter the administrator key to access GMSC results
-        and proctoring records.
-    </p>
+        <h1>Administrator Login</h1>
 
-    <div id="loginError" class="error hidden"></div>
+        <p>
+            Authorized GMSC administrators only.
+        </p>
 
-    <input
-        id="adminKey"
-        type="password"
-        placeholder="Administrator key"
-        autocomplete="off"
-    >
+        <input
+            id="adminKey"
+            type="password"
+            placeholder="Administrator Secret Key"
+        >
 
-    <button
-        class="login"
-        onclick="login()">
-        🔐 Login
-    </button>
+        <button
+            class="primary"
+            style="width:100%;"
+            onclick="adminLogin()"
+        >
+            Login
+        </button>
+
+        <div
+            id="loginMessage"
+            class="message">
+        </div>
+
+    </div>
 
 </div>
 
 
-<!-- DASHBOARD -->
+<!-- =====================================================
+     ADMIN DASHBOARD
+===================================================== -->
 
-<div id="dashboard" class="hidden">
+<div
+    id="adminPanel"
+    style="display:none;"
+>
 
-    <div class="card">
+<div class="container">
 
-        <h1>GMSC Examination Dashboard</h1>
+    <h1>GMSC Administration</h1>
 
-        <p class="small">
-            Results and examination security records.
-        </p>
+    <p>
+        Manage participants, results, rankings,
+        questions and examination data.
+    </p>
 
-        <div class="controls">
+
+    <!-- DASHBOARD -->
+
+    <div class="dashboard">
+
+        <div class="stat">
+            <h3>Registered Participants</h3>
+            <strong id="registeredCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>Submitted Exams</h3>
+            <strong id="resultCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>Security Events</h3>
+            <strong id="eventCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>Questions</h3>
+            <strong id="questionCount">0</strong>
+        </div>
+
+    </div>
+
+
+    <!-- TABS -->
+
+    <div class="tabs">
+
+        <button
+            class="active"
+            onclick="showTab('results',this)">
+            Results
+        </button>
+
+        <button
+            onclick="showTab('ranks',this)">
+            Rankings
+        </button>
+
+        <button
+            onclick="showTab('participants',this)">
+            Participants
+        </button>
+
+        <button
+            onclick="showTab('questions',this)">
+            Questions
+        </button>
+
+        <button
+            onclick="showTab('events',this)">
+            Security Events
+        </button>
+
+        <button
+            onclick="showTab('status',this)">
+            Server Status
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         RESULTS
+    ================================================== -->
+
+    <section
+        id="results"
+        class="tab active"
+    >
+
+        <div class="card">
+
+            <h2>Checked Results</h2>
 
             <button
-                class="refresh"
-                onclick="loadDashboard()">
-                🔄 Refresh
+                class="primary"
+                onclick="loadResults()">
+                Refresh Results
             </button>
+
+            <br><br>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Submission</th>
+                        <th>Student</th>
+                        <th>ID</th>
+                        <th>Score</th>
+                        <th>Percentage</th>
+                        <th>Round 2</th>
+                        <th>Rank</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="resultsTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         RANKINGS
+    ================================================== -->
+
+    <section
+        id="ranks"
+        class="tab"
+    >
+
+        <div class="card">
+
+            <h2>Rank Management</h2>
+
+            <p>
+                Rankings are calculated from server-side
+                examination results.
+            </p>
+
+            <br>
 
             <button
-                class="logout"
-                onclick="logout()">
-                Logout
+                class="green"
+                onclick="calculateRanks()">
+                🔄 Update / Recalculate Ranks
             </button>
 
-        </div>
-
-        <div id="dashboardMessage"></div>
-
-    </div>
-
-
-    <!-- STATISTICS -->
-
-    <div class="stats">
-
-        <div class="stat">
-            <div>Total Submissions</div>
             <div
-                class="stat-number"
-                id="totalSubmissions">
-                0
+                id="rankMessage"
+                class="message">
             </div>
+
+            <br>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Student</th>
+                        <th>ID</th>
+                        <th>Score</th>
+                        <th>Percentage</th>
+                        <th>Round 2</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="rankTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
         </div>
 
-        <div class="stat">
-            <div>Total Violations</div>
+    </section>
+
+
+    <!-- =================================================
+         PARTICIPANTS
+    ================================================== -->
+
+    <section
+        id="participants"
+        class="tab"
+    >
+
+        <div class="card">
+
+            <h2>Registered Participants</h2>
+
+            <button
+                class="primary"
+                onclick="loadParticipants()">
+                Refresh Participants
+            </button>
+
+            <br><br>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Registration ID</th>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Email</th>
+                        <th>Registered</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="participantsTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         QUESTIONS
+    ================================================== -->
+
+    <section
+        id="questions"
+        class="tab"
+    >
+
+        <div class="card">
+
+            <h2>Question Bank</h2>
+
+            <p>
+                Administrators can upload/add examination
+                questions and configure their correct answers.
+            </p>
+
+            <br>
+
+            <button
+                class="primary"
+                onclick="loadQuestions()">
+                Load Current Questions
+            </button>
+
+            <div id="questionsContainer">
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>Add New Question</h2>
+
+            <label>Question</label>
+
+            <textarea
+                id="newQuestion"
+                rows="4"
+                placeholder="Enter question">
+            </textarea>
+
+
+            <label>Option 1</label>
+
+            <input
+                id="option1"
+                placeholder="Option 1"
+            >
+
+            <label>Option 2</label>
+
+            <input
+                id="option2"
+                placeholder="Option 2"
+            >
+
+            <label>Option 3</label>
+
+            <input
+                id="option3"
+                placeholder="Option 3"
+            >
+
+            <label>Option 4</label>
+
+            <input
+                id="option4"
+                placeholder="Option 4"
+            >
+
+
+            <label>Correct Answer</label>
+
+            <select id="correctAnswer">
+
+                <option value="0">
+                    Option 1
+                </option>
+
+                <option value="1">
+                    Option 2
+                </option>
+
+                <option value="2">
+                    Option 3
+                </option>
+
+                <option value="3">
+                    Option 4
+                </option>
+
+            </select>
+
+
+            <label>Marks</label>
+
+            <input
+                id="questionMarks"
+                type="number"
+                value="1"
+                min="1"
+            >
+
+
+            <button
+                class="green"
+                onclick="addQuestion()">
+
+                ➕ Add Question
+
+            </button>
+
+
             <div
-                class="stat-number"
-                id="totalViolations">
-                0
-            </div>
-        </div>
-
-        <div class="stat">
-            <div>Average Score</div>
-            <div
-                class="stat-number"
-                id="averageScore">
-                0%
-            </div>
-        </div>
-
-        <div class="stat">
-            <div>Highest Score</div>
-            <div
-                class="stat-number"
-                id="highestScore">
-                0%
-            </div>
-        </div>
-
-    </div>
-
-
-    <!-- RESULTS -->
-
-    <div class="card">
-
-        <h2>📊 Examination Results</h2>
-
-        <div
-            id="resultsContainer"
-            class="table-wrap">
-
-            <div class="empty">
-                No results loaded.
+                id="questionMessage"
+                class="message">
             </div>
 
         </div>
 
-    </div>
+    </section>
 
 
-    <!-- PROCTORING -->
+    <!-- =================================================
+         SECURITY EVENTS
+    ================================================== -->
 
-    <div class="card">
+    <section
+        id="events"
+        class="tab"
+    >
 
-        <h2>🚨 Proctoring Violations</h2>
+        <div class="card">
 
-        <p class="small">
-            Security events recorded by the GMSC examination system.
-        </p>
+            <h2>Proctoring / Security Events</h2>
 
-        <div
-            id="violationsContainer"
-            class="table-wrap">
+            <button
+                class="primary"
+                onclick="loadEvents()">
+                Refresh Events
+            </button>
 
-            <div class="empty">
-                No violations loaded.
+            <br><br>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                    <tr>
+                        <th>Time</th>
+                        <th>Student ID</th>
+                        <th>Event</th>
+                        <th>Details</th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody id="eventsTable">
+                    </tbody>
+
+                </table>
+
             </div>
 
         </div>
 
-    </div>
+    </section>
+
+
+    <!-- =================================================
+         SERVER STATUS
+    ================================================== -->
+
+    <section
+        id="status"
+        class="tab"
+    >
+
+        <div class="card">
+
+            <h2>GMSC Server Status</h2>
+
+            <button
+                class="primary"
+                onclick="loadStatus()">
+                Check Server
+            </button>
+
+            <br><br>
+
+            <div id="serverStatus">
+                No status loaded.
+            </div>
+
+        </div>
+
+    </section>
 
 </div>
 
@@ -370,21 +721,80 @@ h1,h2,h3{
 
 <script>
 
-/* ==================================================
-   STATE
-================================================== */
+let ADMIN_KEY = "";
 
-let adminKey =
-    sessionStorage.getItem(
-        "gmscAdminKey"
-    );
+let allResults = [];
+
+let allRanks = [];
 
 
-/* ==================================================
+/* =====================================================
+   HELPERS
+===================================================== */
+
+function showMessage(
+    element,
+    text,
+    type
+){
+
+    element.textContent =
+        text;
+
+    element.className =
+        "message " + type;
+
+    element.style.display =
+        "block";
+
+}
+
+
+async function api(
+    url,
+    options = {}
+){
+
+    options.headers =
+        options.headers || {};
+
+    options.headers[
+        "x-admin-key"
+    ] =
+        ADMIN_KEY;
+
+
+    const response =
+        await fetch(
+            url,
+            options
+        );
+
+
+    const data =
+        await response.json();
+
+
+    if(!response.ok){
+
+        throw new Error(
+            data.message ||
+            "Request failed"
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =====================================================
    LOGIN
-================================================== */
+===================================================== */
 
-async function login(){
+async function adminLogin(){
 
     const key =
         document
@@ -397,640 +807,963 @@ async function login(){
 
     if(!key){
 
-        showLoginError(
-            "Please enter the administrator key."
-        );
-
-        return;
-
-    }
-
-
-    try{
-
-        const response =
-            await fetch(
-                "/api/admin/results",
-                {
-                    headers:{
-                        "x-admin-key":
-                            key
-                    }
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if(
-            !response.ok ||
-            !data.success
-        ){
-
-            showLoginError(
-                data.message ||
-                "Invalid administrator key."
-            );
-
-            return;
-
-        }
-
-
-        adminKey =
-            key;
-
-
-        sessionStorage.setItem(
-            "gmscAdminKey",
-            adminKey
-        );
-
-
-        document
-            .getElementById(
-                "loginBox"
-            )
-            .classList.add(
-                "hidden"
-            );
-
-
-        document
-            .getElementById(
-                "dashboard"
-            )
-            .classList.remove(
-                "hidden"
-            );
-
-
-        loadDashboard();
-
-
-    }catch(error){
-
-        showLoginError(
-            "Could not connect to the GMSC server."
-        );
-
-    }
-
-}
-
-
-/* ==================================================
-   LOAD DASHBOARD
-================================================== */
-
-async function loadDashboard(){
-
-    if(!adminKey){
-
-        logout();
-
-        return;
-
-    }
-
-
-    try{
-
-        const [
-            resultsResponse,
-            violationsResponse
-        ] =
-        await Promise.all([
-
-            fetch(
-                "/api/admin/results",
-                {
-                    headers:{
-                        "x-admin-key":
-                            adminKey
-                    }
-                }
+        showMessage(
+            document.getElementById(
+                "loginMessage"
             ),
+            "Enter the administrator key.",
+            "error"
+        );
 
-            fetch(
-                "/api/admin/violations",
-                {
-                    headers:{
-                        "x-admin-key":
-                            adminKey
-                    }
-                }
+        return;
+
+    }
+
+
+    ADMIN_KEY =
+        key;
+
+
+    try{
+
+        await api(
+            "/api/admin/status"
+        );
+
+
+        document
+            .getElementById(
+                "loginScreen"
             )
-
-        ]);
-
-
-        if(
-            resultsResponse.status === 401 ||
-            violationsResponse.status === 401
-        ){
-
-            logout();
-
-            return;
-
-        }
+            .style.display =
+                "none";
 
 
-        const resultsData =
-            await resultsResponse.json();
+        document
+            .getElementById(
+                "adminPanel"
+            )
+            .style.display =
+                "block";
 
 
-        const violationsData =
-            await violationsResponse.json();
+        document
+            .getElementById(
+                "logoutButton"
+            )
+            .style.display =
+                "block";
 
 
-        if(
-            !resultsData.success
-        ){
-
-            throw new Error(
-                resultsData.message ||
-                "Could not load results."
-            );
-
-        }
-
-
-        if(
-            !violationsData.success
-        ){
-
-            throw new Error(
-                violationsData.message ||
-                "Could not load violations."
-            );
-
-        }
-
-
-        displayResults(
-            resultsData.results || []
-        );
-
-
-        displayViolations(
-            violationsData.violations || []
-        );
-
-
-        updateStats(
-            resultsData.results || [],
-            violationsData.violations || []
-        );
+        loadEverything();
 
 
     }catch(error){
 
-        document
-            .getElementById(
-                "dashboardMessage"
-            )
-            .innerHTML =
+        ADMIN_KEY = "";
 
-            `<div class="error">
-                ${escapeHTML(
-                    error.message
-                )}
-            </div>`;
+        showMessage(
+            document.getElementById(
+                "loginMessage"
+            ),
+            error.message,
+            "error"
+        );
 
     }
 
 }
 
 
-/* ==================================================
-   RESULTS
-================================================== */
+/* =====================================================
+   LOGOUT
+===================================================== */
 
-function displayResults(
-    results
+function logout(){
+
+    ADMIN_KEY = "";
+
+    location.reload();
+
+}
+
+
+/* =====================================================
+   TABS
+===================================================== */
+
+function showTab(
+    id,
+    button
 ){
 
-    const container =
-        document.getElementById(
-            "resultsContainer"
+    document
+        .querySelectorAll(
+            ".tab"
+        )
+        .forEach(
+            tab =>
+                tab.classList.remove(
+                    "active"
+                )
         );
 
 
-    if(
-        results.length === 0
-    ){
+    document
+        .getElementById(
+            id
+        )
+        .classList.add(
+            "active"
+        );
 
-        container.innerHTML =
-            `<div class="empty">
-                No examinations submitted yet.
-            </div>`;
 
-        return;
+    document
+        .querySelectorAll(
+            ".tabs button"
+        )
+        .forEach(
+            b =>
+                b.classList.remove(
+                    "active"
+                )
+        );
+
+
+    button.classList.add(
+        "active"
+    );
+
+}
+
+
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
+function loadEverything(){
+
+    loadResults();
+
+    loadParticipants();
+
+    loadEvents();
+
+    loadStatus();
+
+    loadQuestions();
+
+}
+
+
+/* =====================================================
+   RESULTS
+===================================================== */
+
+async function loadResults(){
+
+    try{
+
+        const data =
+            await api(
+                "/api/admin/results"
+            );
+
+
+        allResults =
+            data.results || [];
+
+
+        document
+            .getElementById(
+                "resultCount"
+            )
+            .textContent =
+                allResults.length;
+
+
+        renderResults();
+
+        calculateRanks();
+
+
+    }catch(error){
+
+        console.error(error);
 
     }
 
-
-    let html = `
-
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Submission ID</th>
-                    <th>Student</th>
-                    <th>Student ID</th>
-                    <th>Email</th>
-                    <th>Submitted</th>
-                    <th>Score</th>
-                    <th>Percentage</th>
-                    <th>Reason</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
+}
 
 
-    results.forEach(
+function renderResults(){
+
+    const table =
+        document.getElementById(
+            "resultsTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    allResults.forEach(
         result => {
 
-            html += `
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
-                <tr>
 
-                    <td>
-                        ${escapeHTML(
-                            result.submissionId
-                        )}
-                    </td>
+            row.innerHTML = `
 
-                    <td>
-                        ${escapeHTML(
-                            result.studentName
-                        )}
-                    </td>
+                <td>
+                    ${escapeHtml(
+                        result.submissionId
+                    )}
+                </td>
 
-                    <td>
-                        ${escapeHTML(
-                            result.studentId
-                        )}
-                    </td>
+                <td>
+                    ${escapeHtml(
+                        result.studentName
+                    )}
+                </td>
 
-                    <td>
-                        ${escapeHTML(
-                            result.email
-                        )}
-                    </td>
+                <td>
+                    ${escapeHtml(
+                        result.studentId
+                    )}
+                </td>
 
-                    <td>
-                        ${formatDate(
-                            result.submittedAt
-                        )}
-                    </td>
+                <td>
+                    ${result.score}
+                    /
+                    ${result.totalMarks}
+                </td>
 
-                    <td>
-                        ${result.score}
-                        /
-                        ${result.totalMarks}
-                    </td>
+                <td>
+                    ${result.percentage}%
+                </td>
 
-                    <td>
-                        <strong>
-                            ${result.percentage}%
-                        </strong>
-                    </td>
+                <td>
+                    ${
+                        result.qualifiesForRound2
+                        ? "YES"
+                        : "NO"
+                    }
+                </td>
 
-                    <td>
-                        ${escapeHTML(
-                            result.reason
-                        )}
-                    </td>
-
-                </tr>
+                <td>
+                    ${getRank(
+                        result.submissionId
+                    )}
+                </td>
 
             `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   RANK CALCULATION
+===================================================== */
+
+function calculateRanks(){
+
+    allRanks =
+        [...allResults];
+
+
+    /*
+       Ranking rule:
+
+       1. Higher score first
+       2. Higher percentage first
+       3. Earlier submission time first
+
+       This keeps the ranking deterministic.
+    */
+
+    allRanks.sort(
+        (a,b) => {
+
+            if(
+                Number(b.score) !==
+                Number(a.score)
+            ){
+
+                return (
+                    Number(b.score) -
+                    Number(a.score)
+                );
+
+            }
+
+
+            if(
+                Number(b.percentage) !==
+                Number(a.percentage)
+            ){
+
+                return (
+                    Number(b.percentage) -
+                    Number(a.percentage)
+                );
+
+            }
+
+
+            return new Date(
+                a.submittedAt
+            ) -
+            new Date(
+                b.submittedAt
+            );
 
         }
     );
 
 
-    html += `
-
-            </tbody>
-
-        </table>
-
-    `;
+    renderRanks();
 
 
-    container.innerHTML =
-        html;
+    if(
+        document.getElementById(
+            "rankMessage"
+        )
+    ){
+
+        showMessage(
+            document.getElementById(
+                "rankMessage"
+            ),
+            "Ranks recalculated successfully.",
+            "success"
+        );
+
+    }
 
 }
 
 
-/* ==================================================
-   VIOLATIONS
-================================================== */
-
-function displayViolations(
-    violations
+function getRank(
+    submissionId
 ){
 
-    const container =
-        document.getElementById(
-            "violationsContainer"
+    const index =
+        allRanks.findIndex(
+            item =>
+                item.submissionId ===
+                submissionId
         );
 
 
-    if(
-        violations.length === 0
-    ){
+    return index >= 0
+        ? index + 1
+        : "-";
 
-        container.innerHTML =
-            `<div class="empty">
-                No proctoring violations recorded.
-            </div>`;
-
-        return;
-
-    }
+}
 
 
-    let html = `
+function renderRanks(){
 
-        <table>
-
-            <thead>
-
-                <tr>
-
-                    <th>Time</th>
-                    <th>Student</th>
-                    <th>Student ID</th>
-                    <th>Violation</th>
-                    <th>Details</th>
-                    <th>Violation ID</th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-    `;
+    const table =
+        document.getElementById(
+            "rankTable"
+        );
 
 
-    violations
-        .slice()
-        .reverse()
-        .forEach(
-            violation => {
+    table.innerHTML = "";
 
-                html += `
 
-                    <tr>
+    allRanks.forEach(
+        (result,index) => {
 
-                        <td>
-                            ${formatDate(
-                                violation.timestamp
-                            )}
-                        </td>
+            const row =
+                document.createElement(
+                    "tr"
+                );
 
-                        <td>
-                            ${escapeHTML(
-                                violation.studentName
-                            )}
-                        </td>
 
-                        <td>
-                            ${escapeHTML(
-                                violation.studentId
-                            )}
-                        </td>
+            row.innerHTML = `
 
-                        <td>
-                            <span class="badge badge-danger">
-                                ${escapeHTML(
-                                    violation.type
-                                )}
-                            </span>
-                        </td>
+                <td class="rank-highlight">
+                    ${index + 1}
+                </td>
 
-                        <td>
-                            ${escapeHTML(
-                                violation.details ||
-                                "-"
-                            )}
-                        </td>
+                <td>
+                    ${escapeHtml(
+                        result.studentName
+                    )}
+                </td>
 
-                        <td>
-                            ${escapeHTML(
-                                violation.violationId
-                            )}
-                        </td>
+                <td>
+                    ${escapeHtml(
+                        result.studentId
+                    )}
+                </td>
 
-                    </tr>
+                <td>
+                    ${result.score}
+                    /
+                    ${result.totalMarks}
+                </td>
+
+                <td>
+                    ${result.percentage}%
+                </td>
+
+                <td>
+                    ${
+                        result.qualifiesForRound2
+                        ? "YES"
+                        : "NO"
+                    }
+                </td>
+
+            `;
+
+
+            table.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   PARTICIPANTS
+===================================================== */
+
+async function loadParticipants(){
+
+    try{
+
+        const data =
+            await api(
+                "/api/admin/registrations"
+            );
+
+
+        const registrations =
+            data.registrations || [];
+
+
+        document
+            .getElementById(
+                "registeredCount"
+            )
+            .textContent =
+                registrations.length;
+
+
+        const table =
+            document.getElementById(
+                "participantsTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        registrations.forEach(
+            person => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            person.registrationId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            person.name
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            person.studentId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            person.email
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            person.registeredAt
+                        )}
+                    </td>
 
                 `;
+
+
+                table.appendChild(
+                    row
+                );
 
             }
         );
 
 
-    html += `
+    }catch(error){
 
-            </tbody>
+        console.error(error);
 
-        </table>
-
-    `;
-
-
-    container.innerHTML =
-        html;
+    }
 
 }
 
 
-/* ==================================================
-   STATISTICS
-================================================== */
+/* =====================================================
+   QUESTIONS
+===================================================== */
 
-function updateStats(
-    results,
-    violations
-){
+async function loadQuestions(){
 
-    document
-        .getElementById(
-            "totalSubmissions"
-        )
-        .textContent =
-        results.length;
+    try{
+
+        const data =
+            await api(
+                "/api/questions"
+            );
 
 
-    document
-        .getElementById(
-            "totalViolations"
-        )
-        .textContent =
-        violations.length;
+        const questions =
+            data.questions || [];
+
+
+        document
+            .getElementById(
+                "questionCount"
+            )
+            .textContent =
+                questions.length;
+
+
+        const container =
+            document.getElementById(
+                "questionsContainer"
+            );
+
+
+        container.innerHTML = "";
+
+
+        questions.forEach(
+            (question,index) => {
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "question";
+
+
+                div.innerHTML = `
+
+                    <strong>
+                        Question ${index + 1}
+                    </strong>
+
+                    <p style="margin:10px 0;">
+                        ${escapeHtml(
+                            question.question
+                        )}
+                    </p>
+
+                    <ol>
+                        ${
+                            question.options
+                            .map(
+                                option =>
+                                `<li>
+                                    ${escapeHtml(
+                                        option
+                                    )}
+                                </li>`
+                            )
+                            .join("")
+                        }
+                    </ol>
+
+                    <p style="margin-top:10px;">
+                        Marks:
+                        ${question.marks}
+                    </p>
+
+                `;
+
+
+                container.appendChild(
+                    div
+                );
+
+            }
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =====================================================
+   ADD QUESTION
+===================================================== */
+
+async function addQuestion(){
+
+    const question =
+        document
+            .getElementById(
+                "newQuestion"
+            )
+            .value
+            .trim();
+
+
+    const options = [
+
+        document.getElementById(
+            "option1"
+        ).value.trim(),
+
+        document.getElementById(
+            "option2"
+        ).value.trim(),
+
+        document.getElementById(
+            "option3"
+        ).value.trim(),
+
+        document.getElementById(
+            "option4"
+        ).value.trim()
+
+    ];
+
+
+    const correctAnswer =
+        Number(
+            document.getElementById(
+                "correctAnswer"
+            ).value
+        );
+
+
+    const marks =
+        Number(
+            document.getElementById(
+                "questionMarks"
+            ).value
+        );
 
 
     if(
-        results.length === 0
+        !question ||
+        options.some(
+            option => !option
+        )
     ){
 
-        document
-            .getElementById(
-                "averageScore"
-            )
-            .textContent =
-            "0%";
-
-
-        document
-            .getElementById(
-                "highestScore"
-            )
-            .textContent =
-            "0%";
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            "Complete the question and all four options.",
+            "error"
+        );
 
         return;
 
     }
 
 
-    const percentages =
-        results.map(
-            result =>
-                Number(
-                    result.percentage
-                ) || 0
+    try{
+
+        await api(
+            "/api/admin/questions",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+
+                        question,
+
+                        options,
+
+                        correctAnswer,
+
+                        marks
+
+                    })
+
+            }
         );
 
 
-    const average =
-        percentages.reduce(
-            (
-                total,
-                value
-            ) =>
-                total + value,
-            0
-        ) /
-        percentages.length;
-
-
-    const highest =
-        Math.max(
-            ...percentages
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            "Question added successfully.",
+            "success"
         );
 
 
-    document
-        .getElementById(
-            "averageScore"
-        )
-        .textContent =
-        average.toFixed(2) +
-        "%";
+        document
+            .getElementById(
+                "newQuestion"
+            )
+            .value = "";
 
 
-    document
-        .getElementById(
-            "highestScore"
-        )
-        .textContent =
-        highest +
-        "%";
+        loadQuestions();
+
+
+    }catch(error){
+
+        showMessage(
+            document.getElementById(
+                "questionMessage"
+            ),
+            error.message,
+            "error"
+        );
+
+    }
 
 }
 
 
-/* ==================================================
-   LOGOUT
-================================================== */
+/* =====================================================
+   SECURITY EVENTS
+===================================================== */
 
-function logout(){
+async function loadEvents(){
 
-    sessionStorage.removeItem(
-        "gmscAdminKey"
-    );
+    try{
+
+        const data =
+            await api(
+                "/api/admin/events"
+            );
 
 
-    adminKey =
-        null;
+        const events =
+            data.events || [];
 
 
-    document
-        .getElementById(
-            "dashboard"
-        )
-        .classList.add(
-            "hidden"
+        document
+            .getElementById(
+                "eventCount"
+            )
+            .textContent =
+                events.length;
+
+
+        const table =
+            document.getElementById(
+                "eventsTable"
+            );
+
+
+        table.innerHTML = "";
+
+
+        events.forEach(
+            event => {
+
+                const row =
+                    document.createElement(
+                        "tr"
+                    );
+
+
+                row.innerHTML = `
+
+                    <td>
+                        ${escapeHtml(
+                            event.timestamp
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            event.studentId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            event.type
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            event.details
+                        )}
+                    </td>
+
+                `;
+
+
+                table.appendChild(
+                    row
+                );
+
+            }
         );
 
 
-    document
-        .getElementById(
-            "loginBox"
-        )
-        .classList.remove(
-            "hidden"
-        );
+    }catch(error){
 
+        console.error(error);
 
-    document
-        .getElementById(
-            "adminKey"
-        )
-        .value =
-        "";
+    }
 
 }
 
 
-/* ==================================================
-   ERROR
-================================================== */
+/* =====================================================
+   SERVER STATUS
+===================================================== */
 
-function showLoginError(
-    message
-){
+async function loadStatus(){
 
-    const element =
-        document.getElementById(
-            "loginError"
-        );
+    try{
 
-
-    element.textContent =
-        message;
+        const data =
+            await api(
+                "/api/admin/status"
+            );
 
 
-    element.classList.remove(
-        "hidden"
-    );
+        const box =
+            document.getElementById(
+                "serverStatus"
+            );
+
+
+        box.innerHTML = `
+
+            <p>
+                <strong>Server:</strong>
+                ${escapeHtml(
+                    data.server
+                )}
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                <span class="status-online">
+                    ${escapeHtml(
+                        data.status
+                    )}
+                </span>
+            </p>
+
+            <p>
+                <strong>Registration Open:</strong>
+                ${
+                    data.registrationOpen
+                    ? "YES"
+                    : "NO"
+                }
+            </p>
+
+            <p>
+                <strong>Exam Open:</strong>
+                ${
+                    data.examOpen
+                    ? "YES"
+                    : "NO"
+                }
+            </p>
+
+            <p>
+                <strong>Active Sessions:</strong>
+                ${data.activeSessions}
+            </p>
+
+            <p>
+                <strong>Registered Participants:</strong>
+                ${data.registeredParticipants}
+            </p>
+
+            <p>
+                <strong>Stored Results:</strong>
+                ${data.storedResults}
+            </p>
+
+            <p>
+                <strong>Checked At:</strong>
+                ${escapeHtml(
+                    data.timestamp
+                )}
+            </p>
+
+        `;
+
+
+    }catch(error){
+
+        document
+            .getElementById(
+                "serverStatus"
+            )
+            .textContent =
+                error.message;
+
+    }
 
 }
 
 
-/* ==================================================
-   SAFE HTML
-================================================== */
+/* =====================================================
+   HTML SAFETY
+===================================================== */
 
-function escapeHTML(
+function escapeHtml(
     value
 ){
 
@@ -1057,76 +1790,6 @@ function escapeHTML(
         "'",
         "&#039;"
     );
-
-}
-
-
-/* ==================================================
-   DATE FORMAT
-================================================== */
-
-function formatDate(
-    value
-){
-
-    if(!value){
-
-        return "-";
-
-    }
-
-
-    const date =
-        new Date(
-            value
-        );
-
-
-    if(
-        Number.isNaN(
-            date.getTime()
-        )
-    ){
-
-        return escapeHTML(
-            value
-        );
-
-    }
-
-
-    return escapeHTML(
-        date.toLocaleString()
-    );
-
-}
-
-
-/* ==================================================
-   EXISTING SESSION
-================================================== */
-
-if(adminKey){
-
-    document
-        .getElementById(
-            "loginBox"
-        )
-        .classList.add(
-            "hidden"
-        );
-
-
-    document
-        .getElementById(
-            "dashboard"
-        )
-        .classList.remove(
-            "hidden"
-        );
-
-
-    loadDashboard();
 
 }
 
