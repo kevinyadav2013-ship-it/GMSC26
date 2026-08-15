@@ -6,10 +6,12 @@ const path = require("path");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
 const ADMIN_SECRET =
     process.env.ADMIN_SECRET || "CHANGE_THIS_ADMIN_SECRET";
 
-const DATA_DIR = path.join(__dirname, "data");
+const DATA_DIR =
+    path.join(__dirname, "data");
 
 const RESULTS_FILE =
     path.join(DATA_DIR, "results.json");
@@ -31,6 +33,21 @@ const RANKS_FILE =
    GMSC EXAM SCHEDULE
 ========================================================= */
 
+/*
+   Registration:
+   1 August 2026 00:00:00
+   to
+   31 August 2026 23:59:59
+
+   Exam:
+   1 September 2026 00:00:00
+   to
+   1 September 2026 23:59:59
+
+   Result:
+   1 December 2026
+*/
+
 const REGISTRATION_START =
     new Date("2026-08-01T00:00:00+05:30");
 
@@ -41,12 +58,31 @@ const EXAM_START =
     new Date("2026-09-01T00:00:00+05:30");
 
 const EXAM_END =
-    new Date("2026-10-01T23:59:59+05:30");
+    new Date("2026-09-01T23:59:59+05:30");
 
 const RESULT_DATE =
     new Date("2026-12-01T00:00:00+05:30");
 
+
+/*
+   Individual student attempt duration.
+
+   The examination is available throughout
+   1 September, but once a student starts,
+   they receive 60 minutes or until the exam
+   closes, whichever comes first.
+*/
+
 const EXAM_DURATION_MINUTES = 60;
+
+
+/* =========================================================
+   AWARD / ROUND RULES
+========================================================= */
+
+const ROUND_2_FULL_MARKS_REQUIRED = true;
+
+const ROUND_2_AWARD_USD = 250;
 
 
 /* =========================================================
@@ -67,9 +103,14 @@ app.use(
 
 
 if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, {
-        recursive: true
-    });
+
+    fs.mkdirSync(
+        DATA_DIR,
+        {
+            recursive: true
+        }
+    );
+
 }
 
 
@@ -81,22 +122,29 @@ const INITIAL_QUESTIONS = [
 
     {
         id: 1,
+
         question:
             "Let n be a positive integer such that n² + 3n + 5 is divisible by n + 1. How many possible values of n are there?",
+
         options: [
             "1",
             "2",
             "3",
             "4"
         ],
+
         correctAnswer: 1,
+
         marks: 1
     },
 
+
     {
         id: 2,
+
         question:
             "A 4×4 board is filled with the numbers 1,2,…,16, each used exactly once. What is the maximum possible number of rows and columns whose sums are all equal?",
+
         options: [
             "4",
             "5",
@@ -104,14 +152,19 @@ const INITIAL_QUESTIONS = [
             "7",
             "8"
         ],
+
         correctAnswer: 0,
+
         marks: 1
     },
 
+
     {
         id: 3,
+
         question:
             "For positive real numbers a, b, c satisfying a + b + c = 3, find the minimum value of a² + 1/b² + b² + 1/c² + c² + 1/a².",
+
         options: [
             "2/3",
             "4/9",
@@ -119,28 +172,38 @@ const INITIAL_QUESTIONS = [
             "8/27",
             "6"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     },
 
+
     {
         id: 4,
+
         question:
             "In triangle ABC, AB = AC. A point D lies on BC such that BD:DC = 1:2. If ∠BAD = 30°, then ∠BAC equals:",
+
         options: [
             "60°",
             "75°",
             "90°",
             "120°"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     },
 
+
     {
         id: 5,
+
         question:
             "How many integers n, 1 ≤ n ≤ 1000, satisfy gcd(n,1000) = 10?",
+
         options: [
             "80",
             "100",
@@ -148,77 +211,104 @@ const INITIAL_QUESTIONS = [
             "200",
             "40"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     },
 
+
     {
         id: 6,
+
         question:
             "A particle moves in a circle of radius R with constant speed v. Its acceleration is suddenly doubled while its speed remains unchanged. What happens to the radius of curvature?",
+
         options: [
             "R/2",
             "R",
             "2R",
             "4R"
         ],
+
         correctAnswer: 0,
+
         marks: 1
     },
 
+
     {
         id: 7,
+
         question:
             "A capacitor of capacitance C is charged to potential V and then disconnected from the battery. A dielectric of relative permittivity k is completely inserted between its plates. The new electrostatic energy is:",
+
         options: [
             "CV²/2",
             "CV²/(2k)",
             "kCV²/2",
             "k²CV²/2"
         ],
+
         correctAnswer: 1,
+
         marks: 1
     },
 
+
     {
         id: 8,
+
         question:
             "For the reaction N₂O₄(g) ⇌ 2NO₂(g), the equilibrium constant Kp is fixed at a particular temperature. If the volume of the container is suddenly decreased while temperature remains constant, which statement is correct?",
+
         options: [
             "Kp increases",
             "Kp decreases",
             "The equilibrium shifts toward N₂O₄",
             "The equilibrium shifts toward NO₂"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     },
 
+
     {
         id: 9,
+
         question:
             "For a galvanic cell operating spontaneously under standard conditions, which statement must always be true?",
+
         options: [
             "E°cell < 0",
             "ΔG° > 0",
             "E°cell > 0",
             "K < 1"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     },
 
+
     {
         id: 10,
+
         question:
             "A mutation changes a codon in an mRNA from UGG → UGA. Assuming translation normally proceeds through this codon, what is the most likely consequence?",
+
         options: [
             "A conservative amino-acid substitution",
             "A silent mutation",
             "Premature termination of translation",
             "A frameshift mutation"
         ],
+
         correctAnswer: 2,
+
         marks: 1
     }
 
@@ -229,7 +319,10 @@ const INITIAL_QUESTIONS = [
    FILE HELPERS
 ========================================================= */
 
-function ensureFile(file, value) {
+function ensureFile(
+    file,
+    value
+) {
 
     if (!fs.existsSync(file)) {
 
@@ -314,11 +407,12 @@ function writeJson(
    SESSION STORAGE
 ========================================================= */
 
-const sessions = new Map();
+const sessions =
+    new Map();
 
 
 /* =========================================================
-   HELPERS
+   GENERAL HELPERS
 ========================================================= */
 
 function generateToken() {
@@ -335,7 +429,9 @@ function generateId(prefix) {
     return (
         prefix +
         "-" +
-        Date.now().toString(36).toUpperCase() +
+        Date.now()
+            .toString(36)
+            .toUpperCase() +
         "-" +
         crypto
             .randomBytes(4)
@@ -372,7 +468,8 @@ function cleanString(
 
 function isRegistrationOpen() {
 
-    const now = new Date();
+    const now =
+        new Date();
 
     return (
         now >=
@@ -386,7 +483,8 @@ function isRegistrationOpen() {
 
 function isExamOpen() {
 
-    const now = new Date();
+    const now =
+        new Date();
 
     return (
         now >=
@@ -399,7 +497,7 @@ function isExamOpen() {
 
 
 /* =========================================================
-   STUDENT SESSION AUTH
+   STUDENT SESSION AUTHENTICATION
 ========================================================= */
 
 function requireExamSession(
@@ -503,7 +601,7 @@ function requireExamSession(
 
 
 /* =========================================================
-   ADMIN AUTH
+   ADMIN AUTHENTICATION
 ========================================================= */
 
 function requireAdmin(
@@ -571,6 +669,15 @@ app.get(
             resultDate:
                 RESULT_DATE
                     .toISOString(),
+
+            examDurationMinutes:
+                EXAM_DURATION_MINUTES,
+
+            round2FullMarksRequired:
+                ROUND_2_FULL_MARKS_REQUIRED,
+
+            round2AwardUSD:
+                ROUND_2_AWARD_USD,
 
             registrationOpen:
                 isRegistrationOpen(),
@@ -654,7 +761,9 @@ app.post(
         const duplicate =
             registrations.find(
                 person =>
-                    person.studentId
+                    String(
+                        person.studentId
+                    )
                         .toLowerCase() ===
                     studentId
                         .toLowerCase()
@@ -692,7 +801,8 @@ app.post(
                 new Date()
                     .toISOString(),
 
-            verified: false
+            verified:
+                false
 
         };
 
@@ -725,7 +835,7 @@ app.post(
 
 
 /* =========================================================
-   STUDENT ID VERIFICATION
+   VERIFY STUDENT FROM RECORDS
 ========================================================= */
 
 app.post(
@@ -739,6 +849,22 @@ app.post(
             );
 
 
+        if (!studentId) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                verified: false,
+
+                message:
+                    "Student ID is required."
+
+            });
+
+        }
+
+
         const registrations =
             readJson(
                 REGISTRATIONS_FILE
@@ -748,7 +874,9 @@ app.post(
         const person =
             registrations.find(
                 item =>
-                    item.studentId
+                    String(
+                        item.studentId
+                    )
                         .toLowerCase() ===
                     studentId
                         .toLowerCase()
@@ -801,7 +929,7 @@ app.post(
 
 /* =========================================================
    PUBLIC QUESTIONS
-   ANSWERS ARE REMOVED
+   NEVER SEND ANSWERS
 ========================================================= */
 
 app.get(
@@ -885,7 +1013,9 @@ app.post(
         const student =
             registrations.find(
                 item =>
-                    item.studentId
+                    String(
+                        item.studentId
+                    )
                         .toLowerCase() ===
                     studentId
                         .toLowerCase()
@@ -906,13 +1036,46 @@ app.post(
         }
 
 
+        /*
+         * Prevent the same student from
+         * creating unlimited sessions.
+         */
+
+        for (
+            const [
+                id,
+                existingSession
+            ]
+            of sessions
+        ) {
+
+            if (
+                existingSession.studentId
+                    .toLowerCase() ===
+                student.studentId
+                    .toLowerCase() &&
+                !existingSession.submitted
+            ) {
+
+                return res.status(409).json({
+
+                    success: false,
+
+                    message:
+                        "This student already has an active exam session."
+
+                });
+
+            }
+
+        }
+
+
         const sessionId =
             crypto.randomUUID();
 
-
         const token =
             generateToken();
-
 
         const startedAt =
             Date.now();
@@ -920,12 +1083,14 @@ app.post(
 
         const expiresAt =
             Math.min(
+
                 startedAt +
                 EXAM_DURATION_MINUTES *
                 60 *
                 1000,
 
                 EXAM_END.getTime()
+
             );
 
 
@@ -951,7 +1116,8 @@ app.post(
             submitted:
                 false,
 
-            violations: []
+            violations:
+                []
 
         };
 
@@ -1081,7 +1247,8 @@ app.post(
 
             success: true,
 
-            recorded: true
+            recorded:
+                true
 
         });
 
@@ -1134,7 +1301,10 @@ app.post(
 
         answers =
             questions.map(
-                (question,index) => {
+                (
+                    question,
+                    index
+                ) => {
 
                     const answer =
                         answers[index];
@@ -1160,13 +1330,18 @@ app.post(
             );
 
 
-        let score = 0;
+        let score =
+            0;
 
-        let totalMarks = 0;
+        let totalMarks =
+            0;
 
 
         questions.forEach(
-            (question,index) => {
+            (
+                question,
+                index
+            ) => {
 
                 const marks =
                     Number(
@@ -1207,8 +1382,14 @@ app.post(
                 : 0;
 
 
+        /*
+         * Full marks = Round 2 qualification.
+         */
+
         const qualifiesForRound2 =
-            score === totalMarks;
+            ROUND_2_FULL_MARKS_REQUIRED
+                ? score === totalMarks
+                : false;
 
 
         const submission = {
@@ -1256,6 +1437,24 @@ app.post(
 
             qualifiesForRound2,
 
+            /*
+             * This is true only for a Round 2
+             * result that also receives full marks.
+             *
+             * Round 2 results can later be stored
+             * with round: 2.
+             */
+
+            round:
+                Number(
+                    req.body.round
+                ) === 2
+                    ? 2
+                    : 1,
+
+            qualifiesFor250USD:
+                false,
+
             violationCount:
                 session.violations.length,
 
@@ -1291,11 +1490,6 @@ app.post(
         );
 
 
-        /*
-         * Recalculate persistent ranks
-         * after every submission.
-         */
-
         recalculateRanks();
 
 
@@ -1314,6 +1508,12 @@ app.post(
 
             qualifiesForRound2,
 
+            qualifiesFor250USD:
+                false,
+
+            round:
+                submission.round,
+
             submittedAt:
                 submission.submittedAt
 
@@ -1324,7 +1524,7 @@ app.post(
 
 
 /* =========================================================
-   RANK CALCULATION
+   PERSISTENT RANK CALCULATION
 ========================================================= */
 
 function recalculateRanks() {
@@ -1344,29 +1544,29 @@ function recalculateRanks() {
 
 
     validResults.sort(
-        (a,b) => {
+        (a, b) => {
 
             if (
-                b.score !==
-                a.score
+                Number(b.score) !==
+                Number(a.score)
             ) {
 
                 return (
-                    b.score -
-                    a.score
+                    Number(b.score) -
+                    Number(a.score)
                 );
 
             }
 
 
             if (
-                b.percentage !==
-                a.percentage
+                Number(b.percentage) !==
+                Number(a.percentage)
             ) {
 
                 return (
-                    b.percentage -
-                    a.percentage
+                    Number(b.percentage) -
+                    Number(a.percentage)
                 );
 
             }
@@ -1413,7 +1613,10 @@ function recalculateRanks() {
 
     const ranks =
         validResults.map(
-            (result,index) => ({
+            (
+                result,
+                index
+            ) => ({
 
                 submissionId:
                     result.submissionId,
@@ -1435,6 +1638,9 @@ function recalculateRanks() {
 
                 qualifiesForRound2:
                     result.qualifiesForRound2,
+
+                round:
+                    result.round || 1,
 
                 rank:
                     manualRanks.has(
@@ -1487,6 +1693,35 @@ app.get(
 
             status:
                 "online",
+
+            registrationStart:
+                REGISTRATION_START
+                    .toISOString(),
+
+            registrationEnd:
+                REGISTRATION_END
+                    .toISOString(),
+
+            examStart:
+                EXAM_START
+                    .toISOString(),
+
+            examEnd:
+                EXAM_END
+                    .toISOString(),
+
+            resultDate:
+                RESULT_DATE
+                    .toISOString(),
+
+            examDurationMinutes:
+                EXAM_DURATION_MINUTES,
+
+            round2FullMarksRequired:
+                ROUND_2_FULL_MARKS_REQUIRED,
+
+            round2AwardUSD:
+                ROUND_2_AWARD_USD,
 
             registrationOpen:
                 isRegistrationOpen(),
@@ -1589,6 +1824,14 @@ app.get(
 
                         qualifiesForRound2:
                             result.qualifiesForRound2,
+
+                        qualifiesFor250USD:
+                            result.qualifiesFor250USD ||
+                            false,
+
+                        round:
+                            result.round ||
+                            1,
 
                         rank:
                             rank
@@ -1722,11 +1965,6 @@ app.get(
     "/api/admin/questions",
     requireAdmin,
     (req, res) => {
-
-        /*
-         * Answer keys are visible only
-         * after administrator authentication.
-         */
 
         res.json({
 
@@ -1959,6 +2197,9 @@ app.put(
                 option =>
                     !option
             ) ||
+            !Number.isInteger(
+                correctAnswer
+            ) ||
             correctAnswer < 0 ||
             correctAnswer >=
                 options.length
@@ -1988,7 +2229,9 @@ app.put(
             correctAnswer,
 
             marks:
-                marks > 0
+                Number.isFinite(
+                    marks
+                ) && marks > 0
                     ? marks
                     : 1
 
@@ -2149,10 +2392,35 @@ app.put(
         }
 
 
-        const ranks =
+        /*
+         * Load existing persistent ranks.
+         */
+
+        let ranks =
             readJson(
                 RANKS_FILE
             );
+
+
+        /*
+         * If ranks have not yet been
+         * generated, generate them first.
+         */
+
+        const existing =
+            ranks.find(
+                rank =>
+                    rank.submissionId ===
+                    submissionId
+            );
+
+
+        if (!existing) {
+
+            ranks =
+                recalculateRanks();
+
+        }
 
 
         const item =
@@ -2254,31 +2522,31 @@ app.delete(
         }
 
 
+        /*
+         * Remove the manual override.
+         */
+
         item.manual =
             false;
 
 
         /*
-         * Recalculate all ranks after
-         * removing manual override.
+         * Delete current rank file
+         * and regenerate rankings.
          */
-
-        const recalculated =
-            ranks
-                .filter(
-                    rank =>
-                        rank.submissionId !==
-                        submissionId
-                );
-
 
         writeJson(
             RANKS_FILE,
-            recalculated
+            ranks.filter(
+                rank =>
+                    rank.submissionId !==
+                    submissionId
+            )
         );
 
 
-        recalculateRanks();
+        const recalculated =
+            recalculateRanks();
 
 
         res.json({
@@ -2286,7 +2554,10 @@ app.delete(
             success: true,
 
             message:
-                "Manual rank removed and rankings recalculated."
+                "Manual rank removed and rankings recalculated.",
+
+            ranks:
+                recalculated
 
         });
 
@@ -2339,7 +2610,202 @@ app.get(
 
 
 /* =========================================================
-   404
+   ADMIN EXAM INFORMATION
+========================================================= */
+
+app.get(
+    "/api/admin/exam-info",
+    requireAdmin,
+    (req, res) => {
+
+        res.json({
+
+            success: true,
+
+            registration: {
+
+                start:
+                    REGISTRATION_START
+                        .toISOString(),
+
+                end:
+                    REGISTRATION_END
+                        .toISOString()
+
+            },
+
+            exam: {
+
+                start:
+                    EXAM_START
+                        .toISOString(),
+
+                end:
+                    EXAM_END
+                        .toISOString(),
+
+                durationMinutes:
+                    EXAM_DURATION_MINUTES
+
+            },
+
+            resultDate:
+                RESULT_DATE
+                    .toISOString(),
+
+            rules: {
+
+                fullMarksQualifiesRound2:
+                    true,
+
+                fullMarksBothRoundsAwardUSD:
+                    ROUND_2_AWARD_USD
+
+            }
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ADMIN AWARD STATUS
+========================================================= */
+
+app.get(
+    "/api/admin/awards",
+    requireAdmin,
+    (req, res) => {
+
+        const results =
+            readJson(
+                RESULTS_FILE
+            );
+
+
+        /*
+         * A participant becomes eligible for
+         * the $250 award only when they have
+         * full marks in Round 1 AND Round 2.
+         */
+
+        const students =
+            new Map();
+
+
+        results.forEach(
+            result => {
+
+                const studentId =
+                    result.studentId;
+
+
+                if (!studentId) {
+                    return;
+                }
+
+
+                if (
+                    !students.has(
+                        studentId
+                    )
+                ) {
+
+                    students.set(
+                        studentId,
+                        {
+
+                            studentId,
+
+                            studentName:
+                                result.studentName,
+
+                            round1FullMarks:
+                                false,
+
+                            round2FullMarks:
+                                false
+
+                        }
+                    );
+
+                }
+
+
+                const student =
+                    students.get(
+                        studentId
+                    );
+
+
+                if (
+                    result.round === 1 &&
+                    result.score ===
+                    result.totalMarks
+                ) {
+
+                    student.round1FullMarks =
+                        true;
+
+                }
+
+
+                if (
+                    result.round === 2 &&
+                    result.score ===
+                    result.totalMarks
+                ) {
+
+                    student.round2FullMarks =
+                        true;
+
+                }
+
+            }
+        );
+
+
+        const awards =
+            Array.from(
+                students.values()
+            )
+            .map(
+                student => ({
+
+                    ...student,
+
+                    qualifiesFor250USD:
+                        student.round1FullMarks &&
+                        student.round2FullMarks,
+
+                    awardUSD:
+                        student.round1FullMarks &&
+                        student.round2FullMarks
+                            ? ROUND_2_AWARD_USD
+                            : 0
+
+                })
+            );
+
+
+        res.json({
+
+            success: true,
+
+            awardAmountUSD:
+                ROUND_2_AWARD_USD,
+
+            awards
+
+        });
+
+    }
+);
+
+
+/* =========================================================
+   ROOT ROUTES
 ========================================================= */
 
 app.get(
@@ -2387,6 +2853,10 @@ app.get(
 );
 
 
+/* =========================================================
+   API 404
+========================================================= */
+
 app.use(
     (req, res) => {
 
@@ -2421,7 +2891,12 @@ app.use(
 ========================================================= */
 
 app.use(
-    (error, req, res, next) => {
+    (
+        error,
+        req,
+        res,
+        next
+    ) => {
 
         console.error(
             "SERVER ERROR:",
@@ -2451,12 +2926,15 @@ app.listen(
     () => {
 
         console.log("");
+
         console.log(
             "======================================"
         );
+
         console.log(
-            "       GMSC SERVER ONLINE"
+            "          GMSC SERVER ONLINE"
         );
+
         console.log(
             "======================================"
         );
@@ -2478,11 +2956,23 @@ app.listen(
         );
 
         console.log(
-            "Exam: 1 Sep 2026 - 1 Oct 2026"
+            "Exam: 1 Sep 2026 - 11:59:59 PM"
+        );
+
+        console.log(
+            "Individual attempt: 60 minutes"
         );
 
         console.log(
             "Result date: 1 Dec 2026"
+        );
+
+        console.log(
+            "Full marks: Round 2 qualification"
+        );
+
+        console.log(
+            "Full marks in both rounds: $250"
         );
 
         console.log(
@@ -2504,6 +2994,7 @@ app.listen(
         console.log(
             "======================================"
         );
+
         console.log("");
 
     }
