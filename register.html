@@ -1,264 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GMSC | Student Registration</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>GMSC Registration</title>
 
 <style>
 
 *{
-    margin:0;
-    padding:0;
     box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
+    margin:0;
     min-height:100vh;
-    background:linear-gradient(135deg,#07152f,#104f8a);
     display:flex;
-    justify-content:center;
     align-items:center;
-    padding:30px;
+    justify-content:center;
+    background:#07152f;
 }
 
-.register-container{
+.container{
     width:100%;
-    max-width:600px;
+    max-width:520px;
+    padding:20px;
+}
+
+.card{
     background:white;
-    border-radius:20px;
-    padding:40px;
-    box-shadow:0 20px 50px rgba(0,0,0,0.25);
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 15px 50px rgba(0,0,0,.25);
 }
 
-.logo{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.logo-circle{
-    width:60px;
-    height:60px;
-    border-radius:50%;
-    background:#28c7e8;
+h1{
+    margin-top:0;
     color:#07152f;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:20px;
-    margin:0 auto 12px;
 }
 
-.logo h1{
-    color:#07152f;
-    font-size:30px;
-}
-
-.logo p{
+.subtitle{
     color:#667085;
-    margin-top:6px;
+    line-height:1.5;
 }
 
-.form-group{
-    margin-bottom:20px;
-}
-
-.form-group label{
+label{
     display:block;
-    margin-bottom:8px;
     font-weight:bold;
-    color:#172033;
+    margin-top:18px;
+    margin-bottom:7px;
 }
 
-.form-group input,
-.form-group select{
+input{
     width:100%;
     padding:14px;
     border:1px solid #d0d5dd;
     border-radius:8px;
     font-size:16px;
-    outline:none;
 }
 
-.form-group input:focus,
-.form-group select:focus{
-    border-color:#28c7e8;
-}
-
-.register-btn{
+button{
     width:100%;
-    padding:15px;
-    border:none;
+    margin-top:22px;
+    padding:14px;
+    border:0;
     border-radius:8px;
-    background:#07152f;
+    background:#155eef;
     color:white;
-    font-size:17px;
+    font-size:16px;
     font-weight:bold;
     cursor:pointer;
 }
 
-.register-btn:hover{
-    background:#104f8a;
+button:hover{
+    background:#004eea;
+}
+
+.message{
+    display:none;
+    margin-top:20px;
+    padding:15px;
+    border-radius:8px;
+}
+
+.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.registration-id{
+    margin-top:15px;
+    padding:15px;
+    background:#f2f4f7;
+    border-radius:8px;
+    font-weight:bold;
 }
 
 .back{
     display:block;
     text-align:center;
     margin-top:20px;
-    color:#104f8a;
+    color:#155eef;
     text-decoration:none;
 }
 
-.back:hover{
-    text-decoration:underline;
-}
-
-.notice{
-    background:#eef8ff;
-    padding:15px;
-    border-radius:8px;
-    margin-bottom:25px;
-    color:#344054;
-    font-size:14px;
-    line-height:1.5;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="register-container">
+<div class="container">
 
-    <div class="logo">
+<div class="card">
 
-        <div class="logo-circle">
-            GM
-        </div>
+<h1>
+GMSC Registration
+</h1>
 
-        <h1>GMSC</h1>
+<p class="subtitle">
+Register for the GMSC examination.
+Please enter your correct details.
+</p>
 
-        <p>Student Registration</p>
+<form
+id="registrationForm"
+>
 
-    </div>
+<label>
+Full Name
+</label>
 
+<input
+id="name"
+type="text"
+placeholder="Enter your full name"
+required
+>
 
-    <div class="notice">
+<label>
+Phone Number
+</label>
 
-        Please enter your details carefully.
-        Your registration information will be used for the GMSC examination.
+<input
+id="phone"
+type="tel"
+placeholder="Enter your phone number"
+maxlength="15"
+required
+>
 
-    </div>
+<label>
+Email Address
+</label>
 
+<input
+id="email"
+type="email"
+placeholder="Enter your email address"
+required
+>
 
-    <form>
+<button
+type="submit"
+>
+Register Now
+</button>
 
-        <div class="form-group">
-
-            <label for="name">
-                Full Name
-            </label>
-
-            <input
-                type="text"
-                id="name"
-                placeholder="Enter your full name"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="email">
-                Email Address
-            </label>
-
-            <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                required
-            >
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label for="school">
-                School Name
-            </label>
-
-            <input
-                type="text"
-                id="school"
-                placeholder="Enter your school name"
-                required
-            >
-
-        </div>
+</form>
 
 
-        <div class="form-group">
-
-            <label for="class">
-                Class
-            </label>
-
-            <select id="class" required>
-
-                <option value="">
-                    Select your class
-                </option>
-
-                <option>Class 6</option>
-                <option>Class 7</option>
-                <option>Class 8</option>
-                <option>Class 9</option>
-                <option>Class 10</option>
-                <option>Class 11</option>
-                <option>Class 12</option>
-
-            </select>
-
-        </div>
+<div
+id="message"
+class="message"
+>
+</div>
 
 
-        <div class="form-group">
-
-            <label for="phone">
-                Phone Number
-            </label>
-
-            <input
-                type="tel"
-                id="phone"
-                placeholder="Enter your phone number"
-                required
-            >
-
-        </div>
+<div
+id="registrationResult"
+>
+</div>
 
 
-        <button
-            type="submit"
-            class="register-btn">
-            Register for GMSC
-        </button>
-
-    </form>
-
-
-    <a href="index.html" class="back">
-        ← Back to GMSC Home
-    </a>
+<a
+class="back"
+href="/"
+>
+← Back to GMSC Home
+</a>
 
 </div>
 
+</div>
+
+
+<script>
+
+const form =
+    document.getElementById(
+        "registrationForm"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const registrationResult =
+    document.getElementById(
+        "registrationResult"
+    );
+
+
+form.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        message.style.display =
+            "none";
+
+        registrationResult.innerHTML =
+            "";
+
+        const name =
+            document.getElementById(
+                "name"
+            ).value.trim();
+
+        const phone =
+            document.getElementById(
+                "phone"
+            ).value.trim();
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+        try{
+
+            const response =
+                await fetch(
+                    "/api/register",
+                    {
+
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                name,
+
+                                phone,
+
+                                email
+                            })
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            if(!response.ok){
+
+                throw new Error(
+                    data.message ||
+                    "Registration failed."
+                );
+            }
+
+            message.className =
+                "message success";
+
+            message.textContent =
+                "Registration successful!";
+
+            message.style.display =
+                "block";
+
+            registrationResult.innerHTML = `
+
+<div class="registration-id">
+
+Registration ID:
+${escapeHtml(
+    data.registrationId
+)}
+
+<br><br>
+
+Name:
+${escapeHtml(
+    data.student.name
+)}
+
+<br>
+
+Phone:
+${escapeHtml(
+    data.student.phone
+)}
+
+<br>
+
+Email:
+${escapeHtml(
+    data.student.email
+)}
+
+</div>
+
+`;
+
+            form.reset();
+
+        }catch(error){
+
+            message.className =
+                "message error";
+
+            message.textContent =
+                error.message;
+
+            message.style.display =
+                "block";
+        }
+    }
+);
+
+
+function escapeHtml(value){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+</script>
+
 </body>
+
 </html>
