@@ -33,21 +33,6 @@ const RANKS_FILE =
    GMSC EXAM SCHEDULE
 ========================================================= */
 
-/*
-   Registration:
-   1 August 2026 00:00:00
-   to
-   31 August 2026 23:59:59
-
-   Exam:
-   1 September 2026 00:00:00
-   to
-   1 September 2026 23:59:59
-
-   Result:
-   1 December 2026
-*/
-
 const REGISTRATION_START =
     new Date("2026-08-01T00:00:00+05:30");
 
@@ -66,11 +51,6 @@ const RESULT_DATE =
 
 /*
    Individual student attempt duration.
-
-   The examination is available throughout
-   1 September, but once a student starts,
-   they receive 60 minutes or until the exam
-   closes, whichever comes first.
 */
 
 const EXAM_DURATION_MINUTES = 60;
@@ -466,6 +446,45 @@ function cleanString(
 }
 
 
+/*
+   Normalize phone number so that
+   spaces and "-" do not cause problems.
+*/
+
+function normalizePhone(
+    value
+) {
+
+    return cleanString(
+        value,
+        30
+    )
+        .replace(
+            /[\s()-]/g,
+            ""
+        );
+
+}
+
+
+/*
+   Basic phone number validation.
+
+   Supports international numbers,
+   including Indian +91 numbers.
+*/
+
+function isValidPhone(
+    phone
+) {
+
+    return /^[+]?[0-9]{8,15}$/.test(
+        phone
+    );
+
+}
+
+
 function isRegistrationOpen() {
 
     const now =
@@ -721,11 +740,16 @@ app.post(
                 100
             );
 
-        const studentId =
-            cleanString(
-                req.body.studentId,
-                100
+
+        /*
+         * PHONE NUMBER INSTEAD OF STUDENT ID
+         */
+
+        const phoneNumber =
+            normalizePhone(
+                req.body.phoneNumber
             );
+
 
         const email =
             cleanString(
@@ -736,7 +760,9 @@ app.post(
 
         if (
             name.length < 2 ||
-            !studentId ||
+            !isValidPhone(
+                phoneNumber
+            ) ||
             !email.includes("@")
         ) {
 
@@ -745,7 +771,7 @@ app.post(
                 success: false,
 
                 message:
-                    "Valid registration details are required."
+                    "Valid name, phone number and email are required."
 
             });
 
@@ -758,26 +784,58 @@ app.post(
             );
 
 
-        const duplicate =
+        /*
+         * Prevent duplicate phone numbers.
+         */
+
+        const duplicatePhone =
             registrations.find(
                 person =>
-                    String(
-                        person.studentId
-                    )
-                        .toLowerCase() ===
-                    studentId
-                        .toLowerCase()
+                    normalizePhone(
+                        person.phoneNumber
+                    ) ===
+                    phoneNumber
             );
 
 
-        if (duplicate) {
+        if (duplicatePhone) {
 
             return res.status(409).json({
 
                 success: false,
 
                 message:
-                    "This Student ID is already registered."
+                    "This phone number is already registered."
+
+            });
+
+        }
+
+
+        /*
+         * Also prevent duplicate email.
+         */
+
+        const duplicateEmail =
+            registrations.find(
+                person =>
+                    String(
+                        person.email
+                    )
+                        .toLowerCase() ===
+                    email
+                        .toLowerCase()
+            );
+
+
+        if (duplicateEmail) {
+
+            return res.status(409).json({
+
+                success: false,
+
+                message:
+                    "This email address is already registered."
 
             });
 
@@ -793,7 +851,7 @@ app.post(
 
             name,
 
-            studentId,
+            phoneNumber,
 
             email,
 
@@ -835,21 +893,33 @@ app.post(
 
 
 /* =========================================================
-   VERIFY STUDENT FROM RECORDS
+   VERIFY PARTICIPANT BY PHONE NUMBER
 ========================================================= */
 
 app.post(
     "/api/verify-student",
     (req, res) => {
 
-        const studentId =
-            cleanString(
-                req.body.studentId,
-                100
+        /*
+         * The endpoint name remains the same
+         * so your existing frontend API call
+         * does not need to change.
+         *
+         * Student ID has been replaced by
+         * phoneNumber.
+         */
+
+        const phoneNumber =
+            normalizePhone(
+                req.body.phoneNumber
             );
 
 
-        if (!studentId) {
+        if (
+            !isValidPhone(
+                phoneNumber
+            )
+        ) {
 
             return res.status(400).json({
 
@@ -858,7 +928,7 @@ app.post(
                 verified: false,
 
                 message:
-                    "Student ID is required."
+                    "A valid registered phone number is required."
 
             });
 
@@ -874,12 +944,10 @@ app.post(
         const person =
             registrations.find(
                 item =>
-                    String(
-                        item.studentId
-                    )
-                        .toLowerCase() ===
-                    studentId
-                        .toLowerCase()
+                    normalizePhone(
+                        item.phoneNumber
+                    ) ===
+                    phoneNumber
             );
 
 
@@ -892,7 +960,7 @@ app.post(
                 verified: false,
 
                 message:
-                    "Student ID not found in registration records."
+                    "Phone number not found in registration records."
 
             });
 
@@ -910,8 +978,8 @@ app.post(
                 name:
                     person.name,
 
-                studentId:
-                    person.studentId,
+                phoneNumber:
+                    person.phoneNumber,
 
                 email:
                     person.email,
@@ -997,11 +1065,32 @@ app.post(
         }
 
 
-        const studentId =
-            cleanString(
-                req.body.studentId,
-                100
+        /*
+         * PHONE NUMBER INSTEAD OF STUDENT ID
+         */
+
+        const phoneNumber =
+            normalizePhone(
+                req.body.phoneNumber
             );
+
+
+        if (
+            !isValidPhone(
+                phoneNumber
+            )
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                message:
+                    "A valid phone number is required."
+
+            });
+
+        }
 
 
         const registrations =
@@ -1013,12 +1102,10 @@ app.post(
         const student =
             registrations.find(
                 item =>
-                    String(
-                        item.studentId
-                    )
-                        .toLowerCase() ===
-                    studentId
-                        .toLowerCase()
+                    normalizePhone(
+                        item.phoneNumber
+                    ) ===
+                    phoneNumber
             );
 
 
@@ -1029,7 +1116,7 @@ app.post(
                 success: false,
 
                 message:
-                    "Student ID is not present in registration records."
+                    "Phone number is not present in registration records."
 
             });
 
@@ -1037,7 +1124,7 @@ app.post(
 
 
         /*
-         * Prevent the same student from
+         * Prevent the same participant from
          * creating unlimited sessions.
          */
 
@@ -1050,10 +1137,10 @@ app.post(
         ) {
 
             if (
-                existingSession.studentId
-                    .toLowerCase() ===
-                student.studentId
-                    .toLowerCase() &&
+                normalizePhone(
+                    existingSession.phoneNumber
+                ) ===
+                phoneNumber &&
                 !existingSession.submitted
             ) {
 
@@ -1062,7 +1149,7 @@ app.post(
                     success: false,
 
                     message:
-                        "This student already has an active exam session."
+                        "This participant already has an active exam session."
 
                 });
 
@@ -1103,8 +1190,8 @@ app.post(
             studentName:
                 student.name,
 
-            studentId:
-                student.studentId,
+            phoneNumber:
+                student.phoneNumber,
 
             email:
                 student.email,
@@ -1140,8 +1227,8 @@ app.post(
             studentName:
                 student.name,
 
-            studentId:
-                student.studentId,
+            phoneNumber:
+                student.phoneNumber,
 
             startedAt:
                 new Date(
@@ -1199,8 +1286,8 @@ app.post(
             sessionId:
                 session.sessionId,
 
-            studentId:
-                session.studentId,
+            phoneNumber:
+                session.phoneNumber,
 
             type:
                 cleanString(
@@ -1382,10 +1469,6 @@ app.post(
                 : 0;
 
 
-        /*
-         * Full marks = Round 2 qualification.
-         */
-
         const qualifiesForRound2 =
             ROUND_2_FULL_MARKS_REQUIRED
                 ? score === totalMarks
@@ -1405,8 +1488,8 @@ app.post(
             studentName:
                 session.studentName,
 
-            studentId:
-                session.studentId,
+            phoneNumber:
+                session.phoneNumber,
 
             email:
                 session.email,
@@ -1436,14 +1519,6 @@ app.post(
             percentage,
 
             qualifiesForRound2,
-
-            /*
-             * This is true only for a Round 2
-             * result that also receives full marks.
-             *
-             * Round 2 results can later be stored
-             * with round: 2.
-             */
 
             round:
                 Number(
@@ -1624,8 +1699,8 @@ function recalculateRanks() {
                 studentName:
                     result.studentName,
 
-                studentId:
-                    result.studentId,
+                phoneNumber:
+                    result.phoneNumber,
 
                 score:
                     result.score,
@@ -1801,8 +1876,8 @@ app.get(
                         studentName:
                             result.studentName,
 
-                        studentId:
-                            result.studentId,
+                        phoneNumber:
+                            result.phoneNumber,
 
                         email:
                             result.email,
@@ -2392,20 +2467,11 @@ app.put(
         }
 
 
-        /*
-         * Load existing persistent ranks.
-         */
-
         let ranks =
             readJson(
                 RANKS_FILE
             );
 
-
-        /*
-         * If ranks have not yet been
-         * generated, generate them first.
-         */
 
         const existing =
             ranks.find(
@@ -2522,18 +2588,9 @@ app.delete(
         }
 
 
-        /*
-         * Remove the manual override.
-         */
-
         item.manual =
             false;
 
-
-        /*
-         * Delete current rank file
-         * and regenerate rankings.
-         */
 
         writeJson(
             RANKS_FILE,
@@ -2684,12 +2741,6 @@ app.get(
             );
 
 
-        /*
-         * A participant becomes eligible for
-         * the $250 award only when they have
-         * full marks in Round 1 AND Round 2.
-         */
-
         const students =
             new Map();
 
@@ -2697,26 +2748,26 @@ app.get(
         results.forEach(
             result => {
 
-                const studentId =
-                    result.studentId;
+                const phoneNumber =
+                    result.phoneNumber;
 
 
-                if (!studentId) {
+                if (!phoneNumber) {
                     return;
                 }
 
 
                 if (
                     !students.has(
-                        studentId
+                        phoneNumber
                     )
                 ) {
 
                     students.set(
-                        studentId,
+                        phoneNumber,
                         {
 
-                            studentId,
+                            phoneNumber,
 
                             studentName:
                                 result.studentName,
@@ -2735,7 +2786,7 @@ app.get(
 
                 const student =
                     students.get(
-                        studentId
+                        phoneNumber
                     );
 
 
@@ -2976,6 +3027,10 @@ app.listen(
         );
 
         console.log(
+            "Participant login: PHONE NUMBER + EMAIL"
+        );
+
+        console.log(
             "Question bank: PERSISTENT"
         );
 
@@ -2999,3 +3054,6 @@ app.listen(
 
     }
 );
+
+
+
