@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GMSC | Administrator Portal</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f3f6fa;
+    color:#172033;
+}
+
+header{
+    background:#07152f;
+    color:white;
+    padding:18px 5%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1250px;
+    margin:30px auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,.07);
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:10px 0 15px;
+    border:1px solid #d0d5dd;
+    border-radius:8px;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:11px 16px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.login{
+    width:100%;
+    background:#07152f;
+    color:white;
+}
+
+.refresh{
+    background:#07152f;
+    color:white;
+}
+
+.logout{
+    background:#e4e7ec;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:14px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.success{
+    background:#d1fae5;
+    color:#065f46;
+    padding:14px;
+    border-radius:8px;
+    margin-bottom:15px;
+}
+
+.login-box{
+    max-width:450px;
+    margin:50px auto;
+}
+
+.controls{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:#f8fafc;
+    border:1px solid #e4e7ec;
+    padding:20px;
+    border-radius:10px;
+}
+
+.stat-number{
+    font-size:28px;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:13px;
+    border-bottom:1px solid #e4e7ec;
+    text-align:left;
+    white-space:nowrap;
+}
+
+th{
+    background:#f8fafc;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.badge-danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.badge-warning{
+    background:#fff7ed;
+    color:#9a3412;
+}
+
+.badge-ok{
+    background:#d1fae5;
+    color:#065f46;
+}
+
+.empty{
+    text-align:center;
+    padding:35px;
+    color:#667085;
+}
+
+.small{
+    color:#667085;
+    font-size:14px;
+}
+
+h1,h2,h3{
+    margin-top:0;
+}
+
+@media(max-width:700px){
+    .container{
+        padding:10px;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+    header{
+        padding:15px 20px;
+    }
+
+    th,td{
+        padding:9px;
+        font-size:12px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">GMSC</div>
+    <div>Administrator Portal</div>
+</header>
+
+<div class="container">
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="card login-box">
+
+    <h1>Administrator Login</h1>
+
+    <p class="small">
+        Enter the administrator key to access GMSC results
+        and proctoring records.
+    </p>
+
+    <div id="loginError" class="error hidden"></div>
+
+    <input
+        id="adminKey"
+        type="password"
+        placeholder="Administrator key"
+        autocomplete="off"
+    >
+
+    <button
+        class="login"
+        onclick="login()">
+        🔐 Login
+    </button>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="hidden">
+
+    <div class="card">
+
+        <h1>GMSC Examination Dashboard</h1>
+
+        <p class="small">
+            Results and examination security records.
+        </p>
+
+        <div class="controls">
+
+            <button
+                class="refresh"
+                onclick="loadDashboard()">
+                🔄 Refresh
+            </button>
+
+            <button
+                class="logout"
+                onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+        <div id="dashboardMessage"></div>
+
+    </div>
+
+
+    <!-- STATISTICS -->
+
+    <div class="stats">
+
+        <div class="stat">
+            <div>Total Submissions</div>
+            <div
+                class="stat-number"
+                id="totalSubmissions">
+                0
+            </div>
+        </div>
+
+        <div class="stat">
+            <div>Total Violations</div>
+            <div
+                class="stat-number"
+                id="totalViolations">
+                0
+            </div>
+        </div>
+
+        <div class="stat">
+            <div>Average Score</div>
+            <div
+                class="stat-number"
+                id="averageScore">
+                0%
+            </div>
+        </div>
+
+        <div class="stat">
+            <div>Highest Score</div>
+            <div
+                class="stat-number"
+                id="highestScore">
+                0%
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- RESULTS -->
+
+    <div class="card">
+
+        <h2>📊 Examination Results</h2>
+
+        <div
+            id="resultsContainer"
+            class="table-wrap">
+
+            <div class="empty">
+                No results loaded.
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- PROCTORING -->
+
+    <div class="card">
+
+        <h2>🚨 Proctoring Violations</h2>
+
+        <p class="small">
+            Security events recorded by the GMSC examination system.
+        </p>
+
+        <div
+            id="violationsContainer"
+            class="table-wrap">
+
+            <div class="empty">
+                No violations loaded.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==================================================
+   STATE
+================================================== */
+
+let adminKey =
+    sessionStorage.getItem(
+        "gmscAdminKey"
+    );
+
+
+/* ==================================================
+   LOGIN
+================================================== */
+
+async function login(){
+
+    const key =
+        document
+            .getElementById(
+                "adminKey"
+            )
+            .value
+            .trim();
+
+
+    if(!key){
+
+        showLoginError(
+            "Please enter the administrator key."
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/admin/results",
+                {
+                    headers:{
+                        "x-admin-key":
+                            key
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            showLoginError(
+                data.message ||
+                "Invalid administrator key."
+            );
+
+            return;
+
+        }
+
+
+        adminKey =
+            key;
+
+
+        sessionStorage.setItem(
+            "gmscAdminKey",
+            adminKey
+        );
+
+
+        document
+            .getElementById(
+                "loginBox"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        document
+            .getElementById(
+                "dashboard"
+            )
+            .classList.remove(
+                "hidden"
+            );
+
+
+        loadDashboard();
+
+
+    }catch(error){
+
+        showLoginError(
+            "Could not connect to the GMSC server."
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+   LOAD DASHBOARD
+================================================== */
+
+async function loadDashboard(){
+
+    if(!adminKey){
+
+        logout();
+
+        return;
+
+    }
+
+
+    try{
+
+        const [
+            resultsResponse,
+            violationsResponse
+        ] =
+        await Promise.all([
+
+            fetch(
+                "/api/admin/results",
+                {
+                    headers:{
+                        "x-admin-key":
+                            adminKey
+                    }
+                }
+            ),
+
+            fetch(
+                "/api/admin/violations",
+                {
+                    headers:{
+                        "x-admin-key":
+                            adminKey
+                    }
+                }
+            )
+
+        ]);
+
+
+        if(
+            resultsResponse.status === 401 ||
+            violationsResponse.status === 401
+        ){
+
+            logout();
+
+            return;
+
+        }
+
+
+        const resultsData =
+            await resultsResponse.json();
+
+
+        const violationsData =
+            await violationsResponse.json();
+
+
+        if(
+            !resultsData.success
+        ){
+
+            throw new Error(
+                resultsData.message ||
+                "Could not load results."
+            );
+
+        }
+
+
+        if(
+            !violationsData.success
+        ){
+
+            throw new Error(
+                violationsData.message ||
+                "Could not load violations."
+            );
+
+        }
+
+
+        displayResults(
+            resultsData.results || []
+        );
+
+
+        displayViolations(
+            violationsData.violations || []
+        );
+
+
+        updateStats(
+            resultsData.results || [],
+            violationsData.violations || []
+        );
+
+
+    }catch(error){
+
+        document
+            .getElementById(
+                "dashboardMessage"
+            )
+            .innerHTML =
+
+            `<div class="error">
+                ${escapeHTML(
+                    error.message
+                )}
+            </div>`;
+
+    }
+
+}
+
+
+/* ==================================================
+   RESULTS
+================================================== */
+
+function displayResults(
+    results
+){
+
+    const container =
+        document.getElementById(
+            "resultsContainer"
+        );
+
+
+    if(
+        results.length === 0
+    ){
+
+        container.innerHTML =
+            `<div class="empty">
+                No examinations submitted yet.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Submission ID</th>
+                    <th>Student</th>
+                    <th>Student ID</th>
+                    <th>Email</th>
+                    <th>Submitted</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Reason</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    results.forEach(
+        result => {
+
+            html += `
+
+                <tr>
+
+                    <td>
+                        ${escapeHTML(
+                            result.submissionId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            result.studentName
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            result.studentId
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            result.email
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatDate(
+                            result.submittedAt
+                        )}
+                    </td>
+
+                    <td>
+                        ${result.score}
+                        /
+                        ${result.totalMarks}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${result.percentage}%
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${escapeHTML(
+                            result.reason
+                        )}
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* ==================================================
+   VIOLATIONS
+================================================== */
+
+function displayViolations(
+    violations
+){
+
+    const container =
+        document.getElementById(
+            "violationsContainer"
+        );
+
+
+    if(
+        violations.length === 0
+    ){
+
+        container.innerHTML =
+            `<div class="empty">
+                No proctoring violations recorded.
+            </div>`;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Time</th>
+                    <th>Student</th>
+                    <th>Student ID</th>
+                    <th>Violation</th>
+                    <th>Details</th>
+                    <th>Violation ID</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    violations
+        .slice()
+        .reverse()
+        .forEach(
+            violation => {
+
+                html += `
+
+                    <tr>
+
+                        <td>
+                            ${formatDate(
+                                violation.timestamp
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                violation.studentName
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                violation.studentId
+                            )}
+                        </td>
+
+                        <td>
+                            <span class="badge badge-danger">
+                                ${escapeHTML(
+                                    violation.type
+                                )}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                violation.details ||
+                                "-"
+                            )}
+                        </td>
+
+                        <td>
+                            ${escapeHTML(
+                                violation.violationId
+                            )}
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* ==================================================
+   STATISTICS
+================================================== */
+
+function updateStats(
+    results,
+    violations
+){
+
+    document
+        .getElementById(
+            "totalSubmissions"
+        )
+        .textContent =
+        results.length;
+
+
+    document
+        .getElementById(
+            "totalViolations"
+        )
+        .textContent =
+        violations.length;
+
+
+    if(
+        results.length === 0
+    ){
+
+        document
+            .getElementById(
+                "averageScore"
+            )
+            .textContent =
+            "0%";
+
+
+        document
+            .getElementById(
+                "highestScore"
+            )
+            .textContent =
+            "0%";
+
+        return;
+
+    }
+
+
+    const percentages =
+        results.map(
+            result =>
+                Number(
+                    result.percentage
+                ) || 0
+        );
+
+
+    const average =
+        percentages.reduce(
+            (
+                total,
+                value
+            ) =>
+                total + value,
+            0
+        ) /
+        percentages.length;
+
+
+    const highest =
+        Math.max(
+            ...percentages
+        );
+
+
+    document
+        .getElementById(
+            "averageScore"
+        )
+        .textContent =
+        average.toFixed(2) +
+        "%";
+
+
+    document
+        .getElementById(
+            "highestScore"
+        )
+        .textContent =
+        highest +
+        "%";
+
+}
+
+
+/* ==================================================
+   LOGOUT
+================================================== */
+
+function logout(){
+
+    sessionStorage.removeItem(
+        "gmscAdminKey"
+    );
+
+
+    adminKey =
+        null;
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "loginBox"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "adminKey"
+        )
+        .value =
+        "";
+
+}
+
+
+/* ==================================================
+   ERROR
+================================================== */
+
+function showLoginError(
+    message
+){
+
+    const element =
+        document.getElementById(
+            "loginError"
+        );
+
+
+    element.textContent =
+        message;
+
+
+    element.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* ==================================================
+   SAFE HTML
+================================================== */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replaceAll(
+        "&",
+        "&amp;"
+    )
+    .replaceAll(
+        "<",
+        "&lt;"
+    )
+    .replaceAll(
+        ">",
+        "&gt;"
+    )
+    .replaceAll(
+        '"',
+        "&quot;"
+    )
+    .replaceAll(
+        "'",
+        "&#039;"
+    );
+
+}
+
+
+/* ==================================================
+   DATE FORMAT
+================================================== */
+
+function formatDate(
+    value
+){
+
+    if(!value){
+
+        return "-";
+
+    }
+
+
+    const date =
+        new Date(
+            value
+        );
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return escapeHTML(
+            value
+        );
+
+    }
+
+
+    return escapeHTML(
+        date.toLocaleString()
+    );
+
+}
+
+
+/* ==================================================
+   EXISTING SESSION
+================================================== */
+
+if(adminKey){
+
+    document
+        .getElementById(
+            "loginBox"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+
+    document
+        .getElementById(
+            "dashboard"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+
+    loadDashboard();
+
+}
+
+</script>
+
+</body>
+</html>

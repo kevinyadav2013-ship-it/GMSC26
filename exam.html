@@ -1,0 +1,2413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GMSC | Secure Examination</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f3f6fa;
+    color:#172033;
+}
+
+header{
+    height:68px;
+    background:#07152f;
+    color:white;
+    padding:0 4%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.timer{
+    background:#172b50;
+    padding:9px 14px;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.timer.warning{
+    background:#92400e;
+}
+
+.timer.danger{
+    background:#991b1b;
+}
+
+.page{
+    max-width:1400px;
+    margin:auto;
+    padding:25px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    box-shadow:0 5px 25px rgba(0,0,0,.07);
+}
+
+.start-card{
+    max-width:650px;
+    margin:50px auto;
+    padding:35px;
+}
+
+h1,h2,h3{
+    margin-top:0;
+}
+
+.subtitle{
+    color:#667085;
+    line-height:1.6;
+}
+
+input{
+    width:100%;
+    padding:13px;
+    margin:8px 0 15px;
+    border:1px solid #d0d5dd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+button{
+    border:0;
+    border-radius:8px;
+    padding:12px 17px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:.55;
+    cursor:not-allowed;
+}
+
+.primary{
+    background:#07152f;
+    color:white;
+}
+
+.start-button{
+    width:100%;
+    margin-top:10px;
+}
+
+.notice{
+    background:#eff6ff;
+    border:1px solid #bfdbfe;
+    color:#1e3a8a;
+    padding:15px;
+    border-radius:9px;
+    margin:15px 0;
+    line-height:1.55;
+}
+
+.warning{
+    background:#fff7ed;
+    border:1px solid #fed7aa;
+    color:#9a3412;
+    padding:15px;
+    border-radius:9px;
+}
+
+.error{
+    background:#fee2e2;
+    color:#991b1b;
+    padding:15px;
+    border-radius:9px;
+    margin:15px 0;
+    line-height:1.5;
+}
+
+.hidden{
+    display:none!important;
+}
+
+.exam-layout{
+    display:grid;
+    grid-template-columns:1fr 290px;
+    gap:20px;
+}
+
+.question-card{
+    padding:30px;
+    min-height:600px;
+}
+
+.question-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.question-number{
+    color:#667085;
+    font-weight:bold;
+}
+
+.subject{
+    background:#eef2ff;
+    color:#3730a3;
+    padding:6px 10px;
+    border-radius:6px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.question-text{
+    font-size:20px;
+    line-height:1.6;
+    margin-bottom:30px;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+
+.option{
+    border:1px solid #d0d5dd;
+    border-radius:10px;
+    padding:16px;
+    cursor:pointer;
+    display:flex;
+    gap:12px;
+}
+
+.option.selected{
+    border-color:#07152f;
+    background:#f0f4fa;
+}
+
+.option input{
+    width:auto;
+    margin:3px 0 0;
+}
+
+.navigation{
+    display:flex;
+    justify-content:space-between;
+    margin-top:35px;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.secondary{
+    background:#e4e7ec;
+    color:#172033;
+}
+
+.submit{
+    background:#047857;
+    color:white;
+}
+
+.sidebar{
+    padding:20px;
+    height:max-content;
+    position:sticky;
+    top:20px;
+}
+
+.status-title{
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.security-status{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    margin-bottom:20px;
+}
+
+.security-item{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 10px;
+    background:#f8fafc;
+    border-radius:7px;
+    font-size:13px;
+}
+
+.dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    display:inline-block;
+    background:#9ca3af;
+}
+
+.dot.ok{
+    background:#059669;
+}
+
+.dot.bad{
+    background:#dc2626;
+}
+
+.question-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:7px;
+}
+
+.q-btn{
+    padding:9px 4px;
+    background:#e4e7ec;
+}
+
+.q-btn.answered{
+    background:#bfdbfe;
+}
+
+.q-btn.current{
+    outline:3px solid #07152f;
+}
+
+.q-btn.flagged{
+    border:2px solid #d97706;
+}
+
+.camera-box{
+    margin-top:20px;
+    background:#111827;
+    border-radius:10px;
+    overflow:hidden;
+    aspect-ratio:16/9;
+}
+
+.camera-box video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.exam-info{
+    margin-top:18px;
+    font-size:13px;
+    color:#667085;
+    line-height:1.8;
+}
+
+.violation-count{
+    color:#b91c1c;
+    font-weight:bold;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    z-index:10000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.modal-box{
+    background:white;
+    border-radius:14px;
+    max-width:500px;
+    width:100%;
+    padding:30px;
+}
+
+.result-card{
+    max-width:650px;
+    margin:50px auto;
+    padding:35px;
+    text-align:center;
+}
+
+.result-score{
+    font-size:45px;
+    font-weight:bold;
+    margin:20px 0;
+}
+
+@media(max-width:900px){
+    .exam-layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:static;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        GMSC
+    </div>
+
+    <div class="header-right">
+
+        <span id="studentHeader">
+            Student
+        </span>
+
+        <span id="timer" class="timer">
+            --:--
+        </span>
+
+    </div>
+
+</header>
+
+
+<div class="page">
+
+
+<!-- START SCREEN -->
+
+<section id="startScreen" class="card start-card">
+
+    <h1>
+        Secure Examination
+    </h1>
+
+    <p class="subtitle">
+        Welcome to the GMSC secure examination system.
+    </p>
+
+
+    <div class="notice">
+
+        <strong>Important:</strong>
+
+        <br><br>
+
+        Browser security prevents a webpage from secretly
+        recording or watching a student's screen or camera.
+        This version only uses the permissions the student
+        explicitly grants.
+
+        <br><br>
+
+        It also does not pretend that every detected event
+        means cheating.
+
+    </div>
+
+
+    <div class="warning">
+
+        <strong>Examination requirements</strong>
+
+        <ul>
+
+            <li>Camera permission is required.</li>
+
+            <li>Microphone permission is required.</li>
+
+            <li>
+                Entire-screen sharing is required.
+            </li>
+
+            <li>
+                Fullscreen mode is NOT required.
+            </li>
+
+            <li>
+                Stopping screen sharing can automatically
+                submit the examination.
+            </li>
+
+        </ul>
+
+    </div>
+
+
+    <div id="startError" class="error hidden"></div>
+
+
+    <label>
+        Student Name
+    </label>
+
+    <input
+        id="studentName"
+        type="text"
+        placeholder="Enter your name"
+        autocomplete="name"
+    >
+
+
+    <label>
+        Student ID
+    </label>
+
+    <input
+        id="studentId"
+        type="text"
+        placeholder="Enter your Student ID"
+    >
+
+
+    <label>
+        Email
+    </label>
+
+    <input
+        id="studentEmail"
+        type="email"
+        placeholder="Enter your email"
+        autocomplete="email"
+    >
+
+
+    <button
+        id="startButton"
+        class="primary start-button"
+        onclick="startSecureExam()">
+
+        Start Secure Examination
+
+    </button>
+
+</section>
+
+
+<!-- EXAM SCREEN -->
+
+<section id="examScreen" class="hidden">
+
+    <div class="exam-layout">
+
+
+        <main class="card question-card">
+
+            <div class="question-top">
+
+                <span
+                    id="questionNumber"
+                    class="question-number">
+                </span>
+
+                <span
+                    id="subjectBadge"
+                    class="subject">
+                </span>
+
+            </div>
+
+
+            <div
+                id="questionText"
+                class="question-text">
+            </div>
+
+
+            <div
+                id="options"
+                class="options">
+            </div>
+
+
+            <div class="navigation">
+
+                <button
+                    id="previousButton"
+                    class="secondary"
+                    onclick="previousQuestion()">
+
+                    ← Previous
+
+                </button>
+
+
+                <button
+                    id="flagButton"
+                    class="secondary"
+                    onclick="toggleFlag()">
+
+                    ⚑ Flag
+
+                </button>
+
+
+                <button
+                    id="nextButton"
+                    class="primary"
+                    onclick="nextQuestion()">
+
+                    Next →
+
+                </button>
+
+            </div>
+
+        </main>
+
+
+        <aside class="card sidebar">
+
+            <div class="status-title">
+                Security Status
+            </div>
+
+
+            <div class="security-status">
+
+                <div class="security-item">
+
+                    <span>
+                        Camera
+                    </span>
+
+                    <span>
+
+                        <span
+                            id="cameraDot"
+                            class="dot">
+                        </span>
+
+                        <span id="cameraText">
+                            Waiting
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <span>
+                        Microphone
+                    </span>
+
+                    <span>
+
+                        <span
+                            id="micDot"
+                            class="dot">
+                        </span>
+
+                        <span id="micText">
+                            Waiting
+                        </span>
+
+                    </span>
+
+                </div>
+
+
+                <div class="security-item">
+
+                    <span>
+                        Entire Screen
+                    </span>
+
+                    <span>
+
+                        <span
+                            id="screenDot"
+                            class="dot">
+                        </span>
+
+                        <span id="screenText">
+                            Waiting
+                        </span>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="status-title">
+                Questions
+            </div>
+
+
+            <div
+                id="questionGrid"
+                class="question-grid">
+            </div>
+
+
+            <div class="exam-info">
+
+                Answered:
+                <strong id="answeredCount">
+                    0
+                </strong>
+
+                <br>
+
+                Flagged:
+                <strong id="flaggedCount">
+                    0
+                </strong>
+
+                <br>
+
+                Security events:
+                <strong
+                    id="violationCount"
+                    class="violation-count">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="camera-box">
+
+                <video
+                    id="cameraPreview"
+                    autoplay
+                    muted
+                    playsinline>
+                </video>
+
+            </div>
+
+
+            <button
+                class="submit"
+                style="width:100%;margin-top:18px"
+                onclick="requestSubmit()">
+
+                Submit Examination
+
+            </button>
+
+        </aside>
+
+    </div>
+
+</section>
+
+
+<!-- SUBMIT MODAL -->
+
+<div id="submitModal" class="modal hidden">
+
+    <div class="modal-box">
+
+        <h2>
+            Submit Examination?
+        </h2>
+
+        <p>
+            Once submitted, the examination cannot be continued.
+        </p>
+
+
+        <div
+            id="submitError"
+            class="error hidden">
+        </div>
+
+
+        <div class="navigation">
+
+            <button
+                class="secondary"
+                onclick="closeSubmitModal()">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                id="confirmSubmitButton"
+                class="submit"
+                onclick="submitExam()">
+
+                Confirm Submission
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- RESULT -->
+
+<section
+    id="resultScreen"
+    class="card result-card hidden">
+
+    <h1>
+        Examination Submitted
+    </h1>
+
+    <p>
+        Your examination has been successfully recorded.
+    </p>
+
+    <div
+        id="resultScore"
+        class="result-score">
+
+        Submitted
+
+    </div>
+
+    <p>
+        Submission ID:
+    </p>
+
+    <strong id="submissionId">
+        —
+    </strong>
+
+</section>
+
+
+</div>
+
+
+<script>
+
+/* ==================================================
+GLOBAL VARIABLES
+================================================== */
+
+let questions = [];
+
+let currentQuestion = 0;
+
+let answers = [];
+
+let flagged = [];
+
+let examStarted = false;
+
+let examSubmitted = false;
+
+let sessionId = null;
+
+let sessionToken = null;
+
+let expiresAt = 0;
+
+let timerInterval = null;
+
+let cameraStream = null;
+
+let screenStream = null;
+
+let violationCount = 0;
+
+let automaticSubmissionInProgress = false;
+
+
+/* ==================================================
+HELPER
+================================================== */
+
+function el(id){
+    return document.getElementById(id);
+}
+
+
+/* ==================================================
+START EXAM
+================================================== */
+
+async function startSecureExam(){
+
+    if(examStarted){
+        return;
+    }
+
+
+    const name =
+        el("studentName")
+        .value
+        .trim();
+
+
+    const studentId =
+        el("studentId")
+        .value
+        .trim();
+
+
+    const email =
+        el("studentEmail")
+        .value
+        .trim();
+
+
+    if(name.length < 2){
+
+        showStartError(
+            "Please enter your name."
+        );
+
+        return;
+    }
+
+
+    if(!studentId){
+
+        showStartError(
+            "Please enter your Student ID."
+        );
+
+        return;
+    }
+
+
+    if(!email.includes("@")){
+
+        showStartError(
+            "Please enter a valid email."
+        );
+
+        return;
+    }
+
+
+    el("startButton").disabled = true;
+
+
+    try{
+
+        /*
+         * NO FULLSCREEN REQUEST HERE.
+         */
+
+
+        /* Load questions */
+
+        const qResponse =
+            await fetch(
+                "/api/questions",
+                {
+                    cache:"no-store"
+                }
+            );
+
+
+        const qData =
+            await qResponse.json();
+
+
+        if(
+            !qResponse.ok ||
+            !qData.success
+        ){
+
+            throw new Error(
+                "Could not load examination questions."
+            );
+
+        }
+
+
+        questions =
+            Array.isArray(qData.questions)
+                ? qData.questions
+                : [];
+
+
+        if(!questions.length){
+
+            throw new Error(
+                "No examination questions are available."
+            );
+
+        }
+
+
+        /* Camera + microphone */
+
+        await setupCameraAndMicrophone();
+
+
+        /* Entire screen */
+
+        await setupEntireScreenSharing();
+
+
+        /* Verify permissions */
+
+        verifyRequiredPermissions();
+
+
+        /* Create exam session */
+
+        const response =
+            await fetch(
+                "/api/exam/start",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+
+                        studentName:name,
+
+                        studentId:studentId,
+
+                        email:email
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Unable to start examination."
+            );
+
+        }
+
+
+        sessionId =
+            data.sessionId;
+
+
+        sessionToken =
+            data.sessionToken;
+
+
+        expiresAt =
+            new Date(
+                data.expiresAt
+            ).getTime();
+
+
+        answers =
+            new Array(
+                questions.length
+            ).fill(null);
+
+
+        flagged =
+            new Array(
+                questions.length
+            ).fill(false);
+
+
+        examStarted = true;
+
+
+        el("studentHeader")
+            .textContent =
+            name;
+
+
+        el("startScreen")
+            .classList
+            .add("hidden");
+
+
+        el("examScreen")
+            .classList
+            .remove("hidden");
+
+
+        renderQuestion();
+
+        renderQuestionGrid();
+
+        updateCounts();
+
+        updateSecurityStatus();
+
+        startTimer();
+
+        setupSecurityListeners();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+
+        stopMedia();
+
+
+        showStartError(
+            error.message ||
+            "Unable to start examination."
+        );
+
+
+        el("startButton").disabled = false;
+
+    }
+
+}
+
+
+/* ==================================================
+CAMERA + MICROPHONE
+================================================== */
+
+async function setupCameraAndMicrophone(){
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        throw new Error(
+            "Camera and microphone are not supported."
+        );
+
+    }
+
+
+    try{
+
+        cameraStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video:{
+                    width:{
+                        ideal:1280
+                    },
+
+                    height:{
+                        ideal:720
+                    },
+
+                    facingMode:"user"
+                },
+
+                audio:true
+
+            });
+
+    }
+    catch(error){
+
+        throw new Error(
+            "Camera and microphone permission is required."
+        );
+
+    }
+
+
+    if(
+        cameraStream.getVideoTracks().length === 0
+    ){
+
+        throw new Error(
+            "Camera permission is required."
+        );
+
+    }
+
+
+    if(
+        cameraStream.getAudioTracks().length === 0
+    ){
+
+        throw new Error(
+            "Microphone permission is required."
+        );
+
+    }
+
+
+    el("cameraPreview")
+        .srcObject =
+        cameraStream;
+
+
+    await el("cameraPreview").play();
+
+
+    cameraStream
+        .getVideoTracks()
+        .forEach(
+            track => {
+
+                track.addEventListener(
+                    "ended",
+                    () => {
+
+                        if(
+                            examStarted &&
+                            !examSubmitted
+                        ){
+
+                            setSecurityStatus(
+                                "camera",
+                                false
+                            );
+
+                            reportViolation(
+                                "camera_stopped",
+                                "Camera was stopped."
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+
+    cameraStream
+        .getAudioTracks()
+        .forEach(
+            track => {
+
+                track.addEventListener(
+                    "ended",
+                    () => {
+
+                        if(
+                            examStarted &&
+                            !examSubmitted
+                        ){
+
+                            setSecurityStatus(
+                                "microphone",
+                                false
+                            );
+
+                            reportViolation(
+                                "microphone_stopped",
+                                "Microphone was stopped."
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+}
+
+
+/* ==================================================
+ENTIRE SCREEN SHARING
+================================================== */
+
+async function setupEntireScreenSharing(){
+
+    try{
+
+        screenStream =
+            await navigator.mediaDevices.getDisplayMedia({
+
+                video:{
+                    displaySurface:"monitor"
+                },
+
+                audio:false
+
+            });
+
+    }
+    catch(error){
+
+        throw new Error(
+            "Entire-screen sharing is required."
+        );
+
+    }
+
+
+    const track =
+        screenStream.getVideoTracks()[0];
+
+
+    if(!track){
+
+        throw new Error(
+            "Entire-screen sharing is required."
+        );
+
+    }
+
+
+    const settings =
+        track.getSettings();
+
+
+    /*
+     * If the browser reports the selected
+     * surface as something other than monitor,
+     * reject it.
+     */
+
+    if(
+        settings.displaySurface &&
+        settings.displaySurface !== "monitor"
+    ){
+
+        track.stop();
+
+        screenStream = null;
+
+
+        throw new Error(
+            "Please select ENTIRE SCREEN, not a tab or window."
+        );
+
+    }
+
+
+    track.addEventListener(
+        "ended",
+        () => {
+
+            if(
+                examStarted &&
+                !examSubmitted
+            ){
+
+                reportViolation(
+                    "screen_share_stopped",
+                    "Screen sharing was stopped."
+                );
+
+
+                automaticSubmit(
+                    "screen_share_stopped"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+VERIFY REQUIRED PERMISSIONS
+================================================== */
+
+function verifyRequiredPermissions(){
+
+    const camera =
+        cameraStream &&
+        cameraStream
+            .getVideoTracks()
+            .some(
+                track =>
+                    track.readyState === "live"
+            );
+
+
+    const microphone =
+        cameraStream &&
+        cameraStream
+            .getAudioTracks()
+            .some(
+                track =>
+                    track.readyState === "live"
+            );
+
+
+    const screen =
+        screenStream &&
+        screenStream
+            .getVideoTracks()
+            .some(
+                track =>
+                    track.readyState === "live"
+            );
+
+
+    if(!camera){
+
+        throw new Error(
+            "Camera is required."
+        );
+
+    }
+
+
+    if(!microphone){
+
+        throw new Error(
+            "Microphone is required."
+        );
+
+    }
+
+
+    if(!screen){
+
+        throw new Error(
+            "Entire-screen sharing is required."
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+SECURITY LISTENERS
+================================================== */
+
+function setupSecurityListeners(){
+
+    document.addEventListener(
+        "visibilitychange",
+        visibilityHandler
+    );
+
+
+    window.addEventListener(
+        "blur",
+        blurHandler
+    );
+
+
+    window.addEventListener(
+        "beforeunload",
+        beforeUnloadHandler
+    );
+
+}
+
+
+function visibilityHandler(){
+
+    if(
+        examStarted &&
+        !examSubmitted &&
+        document.hidden
+    ){
+
+        reportViolation(
+            "page_hidden",
+            "Exam page became hidden."
+        );
+
+    }
+
+}
+
+
+function blurHandler(){
+
+    if(
+        examStarted &&
+        !examSubmitted
+    ){
+
+        reportViolation(
+            "window_blur",
+            "Exam window lost focus."
+        );
+
+    }
+
+}
+
+
+function beforeUnloadHandler(event){
+
+    if(
+        examStarted &&
+        !examSubmitted
+    ){
+
+        event.preventDefault();
+
+        event.returnValue =
+            "Your examination is still active.";
+
+    }
+
+}
+
+
+/* ==================================================
+VIOLATION
+================================================== */
+
+async function reportViolation(
+    type,
+    details
+){
+
+    if(
+        !sessionId ||
+        !sessionToken ||
+        examSubmitted
+    ){
+
+        return;
+
+    }
+
+
+    violationCount++;
+
+
+    el("violationCount")
+        .textContent =
+        violationCount;
+
+
+    try{
+
+        await fetch(
+            "/api/proctoring/violation",
+            {
+
+                method:"POST",
+
+                headers:{
+
+                    "Content-Type":
+                        "application/json",
+
+                    "x-exam-session":
+                        sessionId,
+
+                    "x-exam-token":
+                        sessionToken
+
+                },
+
+                body:JSON.stringify({
+
+                    type:type,
+
+                    details:details
+
+                }),
+
+                keepalive:true
+
+            }
+        );
+
+    }
+    catch(error){
+
+        console.warn(error);
+
+    }
+
+}
+
+
+/* ==================================================
+RENDER QUESTION
+================================================== */
+
+function renderQuestion(){
+
+    const q =
+        questions[
+            currentQuestion
+        ];
+
+
+    if(!q){
+        return;
+    }
+
+
+    el("questionNumber")
+        .textContent =
+        `Question ${currentQuestion+1} of ${questions.length}`;
+
+
+    el("subjectBadge")
+        .textContent =
+        q.subject ||
+        q.category ||
+        "Question";
+
+
+    el("questionText")
+        .textContent =
+        q.question;
+
+
+    const options =
+        el("options");
+
+
+    options.innerHTML =
+        "";
+
+
+    q.options.forEach(
+        (option,index) => {
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+
+            label.className =
+                "option";
+
+
+            if(
+                answers[currentQuestion] === index
+            ){
+
+                label.classList.add(
+                    "selected"
+                );
+
+            }
+
+
+            const radio =
+                document.createElement(
+                    "input"
+                );
+
+
+            radio.type =
+                "radio";
+
+
+            radio.name =
+                "answer";
+
+
+            radio.checked =
+                answers[currentQuestion] === index;
+
+
+            radio.addEventListener(
+                "change",
+                () => {
+
+                    answers[currentQuestion] =
+                        index;
+
+                    renderQuestion();
+
+                    updateCounts();
+
+                    renderQuestionGrid();
+
+                }
+            );
+
+
+            const text =
+                document.createElement(
+                    "span"
+                );
+
+
+            text.textContent =
+                option;
+
+
+            label.appendChild(
+                radio
+            );
+
+
+            label.appendChild(
+                text
+            );
+
+
+            options.appendChild(
+                label
+            );
+
+        }
+    );
+
+
+    el("previousButton")
+        .disabled =
+        currentQuestion === 0;
+
+
+    el("nextButton")
+        .textContent =
+        currentQuestion ===
+        questions.length-1
+            ? "Finish →"
+            : "Next →";
+
+
+    el("flagButton")
+        .textContent =
+        flagged[currentQuestion]
+            ? "⚑ Unflag"
+            : "⚑ Flag";
+
+}
+
+
+/* ==================================================
+QUESTION GRID
+================================================== */
+
+function renderQuestionGrid(){
+
+    const grid =
+        el("questionGrid");
+
+
+    grid.innerHTML =
+        "";
+
+
+    questions.forEach(
+        (q,index) => {
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "q-btn";
+
+
+            button.textContent =
+                index+1;
+
+
+            if(
+                answers[index] !== null
+            ){
+
+                button.classList.add(
+                    "answered"
+                );
+
+            }
+
+
+            if(
+                flagged[index]
+            ){
+
+                button.classList.add(
+                    "flagged"
+                );
+
+            }
+
+
+            if(
+                index === currentQuestion
+            ){
+
+                button.classList.add(
+                    "current"
+                );
+
+            }
+
+
+            button.onclick =
+                () => {
+
+                    currentQuestion =
+                        index;
+
+                    renderQuestion();
+
+                    renderQuestionGrid();
+
+                };
+
+
+            grid.appendChild(
+                button
+            );
+
+        }
+    );
+
+}
+
+
+/* ==================================================
+NAVIGATION
+================================================== */
+
+function previousQuestion(){
+
+    if(
+        currentQuestion > 0
+    ){
+
+        currentQuestion--;
+
+        renderQuestion();
+
+        renderQuestionGrid();
+
+    }
+
+}
+
+
+function nextQuestion(){
+
+    if(
+        currentQuestion <
+        questions.length-1
+    ){
+
+        currentQuestion++;
+
+        renderQuestion();
+
+        renderQuestionGrid();
+
+    }
+    else{
+
+        requestSubmit();
+
+    }
+
+}
+
+
+function toggleFlag(){
+
+    flagged[currentQuestion] =
+        !flagged[currentQuestion];
+
+
+    renderQuestion();
+
+    renderQuestionGrid();
+
+    updateCounts();
+
+}
+
+
+/* ==================================================
+COUNTS
+================================================== */
+
+function updateCounts(){
+
+    el("answeredCount")
+        .textContent =
+        answers.filter(
+            x =>
+                x !== null
+        ).length;
+
+
+    el("flaggedCount")
+        .textContent =
+        flagged.filter(
+            x =>
+                x === true
+        ).length;
+
+}
+
+
+/* ==================================================
+TIMER
+================================================== */
+
+function startTimer(){
+
+    updateTimer();
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+function updateTimer(){
+
+    if(!expiresAt){
+        return;
+    }
+
+
+    const remaining =
+        Math.max(
+            0,
+            expiresAt -
+            Date.now()
+        );
+
+
+    const totalSeconds =
+        Math.floor(
+            remaining / 1000
+        );
+
+
+    const minutes =
+        Math.floor(
+            totalSeconds / 60
+        );
+
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    el("timer")
+        .textContent =
+        `${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+
+    el("timer")
+        .classList.remove(
+            "warning",
+            "danger"
+        );
+
+
+    if(
+        totalSeconds <= 300
+    ){
+
+        el("timer")
+            .classList.add(
+                "danger"
+            );
+
+    }
+    else if(
+        totalSeconds <= 600
+    ){
+
+        el("timer")
+            .classList.add(
+                "warning"
+            );
+
+    }
+
+
+    if(
+        remaining <= 0
+    ){
+
+        automaticSubmit(
+            "time_expired"
+        );
+
+    }
+
+}
+
+
+/* ==================================================
+SUBMIT
+================================================== */
+
+function requestSubmit(){
+
+    const unanswered =
+        answers.filter(
+            x =>
+                x === null
+        ).length;
+
+
+    if(
+        unanswered > 0
+    ){
+
+        if(
+            !confirm(
+                `You have ${unanswered} unanswered question(s). Submit anyway?`
+            )
+        ){
+
+            return;
+
+        }
+
+    }
+
+
+    el("submitModal")
+        .classList
+        .remove("hidden");
+
+}
+
+
+function closeSubmitModal(){
+
+    if(
+        automaticSubmissionInProgress
+    ){
+        return;
+    }
+
+
+    el("submitModal")
+        .classList
+        .add("hidden");
+
+}
+
+
+async function automaticSubmit(reason){
+
+    if(
+        examSubmitted ||
+        automaticSubmissionInProgress
+    ){
+        return;
+    }
+
+
+    automaticSubmissionInProgress =
+        true;
+
+
+    await submitExam(
+        reason
+    );
+
+}
+
+
+async function submitExam(
+    reason="manual"
+){
+
+    if(examSubmitted){
+        return;
+    }
+
+
+    const button =
+        el("confirmSubmitButton");
+
+
+    button.disabled =
+        true;
+
+
+    try{
+
+        const response =
+            await fetch(
+                "/api/submit",
+                {
+
+                    method:"POST",
+
+                    headers:{
+
+                        "Content-Type":
+                            "application/json",
+
+                        "x-exam-session":
+                            sessionId,
+
+                        "x-exam-token":
+                            sessionToken
+
+                    },
+
+                    body:JSON.stringify({
+
+                        answers:answers,
+
+                        reason:reason
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw new Error(
+                data.message ||
+                "Submission failed."
+            );
+
+        }
+
+
+        examSubmitted =
+            true;
+
+
+        if(timerInterval){
+
+            clearInterval(
+                timerInterval
+            );
+
+        }
+
+
+        stopMedia();
+
+
+        el("examScreen")
+            .classList
+            .add("hidden");
+
+
+        el("submitModal")
+            .classList
+            .add("hidden");
+
+
+        el("resultScreen")
+            .classList
+            .remove("hidden");
+
+
+        el("submissionId")
+            .textContent =
+            data.submissionId ||
+            "Recorded";
+
+    }
+    catch(error){
+
+        console.error(error);
+
+
+        el("submitError")
+            .textContent =
+            error.message ||
+            "Submission failed.";
+
+
+        el("submitError")
+            .classList
+            .remove("hidden");
+
+
+        button.disabled =
+            false;
+
+
+        automaticSubmissionInProgress =
+            false;
+
+    }
+
+}
+
+
+/* ==================================================
+SECURITY STATUS
+================================================== */
+
+function setSecurityStatus(
+    type,
+    good
+){
+
+    let dot;
+    let text;
+
+
+    if(type === "microphone"){
+
+        dot = el("micDot");
+        text = el("micText");
+
+    }
+    else{
+
+        dot = el(type+"Dot");
+        text = el(type+"Text");
+
+    }
+
+
+    if(!dot || !text){
+        return;
+    }
+
+
+    dot.classList.toggle(
+        "ok",
+        good
+    );
+
+
+    dot.classList.toggle(
+        "bad",
+        !good
+    );
+
+
+    text.textContent =
+        good
+            ? "Active"
+            : "Not active";
+
+}
+
+
+function updateSecurityStatus(){
+
+    const camera =
+        cameraStream &&
+        cameraStream
+            .getVideoTracks()
+            .some(
+                t =>
+                    t.readyState === "live"
+            );
+
+
+    const mic =
+        cameraStream &&
+        cameraStream
+            .getAudioTracks()
+            .some(
+                t =>
+                    t.readyState === "live"
+            );
+
+
+    const screen =
+        screenStream &&
+        screenStream
+            .getVideoTracks()
+            .some(
+                t =>
+                    t.readyState === "live"
+            );
+
+
+    setSecurityStatus(
+        "camera",
+        camera
+    );
+
+
+    setSecurityStatus(
+        "microphone",
+        mic
+    );
+
+
+    setSecurityStatus(
+        "screen",
+        screen
+    );
+
+}
+
+
+/* ==================================================
+STOP MEDIA
+================================================== */
+
+function stopMedia(){
+
+    if(cameraStream){
+
+        cameraStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        cameraStream =
+            null;
+
+    }
+
+
+    if(screenStream){
+
+        screenStream
+            .getTracks()
+            .forEach(
+                track =>
+                    track.stop()
+            );
+
+        screenStream =
+            null;
+
+    }
+
+}
+
+
+/* ==================================================
+ERROR
+================================================== */
+
+function showStartError(message){
+
+    const box =
+        el("startError");
+
+
+    if(!message){
+
+        box.classList.add(
+            "hidden"
+        );
+
+        return;
+
+    }
+
+
+    box.textContent =
+        message;
+
+
+    box.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* ==================================================
+PERIODIC SECURITY CHECK
+================================================== */
+
+setInterval(
+    () => {
+
+        if(
+            !examStarted ||
+            examSubmitted
+        ){
+
+            return;
+
+        }
+
+
+        updateSecurityStatus();
+
+
+        const screenActive =
+            screenStream &&
+            screenStream
+                .getVideoTracks()
+                .some(
+                    t =>
+                        t.readyState === "live"
+                );
+
+
+        if(!screenActive){
+
+            automaticSubmit(
+                "screen_share_stopped"
+            );
+
+        }
+
+    },
+    1500
+);
+
+
+/* ==================================================
+RIGHT CLICK
+================================================== */
+
+document.addEventListener(
+    "contextmenu",
+    event => {
+
+        if(
+            examStarted &&
+            !examSubmitted
+        ){
+
+            event.preventDefault();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
